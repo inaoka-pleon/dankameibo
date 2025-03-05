@@ -1,0 +1,15 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/js/common.js": "/js/common.js",
+    "/js/kaiki.js": "/js/kaiki.js",
+    "/js/qr_scan.js": "/js/qr_scan.js",
+    "/css/app.css": "/css/app.css",
+    "/css/reset.css": "/css/reset.css",
+    "/css/cmn.css": "/css/cmn.css",
+    "/css/common.css": "/css/common.css",
+    "/css/keyboard.css": "/css/keyboard.css",
+    "/css/checkbox.css": "/css/checkbox.css",
+    "/css/file_upload.css": "/css/file_upload.css",
+    "/css/spinner.css": "/css/spinner.css",
+    "/css/style.css": "/css/style.css"
+}
