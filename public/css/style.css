@@ -1,0 +1,1732 @@
+
+.py-12 {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
+
+.lg\:px-8 {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.max-w-7xl {
+  max-width: 80rem;
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 位置 */
+.center {
+  text-align: center;
+}
+
+/* 背景 */
+.back-color {
+  max-width: 7xl;
+  margin: auto;
+}
+
+
+/* ヘッダー */
+.header {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 100%;
+  height: 15px;
+  padding: 0 0.8em;
+  margin: 0 auto;
+  font-size: 1.2em;
+  font-weight: bold;
+  color:#1f2937 ;
+  line-height: 1.25;
+}
+
+@media screen and (max-width: 480px) {
+  .header-post {
+    display: none;
+  }
+}
+
+
+/* ヘッダー新規登録ボタン */
+.header-btn{
+  --tw-bg-opacity: 1;
+  background-color: #2c7cff;
+  --tw-text-opacity: 1;
+  color: #fff;
+  display: inline-flex;
+  text-align: center;
+  justify-content: flex-end;
+  border-radius: 0.25rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: 0.5rem;
+  font-weight: 700;
+}
+.header-btn:hover{
+  --tw-bg-opacity: 1;
+  background-color: #005fff;
+}
+.flex-row-reverse{
+  flex-direction: row-reverse;
+}
+
+/* テーブルボタンの位置 */
+.btn-center {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.center {
+  text-align: center;
+}
+
+/* 新規登録ボタン */
+.btn-entry{
+  --tw-bg-opacity: 1;
+  background-color: #2c7cff;
+  --tw-text-opacity: 1;
+  color: #fff;
+  /* display: inline-flex; */
+  text-align: center;
+  justify-content: flex-end;
+  border-radius: 0.25rem;
+  padding-top: 0.7rem;
+  padding-bottom: 0.7rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  margin-left: 0.5rem;
+  font-weight: 700;
+}
+.btn-entry:hover{
+  --tw-bg-opacity: 1;
+  background-color: #005fff;
+}
+
+/* テーブルの編集ボタン */
+.btn-edit{
+  --tw-bg-opacity: 1;
+  background-color: #fff;
+  --tw-text-opacity: 1;
+  border: 1px solid #008000;
+  color: #008000;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.25rem;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  padding-left: 0.5rem;
+  padding-right: 0.2rem;
+  font-weight: 700;
+  margin: 0 2px; /* 左右に2pxのマージンを追加 */
+}
+.btn-edit:hover{
+  --tw-bg-opacity: 1;
+  background-color: #dcdcdcff;
+}
+
+/* テーブルの削除ボタン */
+.btn-delete{
+  --tw-bg-opacity: 1;
+  background-color: #dc143c;
+  --tw-text-opacity: 1;
+  border: 1px solid #dc143c;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.25rem;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  padding-left: 0.5rem;
+  padding-right: 0.2rem;
+  font-weight: 700;
+  margin: 0 2px; /* 左右に2pxのマージンを追加 */
+}
+.btn-delete:hover{
+  --tw-bg-opacity: 1;
+  background-color: #b22222;
+}
+
+/* 施主交代ボタン */
+.btn-seshu{
+  --tw-bg-opacity: 1;
+  background-color: #fff;
+  --tw-text-opacity: 1;
+  border: 1px solid #3c3c3c;
+  color: #3c3c3c;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.25rem;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  padding-left: 0.5rem;
+  padding-right: 0.2rem;
+  font-weight: 700;
+  margin: 0 2px; /* 左右に2pxのマージンを追加 */
+}
+.btn-seshu:hover{
+  --tw-bg-opacity: 1;
+  background-color: #dcdcdcff;
+}
+
+/* 過去帳ボタン */
+.btn-kakocho{
+  --tw-bg-opacity: 1;
+  background-color: #fff;
+  --tw-text-opacity: 1;
+  border: 1px solid #3c3c3c;
+  color: #3c3c3c;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.25rem;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  padding-left: 0.5rem;
+  padding-right: 0.2rem;
+  font-weight: 700;
+  margin: 0 2px; /* 左右に2pxのマージンを追加 */
+}
+.btn-kakocho:hover{
+  --tw-bg-opacity: 1;
+  background-color: #dcdcdcff
+}
+
+/* 年忌表ボタン */
+.btn-nenki{
+  --tw-bg-opacity: 1;
+  background-color: #fff;
+  --tw-text-opacity: 1;
+  border: 1px solid #3c3c3c;
+  color: #3c3c3c;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.25rem;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  padding-left: 0.5rem;
+  padding-right: 0.2rem;
+  font-weight: 700;
+  margin: 0 2px; /* 左右に2pxのマージンを追加 */
+}
+.btn-nenki:hover{
+  --tw-bg-opacity: 1;
+  background-color: #dcdcdcff
+}
+
+/* 逮夜表ボタン */
+.btn-taiya{
+  --tw-bg-opacity: 1;
+  background-color: #fff;
+  --tw-text-opacity: 1;
+  border: 1px solid #3c3c3c;
+  color: #3c3c3c;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.25rem;
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+  padding-left: 0.5rem;
+  padding-right: 0.2rem;
+  font-weight: 700;
+  margin: 0 2px; /* 左右に2pxのマージンを追加 */
+}
+.btn-taiya:hover{
+  --tw-bg-opacity: 1;
+  background-color: #dcdcdcff
+}
+
+
+/* テーブルのその他のボタン */
+.btn-other{
+  --tw-bg-opacity: 1;
+  background-color: #fff;
+  --tw-text-opacity: 1;
+  border: 1px solid #3c3c3c;
+  color: #3c3c3c;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 0.25rem;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  padding-left: 7px;
+  padding-right: 7px;
+  font-weight: 700;
+  /* margin-right: 10px; */
+}
+.btn-edit:hover{
+  --tw-bg-opacity: 1;
+  background-color: #dcdcdc;
+}
+
+/* 登録・編集画面のボタン */
+.form-btn {
+  margin: 2rem auto;
+  text-align: center;
+}
+
+.form-btn1 {
+  border-radius: 0.375rem;
+  /* border-radius: 50px; */
+  margin-top: 70px;
+  margin: 0 0 0 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 180px;
+  letter-spacing: 0.05em;
+  background: #3c3c3c;
+  color: #fff;
+  font-weight: bold;
+  font-size: 16px;
+  align-items: center;
+}
+.form-btn1:hover{
+  --tw-bg-opacity: 1;
+  background-color: #808080;
+}
+.form-btn2 {
+  border-radius: 0.375rem;
+  /* border-radius: 50px; */
+  margin-top: 70px;
+  margin: 0 20px 0 0;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 180px;
+  letter-spacing: 0.05em;
+  background: #fff;
+  color: #3c3c3c;
+  border: 1px solid #3c3c3c;
+  font-weight: bold;
+  font-size: 16px;
+  align-items: center;
+  text-align: center;
+}
+.form-btn2:hover{
+  --tw-bg-opacity: 1;
+  background-color: #dcdcdc;
+}
+.form-inline-block{
+  display:inline-block;
+}
+@media screen and (max-width: 480px) {
+  .form-btn {
+    margin-top: 24px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    width: 160px;
+    font-size: 16px;
+  }
+}
+
+.btn {
+  background-color: #fff;
+  border: solid 1px #3c3c3c;
+  padding: 5px 5px;
+  border-radius: 3px;
+  text-align: center;
+  font-weight: bold;
+  color: #3c3c3c;
+}
+.btn:hover{
+  --tw-bg-opacity: 1;
+  background-color: #d3d3d3;
+}
+
+.form-backbtn {
+  border-radius: 50px;
+  margin-top: 70px;
+  margin: 0 0 0 0;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  width: 210px;
+  letter-spacing: 0.05em;
+  background: #fff;
+  color: #3c3c3c;
+  border: 1px solid #3c3c3c;
+  font-weight: bold;
+  font-size: 18px;
+  align-items: center;
+  text-align: center;
+}
+.form-backbtn:hover{
+  --tw-bg-opacity: 1;
+  background-color: #dcdcdc;
+}
+
+
+/* 見出し */
+.h3 {
+  border-bottom: solid 1px black;
+  height: 35px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.8em;
+}
+.h3-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 100%;
+  height: 30px;
+  margin: 0 0;
+  font-size: 20px;
+  font-weight: bold;
+  color:#1f2937 ;
+  line-height: 1.25;
+}
+
+
+/* 仕切り線 */
+hr {
+  color:inherit;
+  border-top-width: 1px;
+  margin: 20px 0;
+}
+
+
+
+/*-----------------------------
+        マスタ管理画面
+-------------------------------*/
+
+/* 一覧画面 */
+.table_design01 {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 100%;
+}
+.table_design01 th, .table_design01 td {
+  border: 1px solid #dcdcdc;
+  background-color: #fff;
+  padding: 7px;
+}
+.table_design01 th {
+  background-color: #fff;
+  color: #3c3c3c;
+  font-weight: bold;
+  text-align: center;
+  min-width: 4em;
+  margin: 0 0 0 0;
+}
+
+.table_design01 .areacode {
+  width: 40%;
+}
+
+.table_design01 .area {
+  width: 40%;
+}
+
+.table_design01 .code {
+  width: 40%;
+}
+
+.table_design01 .dankadivision {
+  width: 40%;
+}
+
+.table_design01 .positioncode {
+  width: 40%;
+}
+
+.table_design01 .position {
+  width: 40%;
+}
+
+.table_design01 .areaid {
+  width: 40%;
+}
+
+.table_design01 .mortuarytablet {
+  width: 40%;
+}
+
+.table_design01 .occupationid {
+  width: 40%;
+}
+
+.table_design01 .occupation {
+  width: 40%;
+}
+
+.table_design01 .templeofficeno {
+  width: 40%;
+}
+
+.table_design01 .templeoffice {
+  width: 40%;
+}
+
+.table_design01 .titleno {
+  width: 40%;
+}
+
+.table_design01 .title {
+  width: 40%;
+}
+
+.table_design01 .subtitleno {
+  width: 40%;
+}
+
+.table_design01 .subtitle {
+  width: 40%;
+}
+
+.table_design01 .teacherno {
+  width: 40%;
+}
+
+.table_design01 .teacher {
+  width: 40%;
+}
+
+.table_design01 .jikakuno {
+  width: 40%;
+}
+
+.table_design01 .jikaku {
+  width: 40%;
+}
+
+.table_design01 .qualificationno {
+  width: 40%;
+}
+
+.table_design01 .qualification {
+  width: 40%;
+}
+
+.table_design01 .name {
+  width: 70%;
+}
+
+.table_design01 .name2 {
+  width: 40%;
+}
+
+
+
+
+/* 新規登録画面 */
+.form {
+  margin-top: 80px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 720px;
+}
+@media screen and (max-width: 480px) {
+  .form {
+    margin-top: 40px;
+  }
+}
+.form-item {
+  padding-top: 24px;
+  padding-bottom: 24px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+@media screen and (max-width: 480px) {
+  .form-item {
+    padding-left: 14px;
+    padding-right: 14px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    flex-wrap: wrap;
+  }
+}
+.form-item:nth-child(5) {
+  width: 1px solid #ddd;
+}
+.form-item-label {
+  max-width: 248px;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+  font-size: 20px;
+}
+@media screen and (max-width: 480px) {
+  .form-item-label {
+    max-width: inherit;
+    display: flex;
+    align-items: center;
+    font-size: 15px;
+  }
+}
+.form-item-label.isMsg {
+  margin-top: 8px;
+  margin-bottom: auto;
+}
+@media screen and (max-width: 480px) {
+  .form-item-label.isMsg {
+    margin-top: 0;
+  }
+}
+.form-item-label-required {
+  border-radius: 6px;
+  margin-right: 8px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  width: 48px;
+  display: inline-block;
+  text-align: center;
+  background: #5bc8ac;
+  color: #fff;
+  font-size: 12px;
+}
+@media screen and (max-width: 480px) {
+  .form-item-label-required {
+    border-radius: 4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    width: 32px;
+    font-size: 10px;
+  }
+}
+.form-item-input {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-left: 40px;
+  padding-left: 1em;
+  padding-right: 1em;
+  height: 48px;
+  flex: 1;
+  width: 100%;
+  max-width: 600px;
+  background: #fff;
+  font-size: 18px;
+}
+@media screen and (max-width: 480px) {
+  .form-item-input {
+    margin-left: 0;
+    margin-top: 18px;
+    height: 40px;
+    flex: inherit;
+    font-size: 15px;
+  }
+}
+.form-item-textarea {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-left: 40px;
+  padding-left: 1em;
+  padding-right: 1em;
+  height: 216px;
+  flex: 1;
+  width: 100%;
+  max-width: 410px;
+  background: #eaedf2;
+  font-size: 18px;
+}
+@media screen and (max-width: 480px) {
+  .form-item-textarea {
+    margin-top: 18px;
+    margin-left: 0;
+    height: 200px;
+    flex: inherit;
+    font-size: 15px;
+  }
+}
+
+
+
+/* 新規登録画面 */
+.registration {
+  width: 960px;
+  /* margin-top: 30px; */
+  margin-left: auto;
+  margin-right: auto;
+  /* padding: 60px 0; */
+}
+
+.registration-table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.registration-item,
+.registration-body {
+  padding: 7px;
+  border: 1px solid #ccc;
+}
+
+.registration-item {
+  text-align: left;
+  width: 30%;
+}
+.registration-item-required {
+  border-radius: 5px;
+  margin-left: 20px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  width: 48px;
+  display: inline-block;
+  text-align: center;
+  background: #5bc8ac;
+  color: #fff;
+  font-size: 12px;
+}
+
+.registration-body {
+  width: 70%;
+  background-color: #fff;
+}
+
+.registration-input {
+  width: 100%;
+  padding: 7px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  max-width: 100%;
+}
+
+.registration-select {
+  width: 180px;
+  height: 40px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.registration-textarea {
+  width: 100%;
+  padding: 10px;
+  height: 200px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+/*-----------------------------
+        檀信徒名簿画面
+-------------------------------*/
+
+.table-danka {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 100%;
+}
+.table-danka th, .table-danka td {
+  border: 1px solid #dcdcdc;
+  padding: 1%;
+}
+.table-danka td {
+  background: #fff;
+}
+/* 一覧表の色を列ごとに交互に色を変える */
+/* .table-danka tr:nth-child(odd) td {
+  background: #fff;
+} */
+.table-danka th {
+  background-color: #64748b;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  width: auto;
+  min-width: 4em;
+  margin: 0 0 0 0;
+}
+
+.blue_line {
+  color: #1a73e8;
+  text-decoration: underline;
+}
+.blue_line:hover {
+  color: #0c47a1;
+}
+
+.table-danka textbox-1 {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #969da3;
+  border-radius: 3px;
+  color: #333;
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+.table-danka textbox-1::placeholder {
+  color: #999;
+}
+
+
+/* 檀家一覧表 */
+.table-danka .danka_area {
+  width: 7%;
+}
+.table-danka .danka_name {
+  width: 12%;
+}
+.table-danka .danka_namekana {
+  width: 14%;
+}
+.table-danka .danka_postcode {
+  width: 9%;
+}
+.table-danka .danka_address {
+  width: 21%;
+}
+.table-danka .danka_tel {
+  width: 12%;
+}
+.table-danka .danka_position {
+  width: 7%;
+}
+.table-danka .danka_col {
+  width: 19%;
+}
+
+
+/* 地区別名簿一覧表 */
+.table-danka .area_name {
+  width: 15%;
+}
+.table-danka .area_dankadivison {
+  width: 10%;
+}
+.table-danka .area_area {
+  width: 7%;
+}
+.table-danka .area_postcode {
+  width: 10%;
+}
+.table-danka .area_address {
+  width: 33%;
+}
+.table-danka .area_tel {
+  width: 15%;
+}
+.table-danka .area_postcard {
+  width: 10%;
+}
+
+
+.table-danka .templeoffice {
+  width: 10%;
+}
+
+.table-danka .parish {
+  width: 10%;
+}
+
+.table-danka .name1 {
+  width: 17%;
+}
+
+.table-danka .namekana1 {
+  width: 17%;
+}
+
+.table-danka .templename {
+  width: 17%;
+}
+
+.table-danka .templenamekana {
+  width: 17%;
+}
+
+.table-danka .tel1 {
+  width: 15%;
+}
+
+.table-danka .position {
+  width: 8%;
+}
+
+
+.table-danka .templeoffice5 {
+  width: 5%;
+}
+
+.table-danka .parish5 {
+  width: 3%;
+}
+
+.table-danka .no5 {
+  width: 6%;
+}
+
+.table-danka .postcode5 {
+  width: 6%;
+}
+
+.table-danka .templename5 {
+  width: 7%;
+}
+
+.table-danka .qualification5 {
+  width: 3%;
+}
+
+.table-danka .name5 {
+  width: 8%;
+}
+
+.table-danka .tel5 {
+  width: 5%;
+}
+
+.table-danka .address5 {
+  width: 20%;
+}
+
+.table-danka .kaihi_name {
+  width: 12%;
+}
+.table-danka .kaihi_namekana {
+  width: 12%;
+}
+.table-danka .kaihi_area {
+  width: 10%;
+}
+.table-danka .kaihi_tel {
+  width: 12%;
+}
+.table-danka .kaihi_payment_date {
+  width: 14%;
+}
+.table-danka .kaihi_payment_class {
+  width: 10%;
+}
+.table-danka .kaihi_deposit_amount {
+  width: 10%;
+}
+.table-danka .kaihi_memo {
+  width: 10%;
+}
+
+.table-danka .address5 {
+  width: 20%;
+}
+
+
+/* 汎用マスタ */
+.table-danka .general_name {
+  width: 40%;
+}
+.table-danka .general_amount {
+  width: 40%;
+}
+.table-danka .general_other {
+  width: 20%;
+}
+
+
+/* 元号設定 */
+.table-danka .era_name {
+  width: 16%;
+}
+.table-danka .era_year {
+  width: 16%;
+}
+.table-danka .era_ad_start {
+  width: 16%;
+}
+.table-danka .era_start_ymd {
+  width: 16%;
+}
+.table-danka .era_end_ymd {
+  width: 16%;
+}
+.table-danka .era_col {
+  width: 20%;
+}
+
+
+/* 回忌設定 */
+.table-danka .kaiki_kubun {
+  width: 20%;
+}
+.table-danka .kaiki_kaiki {
+  width: 14%;
+}
+.table-danka .kaiki_name {
+  width: 23%;
+}
+.table-danka .kaiki_taishou {
+  width: 23%;
+}
+.table-danka .kaiki_col {
+  width: 20%;
+}
+
+/* 花まつり一覧表 */
+.table-danka .hanamatsuri_name {
+  width: 15%;
+}
+.table-danka .hanamatsuri_area {
+  width: 8%;
+}
+.table-danka .hanamatsuri_postcode {
+  width: 10%;
+}
+.table-danka .hanamatsuri_address {
+  width: 35%;
+}
+.table-danka .hanamatsuri_tel {
+  width: 14%;
+}
+.table-danka .hanamatsuri_gozikai {
+  width: 8%;
+}
+.table-danka .hanamatsuri_postcard {
+  width: 10%;
+}
+
+/* 護持会名簿一覧表 */
+.table-danka .gozikai_name {
+  width: 18%;
+}
+
+.table-danka .gozikai_dankadivision {
+  width: 8%;
+}
+
+.table-danka .gozikai_area {
+  width: 8%;
+}
+
+.table-danka .gozikai_postcode {
+  width: 10%;
+}
+
+.table-danka .gozikai_address {
+  width: 32%;
+}
+
+.table-danka .gozikai_tel {
+  width: 12%;
+}
+
+.table-danka .gozikai_postcard {
+  width: 10%;
+}
+
+
+/* 本堂掲示用一覧表 */
+.table-danka .hondou_nendo {
+  width: 10%;
+}
+.table-danka .hondou_kaiki {
+  width: 8%;
+}
+.table-danka .hondou_name {
+  width: 15%;
+}
+.table-danka .hondou_kaimyou {
+  width: 26%;
+}
+.table-danka .hondou_zokumyou {
+  width: 15%;
+}
+.table-danka .hondou_deathdate {
+  width: 18%;
+}
+.table-danka .hondou_gyounen {
+  width: 8%;
+}
+
+/* 初盆忌一覧表 */
+.table-danka .hatsubon_name {
+  width: 13%;
+}
+.table-danka .hatsubon_address {
+  width: 35%;
+}
+.table-danka .hatsubon_kaimyou {
+  width: 20%;
+}
+.table-danka .hatsubon_zokumyou {
+  width: 13%;
+}
+.table-danka .hatsubon_deathdate {
+  width: 11%;
+}
+.table-danka .hatsubon_postcard {
+  width: 8%;
+}
+
+
+/* 宛名印刷 */
+.table-danka .atena_name {
+  width: 15%;
+}
+.table-danka .atena_keishou {
+  width: 8%;
+}
+.table-danka .atena_postcode {
+  width: 10%;
+}
+.table-danka .atena_address1 {
+  width: 21%;
+}
+.table-danka .atena_address2 {
+  width: 21%;
+}
+.table-danka .atena_postcard {
+  width: 8%;
+}
+.table-danka .atena_btn {
+  width: 17%;
+}
+
+/* 宛名印刷_檀信徒検索 */
+.table-danka .search_checkbox {
+  width: 2%;
+}
+.table-danka .search_namekana {
+  width: 14%;
+}
+.table-danka .search_name {
+  width: 14%;
+}
+.table-danka .search_kubun {
+  width: 5%;
+}
+.table-danka .search_gender {
+  width: 5%;
+}
+.table-danka .search_area {
+  width: 7%;
+}
+.table-danka .search_tel {
+  width: 12%;
+}
+.table-danka .search_address {
+  width: 25%;
+}
+.table-danka .search_postcard {
+  width: 16%;
+}
+
+
+/* 同名戒名検索 */
+.table-danka .kaimyou_name {
+  width: 20%;
+}
+.table-danka .kaimyou_area {
+  width: 10%;
+}
+.table-danka .kaimyou_kaimyou {
+  width: 30%;
+}
+.table-danka .kaimyou_zokumyou {
+  width: 20%;
+}
+.table-danka .kaimyou_relationship {
+  width: 20%;
+}
+
+
+/* 年忌表 */
+.table-danka .nenki_kaiki {
+  width: 25%;
+}
+.table-danka .nenki_houyou {
+  width: 35%;
+}
+.table-danka .nenki_kuyou {
+  width: 10%;
+}
+.table-danka .nenki_memo {
+  width: 30%;
+}
+/*-----------------------------
+       一覧表縦スクロール
+-------------------------------*/
+/* 檀信徒検索 */
+.overflow-auto {
+  overflow: auto;
+  position: sticky;
+}
+
+.sticky-head {
+  position: sticky;
+  top: 0;
+  background-color: white; /* 背景色を設定 */
+  z-index: 10; /* 他の要素より前面に表示 */
+}
+ 
+/* 棚経参等の題名一覧表 */
+.table-scroll {
+  max-height: 700px;
+  overflow-y: auto;
+  display: block;
+  margin-left: 20%;
+  margin-right: 20%;
+}
+/*-----------------------------
+        檀信徒詳細画面
+-------------------------------*/
+
+/* 檀家詳細 */
+
+.tableSample {
+  width: 70%;
+  border-collapse: collapse;
+  margin-top: 4px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #fff;
+  }
+  
+.tableSample th,td {
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  }
+  
+.tableSample th {
+  background: #f4f4f4;
+  width: 30%;
+  text-align: left;
+  }
+  
+  @media only screen and (max-width:479px) {
+.tableSample th,td {
+  width: auto;
+  display: block;
+  border-top: none;
+  }
+  .tableSample tr:first-child {
+  border-top: 1px solid #d5d5d5;
+  }
+}
+
+.checkbox-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px; /* チェックボックス間のスペースを調整 */
+  align-items: center;
+}
+.checkbox-container input[type="checkbox"] {
+  margin-right: 5px; /* チェックボックスとラベルの間のスペースを調整 */
+}
+
+
+/* タブ */
+
+/*タブ切り替え全体のスタイル*/
+.tabs {
+  margin-top: 50px;
+  padding-bottom: 0px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  margin: 0 auto;}
+
+/*タブのスタイル*/
+.tab_item {
+  width: calc(100%/2);
+  height: 50px;
+  border-bottom: 3px solid #64748B;
+  background-color: #d9d9d9;
+  line-height: 50px;
+  font-size: 16px;
+  text-align: center;
+  color: #565656;
+  display: block;
+  float: left;
+  text-align: center;
+  font-weight: bold;
+  transition: all 0.2s ease;
+}
+.tab_item:hover {
+  opacity: 0.75;
+}
+
+/*ラジオボタンを全て消す*/
+input[name="tab_item"] {
+  display: none;
+}
+
+/*タブ切り替えの中身のスタイル*/
+.tab_content {
+  display: none;
+  padding: 20px 40px 20px;
+  clear: both;
+  overflow: hidden;
+}
+
+
+/*選択されているタブのコンテンツのみを表示*/
+#family:checked ~ #family_content,
+#kakocho:checked ~ #kakocho_content {
+  display: block;
+}
+
+/*選択されているタブのスタイルを変える*/
+.tabs input:checked + .tab_item {
+  background-color: #64748B;
+  color: #fff;
+}
+
+/* 家族情報テーブル */
+.table_family {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 20px;
+}
+.table_family th, .table_family td {
+  border: 1px solid #dcdcdc;
+  background-color: #fff;
+  padding: 1%;
+}
+.table_family th {
+  background-color: #fff;
+  color: #3c3c3c;
+  font-weight: bold;
+  text-align: center;
+  width: auto;
+  min-width: 4em;
+  margin: 0 0 0 0;
+}
+
+/* 家族情報 */
+.table_family .name {
+  width: 20%;
+}
+.table_family .namekana {
+  width: 20%;
+}
+.table_family .relationship {
+  width: 14%;
+}
+.c-txtsp {
+  text-align: right;
+  margin: 0 0 15px 0;
+}
+
+/* 過去帳テーブル */
+.table_kakocho {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 100%;
+  margin-top: 20px;
+}
+.table_kakocho th, .table_kakocho td {
+  border: 1px solid #dcdcdc;
+  background-color: #fff;
+  padding: 1%;
+}
+.table_kakocho th {
+  background-color: #fff;
+  color: #3c3c3c;
+  font-weight: bold;
+  text-align: center;
+  width: auto;
+  min-width: 4em;
+  margin: 0 0 0 0;
+}
+
+/* 過去帳 */
+.table_kakocho .kaimyou {
+  width: 21%;
+}
+.table_kakocho .zokumyou {
+  width: 17%;
+}
+.table_kakocho .deathanniversary {
+  width: 18%;
+}
+
+
+.font-bold{
+  font-weight: 700;
+}
+.border-t{
+  border-top-width: 1px;
+}
+.border-b{
+  border-bottom-width: 1px;
+}
+.border-blue-500{
+  --tw-border-opacity: 1;
+  border-color: rgb(59 130 246 / var(--tw-border-opacity));
+}
+.text-blue-700{
+  --tw-text-opacity: 1;
+  color: rgb(29 78 216 / var(--tw-text-opacity));
+}
+.px-4{
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.py-3{
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+
+.jiintabs {
+  margin-top: 50px;
+  padding-bottom: 0px;
+  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+  width: 80%;
+  margin: 30px auto;}
+
+.jiintabs .name1 {
+  width: 30%;
+}
+.jiintabs .namekana1 {
+  width: 30%;
+}
+.jiintabs .qualification {
+  width: 15%;
+}
+
+
+/*-----------------------------
+      　年回表テーブル
+-------------------------------*/
+
+.table-nenkai {
+  border-collapse: collapse;
+  width: 60%;
+  max-width: 60%;
+  margin-left: 20%;
+  margin-right: 20%;
+  font-size: 1rem;
+}
+.table-nenkai th {
+  border: 1px solid #dcdcdc;
+  padding: 1rem;
+}
+.table-nenkai td {
+  background: #fff;
+  padding: 0.75rem;
+}
+/* 一覧表の色を列ごとに交互に色を変える */
+/* .table-nenkai tr:nth-child(odd) td {
+  background: #fff;
+} */
+.table-nenkai th {
+  background-color: #64748b;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  width: auto;
+  min-width: 4em;
+  margin: 0 0 0 0;
+}
+
+/* .table-nenkai a {
+  color: #1a73e8;
+  text-decoration: underline;
+} */
+/* .table-nenkai a:hover {
+  color: #0c47a1;
+} */
+
+.table-nenkai textbox-1 {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #969da3;
+  border-radius: 3px;
+  color: #333;
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+/* 年回表 */
+.table-nenkai .nenkai_kaiki {
+  width: 40%;
+}
+.table-nenkai .nenkai_nendo {
+  width: 60%;
+}
+
+
+/*-----------------------------
+      　棚経等題名一覧
+-------------------------------*/
+
+.table-title {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 100%;
+  font-size: 1rem;
+}
+.table-title th {
+  border: 1px solid #dcdcdc;
+  padding: 1rem;
+}
+.table-title td {
+  background: #fff;
+  padding: 0.75rem;
+}
+/* 一覧表の色を列ごとに交互に色を変える */
+/* .table-tanagyou tr:nth-child(odd) td {
+  background: #fff;
+} */
+.table-title th {
+  background-color: #64748b;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  width: auto;
+  min-width: 4em;
+  margin: 0 0 0 0;
+}
+
+/* .table-title a {
+  color: #1a73e8;
+  text-decoration: underline;
+} */
+/* .table-title a:hover {
+  color: #0c47a1;
+} */
+
+.table-title textbox-1 {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #969da3;
+  border-radius: 3px;
+  color: #333;
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+/* 棚経参題名一覧 */
+.table-title .tanagyou_col {
+  width: 20%;
+}
+.table-title .tanagyou_title {
+  width: 40%;
+}
+.table-title .tanagyou_createdate {
+  width: 40%;
+}
+
+/* 春彼岸題名一覧 */
+.table-title .haruhigan_col {
+  width: 20%;
+}
+.table-title .haruhigan_title {
+  width: 40%;
+}
+.table-title .haruhigan_createdate {
+  width: 40%;
+}
+
+/* 秋彼岸題名一覧 */
+.table-title .akihigan_col {
+  width: 20%;
+}
+.table-title .akihigan_title {
+  width: 40%;
+}
+.table-title .akihigan_createdate {
+  width: 40%;
+}
+
+/* 宛名印刷題名一覧 */
+.table-title .atena_col {
+  width: 20%;
+}
+.table-title .atena_title {
+  width: 40%;
+}
+.table-title .atena_createdate {
+  width: 40%;
+}
+
+/* 裏面印刷題名一覧 */
+.table-title .uramen_col {
+  width: 20%;
+}
+.table-title .uramen_title {
+  width: 40%;
+}
+.table-title .uramen_createdate {
+  width: 40%;
+}
+/*-----------------------------
+      　棚経参一覧テーブル
+-------------------------------*/
+
+.table-tanagyou {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 100%;
+}
+.table-tanagyou th {
+  border: 1px solid #dcdcdc;
+  padding: 1%;
+}
+.table-tanagyou td {
+  border: 1px solid #dcdcdc;
+  padding: 0.5%;
+  background: #fff;
+}
+/* 一覧表の色を列ごとに交互に色を変える */
+/* .table-tanagyou tr:nth-child(odd) td {
+  background: #fff;
+} */
+.table-tanagyou th {
+  background-color: #64748b;
+  color: #fff;
+  font-weight: bold;
+  text-align: center;
+  width: auto;
+  min-width: 4em;
+  margin: 0 0 0 0;
+}
+.table-checkbox {
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* 棚経参一覧 */
+.table-tanagyou .tanagyou_name {
+  width: 9%;
+}
+.table-tanagyou .tanagyou_address {
+  width: 29%;
+}
+.table-tanagyou .tanagyou_tel {
+  width: 10%;
+}
+.table-tanagyou .tanagyou_month {
+  width: 6%;
+}
+.table-tanagyou .tanagyou_day {
+  width: 6%;
+}
+.table-tanagyou .tanagyou_ampm {
+  width: 8%;
+}
+.table-tanagyou .tanagyou_hour {
+  width: 6%;
+}
+.table-tanagyou .tanagyou_minute {
+  width: 6%;
+}
+.table-tanagyou .tanagyou_hatsubon {
+  width: 4%;
+}
+.table-tanagyou .tanagyou_time {
+  width: 8%;
+}
+.table-tanagyou .tanagyou_manager {
+  width: 8%;
+}
+
+/* 春彼岸一覧 */
+.table-tanagyou .haruhigan_name {
+  width: 12%;
+}
+.table-tanagyou .haruhigan_address {
+  width: 32%;
+}
+.table-tanagyou .haruhigan_tel {
+  width: 12%;
+}
+.table-tanagyou .haruhigan_month {
+  width: 7%;
+}
+.table-tanagyou .haruhigan_day {
+  width: 7%;
+}
+.table-tanagyou .haruhigan_ampm {
+  width: 8%;
+}
+.table-tanagyou .haruhigan_hour {
+  width: 7%;
+}
+.table-tanagyou .haruhigan_minute {
+  width: 7%;
+}
+.table-tanagyou .haruhigan_manager {
+  width: 8%;
+}
+
+
+/* 秋彼岸一覧 */
+.table-tanagyou .akihigan_name {
+  width: 12%;
+}
+.table-tanagyou .akihigan_address {
+  width: 32%;
+}
+.table-tanagyou .akihigan_tel {
+  width: 12%;
+}
+.table-tanagyou .akihigan_month {
+  width: 7%;
+}
+.table-tanagyou .akihigan_day {
+  width: 7%;
+}
+.table-tanagyou .akihigan_ampm {
+  width: 8%;
+}
+.table-tanagyou .akihigan_hour {
+  width: 7%;
+}
+.table-tanagyou .akihigan_minute {
+  width: 7%;
+}
+.table-tanagyou .akihigan_manager {
+  width: 8%;
+}
+
+
+/*-----------------------------
+      自寺院マスタテーブル
+-------------------------------*/
+
+.table-jiin {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 100%;
+}
+.table-jiin th, .table-jiin td {
+  border: 1px solid #dcdcdc;
+  padding: 1%;
+}
+.table-jiin td {
+  background: #fff;
+}
+/* 一覧表の色を列ごとに交互に色を変える */
+/* .table-danka tr:nth-child(odd) td {
+  background: #fff;
+} */
+.table-jiin th {
+  background-color: #fff;
+  color: #000;
+  font-weight: bold;
+  text-align: center;
+  width: auto;
+  min-width: 4em;
+  margin: 0 0 0 0;
+}
+
+.table-jiin textbox-1 {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #969da3;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 1em;
+  line-height: 1.5;
+}
+
+.table-jiin textbox-1::placeholder {
+  color: #999;
+}
