@@ -1,0 +1,192 @@
+<x-app-layout>
+
+    <link rel="stylesheet" href="/css/style.css" >
+    <link rel="stylesheet" href="/css/app.css" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <main class="mt-1 py-4 px-2 sm:px-4">
+        <div class="flex  flex-col justify-center items-center z-10"></div>
+        <div class="mb-4 flex flex-col justify-center items-center">
+            <div class="flex justify-between bg-white border-l-8 border-b-2 border-slate-500 shadow-sm py-3 sm:py-4 px-4 sm:px-4 rounded-bl w-full max-w-7xl">
+                <div class="text-gray-800 text-xl font-semibold">寺院情報 / 新規登録</div>
+            </div>
+        </div>
+        <div class="flex flex-col justify-center items-center mb-4">
+            <hr class="w-full mb-4 max-w-7xl">
+        </div>
+
+        <div class="registration">
+            <form action="{{ route('member.store') }}" method="post">
+                @csrf
+
+                @if ($errors->any())
+                    <div class="bg-red-50 border border-red-200 text-sm text-red-600 rounred-md p-4 my-4">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <table class="registration-table">
+                    <tbody>
+                        <input type="hidden" name="temple_id" value="{{ $temple_id }}" />
+                        <tr>
+                            <th class="registration-item">氏名
+                                <span class="registration-item-required">必須</span>
+                            </th>
+                            <td class="registration-body">
+                                <input type="text" name="name" class="registration-input" value="{{ old('name') }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="registration-item">氏名かな
+                                <span class="registration-item-required">必須</span>
+                            </th>
+                            <td class="registration-body">
+                                <input type="text" name="namekana" class="registration-input" value="{{ old('namekana') }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="registration-item">敬称</th>
+                            <td class="registration-body">
+                                <select id ="title" name="title" class="registration-select">
+                                    <option selected></option>
+                                    @foreach ($titles as $title)
+                                        <option value="{{ $title->value1 }}">{{ $title->value1 }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="registration-item">脇敬称</th>
+                            <td class="registration-body">
+                                <select id ="subtitle" name="subtitle" class="registration-select">
+                                    <option selected></option>
+                                    @foreach ($subtitles as $subtitle)
+                                        <option value="{{ $subtitle->value1 }}">{{ $subtitle->value1 }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="registration-item">師</th>
+                            <td class="registration-body">
+                                <select id ="teacher" name="teacher" class="registration-select">
+                                    <option selected></option>
+                                    @foreach ($teachers as $teacher)
+                                        <option value="{{ $teacher->value1 }}">{{ $teacher->value1 }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="registration-item">資格</th>
+                            <td class="registration-body">
+                                <select id ="qualification" name="qualification" class="registration-select">
+                                    <option selected></option>
+                                    @foreach ($qualifications as $qualification)
+                                        <option value="{{ $qualification->value1 }}">{{ $qualification->value1 }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="registration-item">入会名</th>
+                            <td class="registration-body">
+                                @foreach($nyuukai_names as $nyuukai_name)
+                                    <div class="registratoin-checkbox">
+                                        <input type="checkbox" id="nyuukai_name_{{ $nyuukai_name->value1 }}" name="nyuukai_name[]" value="{{ $nyuukai_name->value1 }}">
+                                        <label for="nyuukai_name_{{ $nyuukai_name->value1 }}">{{ $nyuukai_name->value1 }}</label>
+                                    </div>
+                                @endforeach
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="registration-item">郵便番号</th>
+                            <td class="registration-body">
+                                <input type="text" name="postcode" class="registration-input" value="{{ old('postcode') }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="registration-item">住所１
+                                <span class="registration-item-required">必須</span>
+                            </th>
+                            <td class="registration-body">
+                                <input type="text" name="address1" class="registration-input" value="{{ old('address1') }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="registration-item">住所２</th>
+                            <td class="registration-body">
+                                <input type="text" name="address2" class="registration-input" value="{{ old('address2') }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="registration-item">電話番号
+                                <span class="registration-item-required">必須</span>
+                            </th>
+                            <td class="registration-body">
+                                <input type="text" name="tel" class="registration-input" value="{{ old('tel') }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="registration-item">FAX</th>
+                            <td class="registration-body">
+                                <input type="text" name="fax" class="registration-input" value="{{ old('fax') }}" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="registration-item">手紙区分</th>
+                            <td class="registration-body">
+                                <select id ="letterdivision" name="letterdivision" class="registration-select">
+                                    <option selected></option>
+                                    @foreach (App\Consts\LetterdivisionConsts::LETTERDIVISION_LIST as $name => $number)
+                                        <option value="{{ $name }}">{{ $name }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="registration-item">年賀状区分</th>
+                            <td class="registration-body">
+                                <select id ="newyearscarddivision" name="newyearscarddivision" class="registration-select">
+                                    <option selected></option>
+                                    @foreach (App\Consts\NewyearscarddivisionConsts::NEWYEARSCARDDIVISION_LIST as $name => $number)
+                                        <option value="{{ $name }}">{{ $name }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="registration-item">暑中見舞区分</th>
+                            <td class="registration-body">
+                                <select id ="summergreetingdivision" name="summergreetingdivision" class="registration-select">
+                                    <option selected></option>
+                                    @foreach (App\Consts\SummergreetingdivisionConsts::SUMMERGREETINGDIVISION_LIST as $name => $number)
+                                        <option value="{{ $name }}">{{ $name }}</option>
+                                    @endforeach
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="registration-item">備考</th>
+                            <td class="registration-body">
+                                <input type="text" name="memo" class="registration-textarea" value="{{ old('memo') }}" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="form-btn">
+                    <a class="form-btn2 form-inline-block" href="{{ route('temple.show', $temple_id) }}">
+                        <i class="fa-regular fa-circle-left"></i><span class="mx-2">戻る</span>
+                    </a>
+                    <button type="submit" class="form-btn1 form-inline-block" onclick="return confirm('登録します。よろしいですか？')">
+                        <i class="fa-solid fa-file-arrow-down"></i><span class="mx-2">登録</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+</x-app-layout>
