@@ -6,12 +6,12 @@
     <!-- エラーの表示を追加 -->
     @include('errors.form_errors')
 
-    <main class="mt-1 py-4 px-2 sm:px-4">
+    <main class="mt-1 py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
         <div class="mb-4 flex flex-col justify-center items-center">
-            <div class="flex justify-between bg-white border-l-8 border-b-2 border-slate-500 shadow-sm py-3 sm:py-4 px-4 sm:px-4 rounded-bl w-full max-w-7xl">
-                <div class="text-gray-800 text-xl font-semibold">檀家一覧</div>
-                <div class="inline-flex -mt-1">
+            <div class="header-container">
+                <div class="header-title">檀家一覧</div>
+                <div class="header-buttons">
                     <a class="btn-entry" href="{{ route('danka.create') }}">
                         <i class="fa-solid fa-plus"></i><span class="mx-2">新規登録</span>
                     </a>
@@ -84,7 +84,6 @@
                                     <th class="danka_area">地区名</th>
                                     <th class="danka_name">氏名</th>
                                     <th class="danka_namekana">氏名かな</th>
-                                    <th class="danka_postcode">郵便番号</th>
                                     <th class="danka_address">住所</th>
                                     <th class="danka_tel">電話番号</th>
                                     <th class="danka_position">寺役職</th>
@@ -101,7 +100,6 @@
                                             <a href="{{ route('danka.show', $danka->id )}}" class="blue_line">{{ $danka->name }}</a>
                                         </td>
                                         <td>{{ $danka->namekana }}</td>
-                                        <td>{{ $danka->postcode }}</td>
                                         <td>{{ $danka->address1. $danka->address2 }}</td>
                                         <td>{{ $danka->tel }}</td>
                                         <td>{{ $danka->position }}</td>

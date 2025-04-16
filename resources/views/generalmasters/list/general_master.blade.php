@@ -3,7 +3,7 @@
 
 
 <div class="table-responsive">
-    <table class="table-danka radius-table">
+    <table class="table-master radius-table">
         <thead>
             <tr>
                 <th class="general_name">名称</th>

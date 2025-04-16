@@ -8,12 +8,12 @@
     <!-- エラーの表示を追加 -->
     @include('errors.form_errors')
 
-    <main class="mt-1 py-4 px-2 sm:px-4">
+    <main class="mt-1 py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
         <div class="mb-4 flex flex-col justify-center items-center">
-            <div class="flex justify-between bg-white border-l-8 border-b-2 border-slate-500 shadow-sm py-3 sm:py-4 px-4 sm:px-4 rounded-bl w-full max-w-7xl">
-                <div class="text-gray-800 text-xl font-semibold">宛名印刷</div>
-                <div class="inline-flex -mt-1">
+            <div class="header-container">
+                <div class="header-title">宛名印刷</div>
+                <div class="header-buttons">
                     <a href="{{ route('atenadetail.danka_search', $atena_header_id) }}">
                         <button id="" class="header-btn">檀信徒検索</button>
                     </a>

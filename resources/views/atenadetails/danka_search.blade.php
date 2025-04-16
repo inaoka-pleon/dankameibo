@@ -6,15 +6,14 @@
 
     @include('dialog')
 
-    <main class="mt-1 py-4 px-2 sm:px-4">
+    <main class="mt-1 py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
         <div class="mb-4 flex flex-col justify-center items-center">
-            <div class="flex justify-between bg-white border-l-8 border-b-2 border-slate-500 shadow-sm py-3 sm:py-4 px-4 sm:px-4 rounded-bl w-full max-w-7xl">
-                <div class="text-gray-800 text-xl font-semibold">檀信徒検索</div>
-                <div class="inline-flex -mt-1">
-
+            <div class="header-container">
+                <div class="header-title">檀信徒検索</div>
+                <div class="header-buttons">
                     <a href="{{ route('atenaheader.show', $atena_header_id) }}">
-                        <button class="header-btn">終了</button>
+                        <button class="header-btn">終了</ibutton>
                     </a>
                 </div>
             </div>

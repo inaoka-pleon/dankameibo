@@ -3,11 +3,11 @@
     <link rel="stylesheet" href="/css/app.css" >
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <main class="mt-1 py-4 px-2 sm:px-4">
-        <div class="flex  flex-col justify-center items-center z-10"></div>
+    <main class="mt-1 py-2 px-2 sm:px-4">
+        <div class="flex flex-col justify-center items-center z-10"></div>
         <div class="mb-4 flex flex-col justify-center items-center">
-            <div class="flex justify-between bg-white border-l-8 border-b-2 border-slate-500 shadow-sm py-3 sm:py-4 px-4 sm:px-4 rounded-bl w-full max-w-7xl">
-                <div class="text-gray-800 text-xl font-semibold">宛名 / 新規登録</div>
+            <div class="header-container">
+                <div class="header-title">宛名 / 新規登録</div>
             </div>
         </div>
         <div class="flex flex-col justify-center items-center mb-4">
@@ -33,13 +33,13 @@
                         <tr>
                             <th class="registration-item">氏名</th>
                             <td class="registration-body">
-                                <input type="text" name="name" class="registration-input" value="{{ old('name') }}" />
+                                <input type="text" name="name" class="registration-input" placeholder="例：姓　名" value="{{ old('name') }}" />
                             </td>
                         </tr>
                         <tr>
                             <th class="registration-item">氏名かな</th>
                             <td class="registration-body">
-                                <input type="text" name="namekana" class="registration-input" value="{{ old('namekana') }}" />
+                                <input type="text" name="namekana" class="registration-input" placeholder="例：せい　めい" value="{{ old('namekana') }}" />
                             </td>
                         </tr>
                         <tr>
@@ -56,19 +56,19 @@
                         <tr>
                             <th class="registration-item">郵便番号</th>
                             <td class="registration-body">
-                                <input type="text" name="postcode" class="registration-input" value="{{ old('postcode') }}" />
+                                <input type="text" name="postcode" class="registration-input" placeholder="例：123-4567" value="{{ old('postcode') }}" />
                             </td>
                         </tr>
                         <tr>
                             <th class="registration-item">住所１</th>
                             <td class="registration-body">
-                                <input type="text" name="address1" class="registration-input" placeholder="" value="{{ old('address1') }}" />
+                                <input type="text" name="address1" class="registration-input" placeholder="例：〇〇県〇〇市〇〇町" value="{{ old('address1') }}" />
                             </td>
                         </tr>
                         <tr>
                             <th class="registration-item">住所２</th>
                             <td class="registration-body">
-                                <input type="text" name="address2" class="registration-input" placeholder="" value="{{ old('address2') }}" />
+                                <input type="text" name="address2" class="registration-input" placeholder="例：〇〇丁目〇〇番地〇〇号" value="{{ old('address2') }}" />
                             </td>
                         </tr> 
                         <tr>

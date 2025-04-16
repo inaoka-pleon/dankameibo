@@ -6,22 +6,21 @@
 
     @include('dialog')
 
-    <main class="mt-1 py-4 px-2 sm:px-4">
+    <main class="mt-1 py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
         <div class="mb-4 flex flex-col justify-center items-center">
-            <div class="flex justify-between bg-white border-l-8 border-b-2 border-slate-500 shadow-sm py-3 sm:py-4 px-4 sm:px-4 rounded-bl w-full max-w-7xl">
-                <div class="text-gray-800 text-xl font-semibold">檀信徒検索</div>
-                <div class="inline-flex -mt-1">
-
+            <div class="header-container">
+                <div class="header-title">檀信徒検索</div>
+                <div class="header-buttons">
                     <a href="{{ route('tanagyouheader.edit', $tanagyou_header_id) }}">
-                        <button class="header-btn">終了</button>
+                        <ibutton class="header-btn">終了</ibutton>
                     </a>
                 </div>
             </div>
         </div>
         <div class="flex flex-col justify-center items-center mb-8">
             <div class="mb-4 w-full max-w-7xl">
-                <div id="search_head" class="w-full px-4 md:px-6 py-2 text-left text-lg font-normal bg-custom-5 border border-b-2 border-gray-200 hover:underline hover:cursor-pointer active:underline rounded-t open">
+                <div id="search_head" class="w-full px-4 md:px-6 py-2 text-left text-lg font-normal bg-custom-5 border border-b-2 bg-gray-100 border-gray-200 hover:underline hover:cursor-pointer active:underline rounded-t open">
                     <svg class="w-6 h-6 -mt-1 inline-flex mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/200/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>

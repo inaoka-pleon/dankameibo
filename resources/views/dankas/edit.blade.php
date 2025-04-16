@@ -4,14 +4,14 @@
     <link rel="stylesheet" href="/css/app.css" >
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <main class="mt-1 py-4 px-2 sm:px-4">
-        <div class="flex  flex-col justify-center items-center z-10"></div>
+    <main class="mt-1 py-2 px-2 sm:px-4">
+        <div class="flex flex-col justify-center items-center z-10"></div>
         <div class="mb-4 flex flex-col justify-center items-center">
-            <div class="flex justify-between bg-white border-l-8 border-b-2 border-slate-500 shadow-sm py-3 sm:py-4 px-4 sm:px-4 rounded-bl w-full max-w-7xl">
-                <div class="text-gray-800 text-xl font-semibold">檀家 / 編集</div>
+            <div class="header-container">
+                <div class="header-title">檀家 / 編集</div>
             </div>
         </div>
-        <div class="flex flex-col justify-center items-center mb-4">
+        <div class="flex flex-col justify-center items-center">
             <hr class="w-full mb-4 max-w-7xl">
         </div>
         <div class="registration">
@@ -58,7 +58,7 @@
                                 <span class="registration-item-required">必須</span>
                             </th>
                             <td class="registration-body">
-                                <input type="text" name="name" class="registration-input" value="{{ $follower->name }}" />
+                                <input type="text" name="name" class="registration-input" placeholder="例：姓　名" value="{{ $follower->name }}" />
                             </td>
                         </tr>
                         <tr>
@@ -66,7 +66,7 @@
                                 <span class="registration-item-required">必須</span>
                             </th>
                             <td class="registration-body">
-                                <input type="text" name="namekana" class="registration-input" value="{{ $follower->namekana }}" />
+                                <input type="text" name="namekana" class="registration-input" placeholder="例：せい　めい" value="{{ $follower->namekana }}" />
                             </td>
                         </tr>
                         <tr>
@@ -98,31 +98,31 @@
                         <tr>
                             <th class="registration-item">郵便番号</th>
                             <td class="registration-body">
-                                <input type="text" name="postcode" class="registration-input" value="{{ $follower->postcode }}" />
+                                <input type="text" name="postcode" class="registration-input" placeholder="例：123-4567" value="{{ $follower->postcode }}" />
                             </td>
                         </tr>
                         <tr>
                             <th class="registration-item">住所１</th>
                             <td class="registration-body">
-                                <input type="text" name="address1" class="registration-input" placeholder="" value="{{ $follower->address1 }}" />
+                                <input type="text" name="address1" class="registration-input" placeholder="例：〇〇県〇〇市〇〇町" value="{{ $follower->address1 }}" />
                             </td>
                         </tr>
                         <tr>
                             <th class="registration-item">住所２</th>
                             <td class="registration-body">
-                                <input type="text" name="address2" class="registration-input" placeholder="" value="{{ $follower->address2 }}" />
+                                <input type="text" name="address2" class="registration-input" placeholder="例：〇〇丁目〇〇番地〇〇号" value="{{ $follower->address2 }}" />
                             </td>
                         </tr>
                         <tr>
                             <th class="registration-item">電話番号</th>
                             <td class="registration-body">
-                                <input type="text" name="tel" class="registration-input" placeholder="09012345678" value="{{ $follower->tel }}" />
+                                <input type="text" name="tel" class="registration-input" placeholder="例：090-1234-5678" value="{{ $follower->tel }}" />
                             </td>
                         </tr>
                         <tr>
                             <th class="registration-item">FAX</th>
                             <td class="registration-body">
-                                <input type="text" name="fax" class="registration-input" placeholder="09012345678" value="{{ $follower->fax }}" />
+                                <input type="text" name="fax" class="registration-input" placeholder="例：090-1234-5678" value="{{ $follower->fax }}" />
                             </td>
                         </tr>
                         <tr>
@@ -221,17 +221,17 @@
                                 <input type="hidden" name="gozikai" value="0"> 
                                 <input type="checkbox" name="gozikai" class="registration-input" value="1" @if(old('gozikai', $danka->gozikai)) checked @endif> 護持会
                                 <input type="hidden" name="membershipfee" value="0"> 
-                                <input type="checkbox" name="membershipfee" class="registration-input" value="1" @if(old('membershipfee', $danka->membershipfee)) checked @endif> 会費
+                                <input type="checkbox" name="membershipfee" class="" value="1" @if(old('membershipfee', $danka->membershipfee)) checked @endif> 会費
                                 <input type="hidden" name="report" value="0"> 
-                                <input type="checkbox" name="report" class="registration-input" value="1" @if(old('report', $danka->report)) checked @endif> 届出
+                                <input type="checkbox" name="report" class="" value="1" @if(old('report', $danka->report)) checked @endif> 届出
                                 <input type="hidden" name="tanagyou" value="0"> 
-                                <input type="checkbox" name="tanagyou" class="registration-input" value="1" @if(old('tanagyou', $danka->tanagyou)) checked @endif> 棚経
+                                <input type="checkbox" name="tanagyou" class="" value="1" @if(old('tanagyou', $danka->tanagyou)) checked @endif> 棚経
                                 <input type="hidden" name="haruhigan" value="0"> 
-                                <input type="checkbox" name="haruhigan" class="registration-input" value="1" @if(old('haruhigan', $danka->haruhigan)) checked @endif> 春彼岸
+                                <input type="checkbox" name="haruhigan" class="" value="1" @if(old('haruhigan', $danka->haruhigan)) checked @endif> 春彼岸
                                 <input type="hidden" name="akihigan" value="0"> 
-                                <input type="checkbox" name="akihigan" class="registration-input" value="1" @if(old('akihigan', $danka->akihigan)) checked @endif> 秋彼岸
+                                <input type="checkbox" name="akihigan" class="" value="1" @if(old('akihigan', $danka->akihigan)) checked @endif> 秋彼岸
                                 <input type="hidden" name="hanamatsuri" value="0"> 
-                                <input type="checkbox" name="hanamatsuri" class="registration-input" value="1" @if(old('hanamatsuri', $danka->hanamatsuri)) checked @endif> 花まつり
+                                <input type="checkbox" name="hanamatsuri" class="" value="1" @if(old('hanamatsuri', $danka->hanamatsuri)) checked @endif> 花まつり
                             </td>
                         </tr>
                         <tr>
