@@ -6,10 +6,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     @include('dialog')
+    @include('errors.form_errors')
 
-    <main class="mt-1 py-2 px-2 sm:px-4">
+    <main class="py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
-        <div class="mb-4 flex flex-col justify-center items-center">
+        <div class="mb-3 flex flex-col justify-center items-center">
             <div class="header-container">
                 <div class="header-title">護持会名簿一覧表</div>
                 <div class="header-buttons">
@@ -21,9 +22,12 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-col justify-center items-center mb-8">
-            <div class="mb-4 w-full max-w-7xl">
-                <div id="search_head" class="w-full px-4 md:px-6 py-2 text-left text-lg font-normal bg-custom-5 border border-b-2 border-gray-200 hover:underline hover:cursor-pointer active:underline rounded-t open">
+        <div class="flex flex-col justify-center items-center mb-3">
+            <hr class="w-full">
+        </div>
+        <div class="flex flex-col justify-center items-center mb-4">
+            <div class="mb-3 w-full">
+                <div id="search_head" class="w-full px-4 md:px-6 py-2 text-left text-lg font-normal bg-custom-5 bg-gray-100 border border-b-2 border-gray-200 hover:underline hover:cursor-pointer active:underline rounded-t open">
                     <svg class="w-6 h-6 -mt-1 inline-flex mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/200/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
@@ -44,19 +48,19 @@
                         </div>
                         <div class="mt-3 flex items-center sm:justify-end">
                             <button type="submit" class="btn-primary proc-btn text-xs shadow-sm py-3 px-4 mr-3" name="searchType" value="gozikailist_search">
-                                <i class="fa-solid fa-magnifying-glass"></i><span class="mx-2">指定条件で検索する</span>
+                                <i class="fa-solid fa-magnifying-glass"></i><span class="mx-2">指定条件で検索</span>
                             </button>
                             <button type="button" class="btn-default text-xs reset shadow-sm py-3 px-4">
-                                <i class="fa-regular fa-circle-xmark"></i><span class="mx-2">指定条件をリセットする</span>
+                                <i class="fa-regular fa-circle-xmark"></i><span class="mx-2">指定条件をリセット</span>
                             </button>
                         </div>
                     </form>
                 </div>
             </div>
-            <hr class="w-full mb-4 max-w-7xl">
-            <div class="w-full md:mb-4 max-w-7xl text-sm sm:text-base">
+            <hr class="w-full mb-3">
+            <div class="w-full md:mb-4 text-sm sm:text-base">
                 <div class="">
-                    <div class="mb-4">
+                    <div class="mb-3">
                         <p class="ml-2">該当：{{ $gozikaiCount }} 件</p>
                     </div>
                     @if ($gozikailists->isNotEmpty())
@@ -70,18 +74,36 @@
                                     <th class="gozikai_address">住所</th>
                                     <th class="gozikai_tel">電話番号</th>
                                     <th class="gozikai_postcard">はがき区分</th>
+                                    <th class="border text-xl px-4 py-2 visible md:hidden">
+                                        氏名<br>
+                                        檀家区分<br>
+                                        地区名<br>
+                                        郵便番号<br>
+                                        住所<br>
+                                        電話番号<br>
+                                        はがき区分
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($gozikailists as $gozikailist)
                                     <tr>
-                                        <td>{{ $gozikailist->name }}</td>
-                                        <td>{{ $gozikailist->dankadivision }}</td>
-                                        <td>{{ $gozikailist->area }}</td>
-                                        <td>{{ $gozikailist->postcode }}</td>
-                                        <td>{{ $gozikailist->address1 . $gozikailist->address2 }}</td>
-                                        <td>{{ $gozikailist->tel }}</td>
-                                        <td>{{ $gozikailist->postcard }}</td>
+                                        <td class="gozikai_name" data-th="氏名">{{ $gozikailist->name }}</td>
+                                        <td class="gozikai_dankadivision" data-th="檀家区分">{{ $gozikailist->dankadivision }}</td>
+                                        <td class="gozikai_area" data-th="地区名">{{ $gozikailist->area }}</td>
+                                        <td class="gozikai_postcode" data-th="郵便番号">{{ $gozikailist->postcode }}</td>
+                                        <td class="gozikai_address" data-th="住所">{{ $gozikailist->address1 . $gozikailist->address2 }}</td>
+                                        <td class="gozikai_tel" data-th="電話番号">{{ $gozikailist->tel }}</td>
+                                        <td class="gozikai_postcard" data-th="はがき区分">{{ $gozikailist->postcard }}</td>
+                                        <td class="border text-xl px-4 py-2 visible md:hidden">
+                                            {{ $gozikailist->name }}<br>
+                                            {{ $gozikailist->dankadivision }}<br>
+                                            {{ $gozikailist->area }}<br>
+                                            {{ $gozikailist->postcode }}<br>
+                                            {{ $gozikailist->address1 . $gozikailist->address2 }}<br>
+                                            {{ $gozikailist->tel }}<br>
+                                            {{ $gozikailist->postcard }}
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

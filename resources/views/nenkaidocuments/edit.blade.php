@@ -7,18 +7,15 @@
     <!-- エラーの表示を追加 -->
     @include('errors.form_errors')
 
-    <main class="mt-1 py-2 px-2 sm:px-4">
+    <main class="py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
-        <div class="mb-4 flex flex-col justify-center items-center">
+        <div class="mb-3 flex flex-col justify-center items-center">
             <div class="header-container">
                 <div class="header-title">年回表文書</div>
-                <div class="header-buttons">
-                    <a id="printButton" class="header-btn">印刷</a>
-                </div>
             </div>
         </div>
         <div class="flex flex-col justify-center items-center mb-4">
-            <hr class="w-full mb-4 max-w-7xl">
+            <hr class="w-full">
         </div>
         <div class="registration">
             <form action="{{ route('nenkaidocument.update', $nenkaidocument->id) }}" method="POST">

@@ -7,9 +7,9 @@
     <!-- エラーの表示を追加 -->
     @include('errors.form_errors')
     
-    <main class="mt-1 py-2 px-2 sm:px-4">
+    <main class="py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
-        <div class="mb-4 flex flex-col justify-center items-center">
+        <div class="mb-3 flex flex-col justify-center items-center">
             <div class="header-container">
                 <div class="header-title">回忌設定</div>
                 <div class="header-buttons">
@@ -19,9 +19,9 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-col justify-center items-center mb-8">
-            <hr class="w-full mb-4 max-w-7xl">
-            <div class="w-full md:mb-4 max-w-7xl text-sm sm:text-base">
+        <div class="flex flex-col justify-center items-center">
+            <hr class="w-full mb-3">
+            <div class="w-full md:mb-4 text-sm sm:text-base">
                 <div class="">
                     @if($kaikis->count())
                         <table class="table-danka radius-table">
@@ -43,11 +43,11 @@
                             <tbody>
                                 @foreach ($kaikis as $kaiki)
                                     <tr>
-                                        <td>{{ disp_kaiki_kbn($kaiki->kaiki_kbn) }}</td>
-                                        <td>{{ $kaiki->kaiki }}</td>
-                                        <td>{{ $kaiki->kaiki_name }}</td>
-                                        <td>{{ disp_on_off_name($kaiki->target_flg) }}</td>
-                                        <td>
+                                        <td class="kaiki_kubun" data-th="区分">{{ disp_kaiki_kbn($kaiki->kaiki_kbn) }}</td>
+                                        <td class="kaiki_kaiki" data-th="回忌">{{ $kaiki->kaiki }}</td>
+                                        <td class="kaiki_name" data-th="回忌名">{{ $kaiki->kaiki_name }}</td>
+                                        <td class="kaiki_taishou" data-th="対象">{{ disp_on_off_name($kaiki->target_flg) }}</td>
+                                        <td class="kaiki_col">
                                             <div class="btn-center">
                                                 <a href="{{ route('kaiki.edit', $kaiki->id) }}" class="btn-edit">
                                                     <i class="fa-solid fa-edit"></i><span class="mx-2">編集</span>

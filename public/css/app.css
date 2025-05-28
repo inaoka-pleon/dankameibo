@@ -1021,6 +1021,10 @@ select{
   margin-right: 0.75rem;
 }
 
+.mr-16{
+  margin-right: 4rem;
+}
+
 .mt-0{
   margin-top: 0px;
 }

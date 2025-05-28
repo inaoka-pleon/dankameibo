@@ -7,22 +7,22 @@
     <!-- エラーの表示を追加 -->
     @include('errors.form_errors')
 
-    <main class="mt-1 py-2 px-2 sm:px-4">
+    <main class="py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
-        <div class="mb-4 flex flex-col justify-center items-center">
+        <div class="mb-3 flex flex-col justify-center items-center">
             <div class="header-container">
                 <div class="header-title">春彼岸文書</div>
             </div>
         </div>
         <div class="flex flex-col justify-center items-center mb-4">
-            <hr class="w-full mb-4 max-w-7xl">
+            <hr class="w-full">
         </div>
         <div class="registration">
             <form action="{{ route('haruhigandocument.store') }}" method="POST">
                 @csrf
 
                 @if ($errors->any())
-                    <div class="bg-red-50 border border-red-200 text-sm text-red-600 rounded-md p-4 my-4">
+                    <div class="bg-red-50 border border-red-200 text-sm text-red-600 rounded-md p-4 mb-4">
                         <ul>
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>

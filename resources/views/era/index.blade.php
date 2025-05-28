@@ -1,15 +1,14 @@
 <x-app-layout>
-    
+
     <link rel="stylesheet" href="/css/style.css" >
     <link rel="stylesheet" href="/css/app.css" >
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <!-- エラーの表示を追加 -->
+
     @include('errors.form_errors')
 
-    <main class="mt-1 py-2 px-2 sm:px-4">
+    <main class="py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
-        <div class="mb-4 flex flex-col justify-center items-center">
+        <div class="mb-3 flex flex-col justify-center items-center">
             <div class="header-container">
                 <div class="header-title">元号設定</div>
                 <div class="header-buttons">
@@ -19,9 +18,9 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-col justify-center items-center mb-8">
-            <hr class="w-full mb-4 max-w-7xl">
-            <div class="w-full md:mb-4 max-w-7xl text-sm sm:text-base">
+        <div class="flex flex-col justify-center items-center mb-4">
+            <hr class="w-full mb-3">
+            <div class="w-full md:mb-4 text-sm sm:text-base">
                 <div class="">
                     @if($eras->count())
                         <table class="table-danka radius-table">
@@ -33,43 +32,49 @@
                                     <th class="era_start_ymd">開始年月日</th>
                                     <th class="era_end_ymd">終了年月日</th>
                                     <th class="era_col"></th>
-                                    <th class="border px-4 py-2 text-xl table-cell md:hidden">
-                                        元号　／　年数　／　開始西暦<br>
-                                        開始年月日　／　終了年月日
+                                    <th class="border text-xl px-4 py-2 visible md:hidden">
+                                        元号<br>
+                                        年数<br>
+                                        開始西暦<br>
+                                        開始年月日<br>
+                                        終了年月日
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach ($eras as $era)
-                                <tr>
-                                    <td>{{ $era->name }}</td>
-                                    <td>{{ $era->years }}</td>
-                                    <td>{{ $era->ad_start }}</td>
-                                    <td>{{ $era->start_ymd }}</td>
-                                    <td>{{ $era->end_ymd }}</td>
-                                    <td>
-                                        <div class="btn-center">
-                                            <a href="{{ route('era.edit', $era->id )}}" class="btn-edit">
-                                                <i class="fa-solid fa-edit"></i><span class="mx-2">編集</span>
-                                            </a>
-                                            <form onsubmit="return deleteEra();"
-                                                class="btn-delete"
-                                                action="{{ route('era.destroy', $era->id) }}" method="post"
-                                                role="menuitem" tabindex="-1">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit">
-                                                    <i class="fa-solid fa-trash"></i><span class="mx-2">削除</span>
-                                                </button> 
-                                            </form>
-                                        </div>
-                                    </td>
-                                    <td class="border px-4 py-2 text-xl table-cell md:hidden">
-                                        {{ $era->name }}　{{ $era->years }}　{{ $era->ad_start }}<br>
-                                        {{ $era->start_ymd }}　-　{{ $era->end_ymd }}
-                                    </td>
-                                </tr>
-                            @endforeach
+                                @foreach ($eras as $era)
+                                    <tr>
+                                        <td class="era_name" data-th="元号">{{ $era->name }}</td>
+                                        <td class="era_year" data-th="年数">{{ $era->years }}</td>
+                                        <td class="era_ad_start" data-th="開始西暦">{{ $era->ad_start }}</td>
+                                        <td class="era_start_ymd" data-th="開始年月日">{{ $era->start_ymd }}</td>
+                                        <td class="era_end_ymd" data-th="終了年月日">{{ $era->end_ymd }}</td>
+                                        <td class="era_col">
+                                            <div class="btn-center">
+                                                <a href="{{ route('era.edit', $era->id )}}" class="btn-edit">
+                                                    <i class="fa-solid fa-edit"></i><span class="mx-2">編集</span>
+                                                </a>
+                                                <form onsubmit="return deleteEra();"
+                                                    class="btn-delete"
+                                                    action="{{ route('era.destroy', $era->id) }}" method="post"
+                                                    role="menuitem" tabindex="-1">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit">
+                                                        <i class="fa-solid fa-trash"></i><span class="mx-2">削除</span>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                        <td class="border text-xl px-4 py-2 visible md:hidden">
+                                            {{ $era->name }}<br>
+                                            {{ $era->years }}<br>
+                                            {{ $era->ad_start }}<br>
+                                            {{ $era->start_ymd }}<br>
+                                            {{ $era->end_ymd }}
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                         <br>
@@ -96,4 +101,3 @@
     }
 </script>
 </x-app-layout>
-

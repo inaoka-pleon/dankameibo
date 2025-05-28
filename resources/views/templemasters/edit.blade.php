@@ -5,22 +5,25 @@
     <!-- エラーの表示を追加 -->
     @include('errors.form_errors')
 
-    <main class="mt-1 py-2 px-2 sm:px-4">
-    <div class="flex flex-col justify-center items-center z-10"></div>
+    <main class="py-2 px-2 sm:px-4">
+        <div class="flex flex-col justify-center items-center z-10"></div>
         <form action="{{ route('templemaster.update', $templemaster->id) }}" method="POST">
             @csrf
             @method('PATCH')
-            <div class="mb-4 flex flex-col justify-center items-center">
+            <div class="mb-3 flex flex-col justify-center items-center">
                 <div class="header-container">
                     <div class="header-title">自寺院マスタ</div>
-                    <div class="flex flex-row-reverse">
+                    <div class="header-buttons">
                         <button type="submit" class="header-btn"
                         onclick="return confirm('更新します。よろしいですか？')">更新</button>
                     </div>
                 </div>
             </div>
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="pl-6 pr-6 pt-2 text-gray-900">
+            <div class="flex flex-col justify-center items-center">
+                <hr class="mb-3 w-full">
+            </div>
+            <div class="max-w-7xl mx-auto sm:px-6">
+                <div class="pt-4 text-gray-900">
                     <div>
                         <table class="table-jiin">
                             <tr>
@@ -72,7 +75,6 @@
                                 </td>
                             </tr>
                         </table>
-                        <br>
                     </div>
                 </div>
             </div>

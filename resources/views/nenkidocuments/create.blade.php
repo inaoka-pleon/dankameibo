@@ -7,15 +7,15 @@
     <!-- エラーの表示を追加 -->
     @include('errors.form_errors')
 
-    <main class="mt-1 py-2 px-2 sm:px-4">
+    <main class="mt-2 py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
-        <div class="mb-4 flex flex-col justify-center items-center">
+        <div class="mb-3 flex flex-col justify-center items-center">
             <div class="header-container">
                 <div class="header-title">年忌表文書</div>
             </div>
         </div>
         <div class="flex flex-col justify-center items-center mb-4">
-            <hr class="w-full mb-4 max-w-7xl">
+            <hr class="w-full mb-4">
         </div>
         <div class="registration">
             <form action="{{ route('nenkidocument.store') }}" method="POST">

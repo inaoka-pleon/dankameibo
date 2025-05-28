@@ -4,12 +4,11 @@
     <link rel="stylesheet" href="/css/dialog.css">
 
     @include('dialog')
-    <!-- エラーの表示を追加 -->
     @include('errors.form_errors')
 
-    <main class="mt-1 py-2 px-2 sm:px-4">
+    <main class="py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
-        <div class="mb-4 flex flex-col justify-center items-center">
+        <div class="mb-3 flex flex-col justify-center items-center">
             <div class="header-container">
                 <div class="header-title">花まつり一覧表</div>
                 <div class="header-buttons">
@@ -21,14 +20,14 @@
                 </div>
             </div>
         </div>
-        <div class="flex flex-col justify-center items-center mb-8">
-            <hr class="w-full mb-4 max-w-7xl">
-            <div class="w-full md:mb-4 max-w-7xl text-sm sm:text-base">
+        <div class="flex flex-col justify-center items-center mb-4">
+            <hr class="w-full mb-3">
+            <div class="w-full md:mb-4 text-sm sm:text-base">
                 <div class="">
-                    <div class="mb-4">
+                    <div class="mb-3">
                         <p class="ml-2">該当：{{ $hanamatsuriCount }} 件</p>
                     </div>
-                    @if ($hanamatsurilists->isNotEmpty()) 
+                    @if ($hanamatsurilists->isNotEmpty())
                         <table class="table-danka radius-table shadow">
                             <thead>
                                 <tr class>
@@ -39,22 +38,39 @@
                                     <th class="hanamatsuri_tel">電話番号</th>
                                     <th class="hanamatsuri_gozikai">護持会</th>
                                     <th class="hanamatsuri_postcard">はがき区分</th>
+                                    <th class="border text-xl px-4 py-2 visible md:hidden">
+                                        氏名<br>
+                                        地区名<br>
+                                        郵便番号<br>
+                                        住所<br>
+                                        電話番号<br>
+                                        護持会<br>
+                                        はがき区分
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($hanamatsurilists as $hanamatsurilist)
                                     <tr>
-                                        <td>{{ $hanamatsurilist->name }}</td>
-                                        <td>{{ $hanamatsurilist->area }}</td>
-                                        <td>{{ $hanamatsurilist->postcode }}</td>
-                                        <td>{{ $hanamatsurilist->address1 . $hanamatsurilist->address2 }}</td>
-                                        <td>{{ $hanamatsurilist->tel }}</td>
-                                        <!-- <td>{{ $hanamatsurilist->gozikai }}</td> -->
-                                        <td class="table-checkbox">
-                                            <input type="hidden" name="gozikai" value="0"> 
+                                        <td class="hanamatsuri_name" data-th="氏名">{{ $hanamatsurilist->name }}</td>
+                                        <td class="hanamatsuri_area" data-th="地区名">{{ $hanamatsurilist->area }}</td>
+                                        <td class="hanamatsuri_postcode" data-th="郵便番号">{{ $hanamatsurilist->postcode }}</td>
+                                        <td class="hanamatsuri_address" data-th="住所">{{ $hanamatsurilist->address1 . $hanamatsurilist->address2 }}</td>
+                                        <td class="hanamatsuri_tel" data-th="電話番号">{{ $hanamatsurilist->tel }}</td>
+                                        <td class="hanamatsuri_gozikai" data-th="護持会">
+                                            <input type="hidden" name="gozikai" value="0">
                                             <input type="checkbox" name="gozikai" class="registration-input" value="1" @if(old('gozikai', $hanamatsurilist->gozikai)) checked @endif disabled>
                                         </td>
-                                        <td>{{ $hanamatsurilist->postcard }}</td>
+                                        <td class="hanamatsuri_postcard" data-th="はがき区分">{{ $hanamatsurilist->postcard }}</td>
+                                        <td class="border text-xl px-4 py-2 visible md:hidden">
+                                            {{ $hanamatsurilist->name }}<br>
+                                            {{ $hanamatsurilist->area }}<br>
+                                            {{ $hanamatsurilist->postcode }}<br>
+                                            {{ $hanamatsurilist->address1 . $hanamatsurilist->address2 }}<br>
+                                            {{ $hanamatsurilist->tel }}<br>
+                                            @if($hanamatsurilist->gozikai) 〇 @else - @endif<br>
+                                            {{ $hanamatsurilist->postcard }}
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

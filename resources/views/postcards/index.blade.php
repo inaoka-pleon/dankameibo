@@ -3,15 +3,18 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/app.css">
 
-    <main class="mt-1 py-2 px-2 sm:px-4">
+    <main class="py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
-        <div class="mb-4 flex flex-col justify-center items-center">
+        <div class="mb-3 flex flex-col justify-center items-center">
             <div class="header-container">
                 <div class="header-title">はがき</div>
             </div>
         </div>
+        <div class="flex flex-col justify-center items-center">
+            <hr class="w-full mb-4">
+        </div>
         <div class="flex flex-col justify-center items-center mb-8">
-            <div class="w-full max-w-7xl grid grid-cols-12 gap-x-3 gap-y-3">
+            <div class="w-full grid grid-cols-12 gap-x-3 gap-y-3">
                 <div class="col-span-12">
                     <div class="article-head tracking-widest font-medium px-3 py-2"  style="border-left: 6px solid #718096;">
                         その他

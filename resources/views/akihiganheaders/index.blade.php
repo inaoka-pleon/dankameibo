@@ -7,9 +7,9 @@
     <!-- エラーの表示を追加 -->
     @include('errors.form_errors')
 
-    <main class="mt-1 py-2 px-2 sm:px-4">
+    <main class="py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
-        <div class="mb-4 flex flex-col justify-center items-center">
+        <div class="mb-3 flex flex-col justify-center items-center">
             <div class="header-container">
                 <div class="header-title">秋彼岸一覧</div>
                 <div class="header-buttons">
@@ -23,8 +23,8 @@
             </div>
         </div>
         <div class="flex flex-col justify-center items-center mb-8">
-            <hr class="w-full mb-4 max-w-7xl">
-            <div class="w-full md:mb-4 max-w-7xl text-sm sm:text-base">
+            <hr class="w-full mb-4">
+            <div class="w-full md:mb-4 max-w-3xl mt-3 text-sm sm:text-base">
                 <div class="table-scroll">
                     <!-- 秋彼岸一覧表示 -->
                     @if ($akihigan_headers->isNotEmpty())
@@ -47,9 +47,9 @@
                                             </div>
                                         </td>
                                         <input type="hidden" value="{{ $akihigan_orderby->ad_year }}" />
-                                        <td>{{ $akihigan_orderby->era . $akihigan_orderby->year . '年' . '　秋彼岸' }}</td>
+                                        <td data-th="題名">{{ $akihigan_orderby->era . $akihigan_orderby->year . '年' . '　秋彼岸' }}</td>
 
-                                        <td>{{ $akihigan_orderby->CreatedEraName. $akihigan_orderby->CreatedEraYear. '年'. $akihigan_orderby->CreatedMonth. '月'. $akihigan_orderby->CreatedDay. '日' }}</td>
+                                        <td data-th="作成日">{{ $akihigan_orderby->CreatedEraName. $akihigan_orderby->CreatedEraYear. '年'. $akihigan_orderby->CreatedMonth. '月'. $akihigan_orderby->CreatedDay. '日' }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

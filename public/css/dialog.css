@@ -85,3 +85,21 @@
   gap: 10px;
   margin-right: 20px; /* ラジオボタンとの間隔を調整 */
 }
+
+@media screen and (max-width: 767px) {
+  .dialog-buttons {
+    display: flex; /* Flexbox を有効にする */
+    justify-content: center; /* ボタンを中央揃え */
+    align-items: center; /* 縦方向中央揃え */
+    margin: 20px; /* 上下のマージンを調整 */
+    text-align: center; /* テキスト中央揃え */
+    gap: 10px; /* ボタン間の隙間 */
+    flex-wrap: wrap; /* ボタンが収まらない場合に折り返す */
+  }
+
+  .buttons {
+    width: auto; /* ボタンの幅を内容に合わせて自動調整 */
+    min-width: 80px; /* 最小幅を設定 */
+    margin: 0; /* 個々のボタンのマージンを削除 */
+  }
+}

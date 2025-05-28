@@ -6,15 +6,18 @@
     <!-- エラーの表示を追加 -->
     @include('errors.form_errors')
 
-    <main class="mt-1 py-2 px-2 sm:px-4">
+    <main class="py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
-        <div class="mb-4 flex flex-col justify-center items-center">
+        <div class="mb-3 flex flex-col justify-center items-center">
             <div class="header-container">
                 <div class="header-title">同名戒名検索</div>
             </div>
         </div>
-        <div class="flex flex-col justify-center items-center mb-8">
-            <div class="mb-4 w-full max-w-7xl">
+        <div class="flex flex-col justify-center items-center mb-3">
+            <hr class="w-full">
+        </div>
+        <div class="flex flex-col justify-center items-center mb-4">
+            <div class="mb-3 w-full">
                 <div id="search_head" class="w-full px-4 md:px-6 py-2 text-left text-lg font-normal bg-custom-5 border border-b-2 bg-gray-100 border-gray-200 hover:underline hover:cursor-pointer active:underline rounded-t open">
                     <svg class="w-6 h-6 -mt-1 inline-flex mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/200/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
@@ -39,18 +42,18 @@
                         </div>
                         <div class="mt-3 flex items-center sm:justify-end">
                             <button type="submit" class="btn-primary proc-btn text-xs shadow-sm py-3 px-4 mr-3" name="searchType" value="kaimyou_search">
-                                <i class="fa-solid fa-magnifying-glass"></i><span class="mx-2">指定条件で検索する</button>
+                                <i class="fa-solid fa-magnifying-glass"></i><span class="mx-2">指定条件で検索</button>
                             <button type="button" class="btn-default text-xs reset shadow-sm py-3 px-4">
-                                <i class="fa-regular fa-circle-xmark"></i><span class="mx-2">指定条件をリセットする</button>
+                                <i class="fa-regular fa-circle-xmark"></i><span class="mx-2">指定条件をリセット</button>
                         </div>
                     </form>
                 </div>
             </div>
-            <hr class="w-full mb-4 max-w-7xl">
-            <div class="w-full md:mb-4 max-w-7xl text-sm sm:text-base">
+            <hr class="w-full mb-3">
+            <div class="w-full md:mb-4 text-sm sm:text-base">
                 <div class="">
                     @if ($kaimyouchecks->isNotEmpty()) 
-                        <div class="mb-4">
+                        <div class="mb-2">
                             <p class="ml-2">該当：{{ $kaimyouCount }} 件</p>
                         </div>
                         <table class="table-danka radius-table shadow">
@@ -61,18 +64,32 @@
                                     <th class="kaimyou_kaimyou">戒名</th>
                                     <th class="kaimyou_zokumyou">俗名</th>
                                     <th class="kaimyou_relationship">関係</th>
+                                    <th class="border text-xl px-4 py-2 visible md:hidden">
+                                        氏名<br>
+                                        地区名<br>
+                                        戒名<br>
+                                        俗名<br>
+                                        関係
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($kaimyouchecks as $kaimyoucheck)
                                     <tr>
-                                        <td>
+                                        <td class="kaimyou_name" data-th="氏名">
                                             <a href="{{ route('danka.show', $kaimyoucheck->id )}}" class="blue_line">{{ $kaimyoucheck->name }}</a>
                                         </td>
-                                        <td>{{ $kaimyoucheck->area }}</td>
-                                        <td>{{ $kaimyoucheck->kaimyou }}</td>
-                                        <td>{{ $kaimyoucheck->zokumyou }}</td>
-                                        <td>{{ $kaimyoucheck->relationship }}</td>
+                                        <td class="kaimyou_area" data-th="地区名">{{ $kaimyoucheck->area }}</td>
+                                        <td class="kaimyou_kaimyou" data-th="戒名">{{ $kaimyoucheck->kaimyou }}</td>
+                                        <td class="kaimyou_zokumyou" data-th="俗名">{{ $kaimyoucheck->zokumyou }}</td>
+                                        <td class="kaimyou_relationship" data-th="関係">{{ $kaimyoucheck->relationship }}</td>
+                                        <td class="border text-xl px-4 py-2 visible md:hidden">
+                                            <a href="{{ route('danka.show', $kaimyoucheck->id )}}" class="blue_line">{{ $kaimyoucheck->name }}</a><br>
+                                            {{ $kaimyoucheck->area }}<br>
+                                            {{ $kaimyoucheck->kaimyou }}<br>
+                                            {{ $kaimyoucheck->zokumyou }}<br>
+                                            {{ $kaimyoucheck->relationship }}
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

@@ -3,20 +3,23 @@
     <link rel="stylesheet" href="/css/app.css" >
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <main class="mt-1 py-2 px-2 sm:px-4">
+    <main class="py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
-        <div class="mb-4 flex flex-col justify-center items-center">
+        <div class="mb-3 flex flex-col justify-center items-center">
             <div class="header-container">
                 <div class="header-title">回忌設定 / 編集</div>
             </div>
         </div>
-        <div class="py-12">
+        <div class="flex flex-col justify-center items-center">
+            <hr class="w-full mb-4">
+        </div>
+        <div class="py-4">
             <div class="registration">
                 <form method="POST" action="{{ route('kaiki.update', $kaiki->id) }}" onsubmit="return confirm('変更します。よろしいですか？')">
                     @csrf
                     @method('PATCH')
                     @if ($errors->any())
-                        <div class="bg-red-50 border border-red-200 text-sm text-red-600 rounred-md p-4 my-4">
+                        <div class="bg-red-50 border border-red-200 text-sm text-red-600 rounded-md p-4 mb-4">
                             <ul>
                                 @foreach ($errors->all() as $error)
                                     <li>{{ $error }}</li>
@@ -66,11 +69,11 @@
                                     <div class="flex">
                                         <div class="flex">
                                             <input type="radio" id="target_flg_1" name="target_flg" value="1" class="radio" {{ old('target_flg', $kaiki->target_flg) !== 0 ? 'checked' : '' }} />
-                                            <label for="target_flg_1" class="text-gray-500 ml-2 dark:text-gray-400">表示する</label>
+                                            <label for="target_flg_1" class="ml-2">表示する</label>
                                         </div>
                                         <div class="flex ml-12">
                                             <input type="radio" id="target_flg_2" name="target_flg" value="0" class="radio" {{ old('target_flg', $kaiki->target_flg) === 0 ? 'checked' : '' }} />
-                                            <label for="target_flg_2" class="text-gray-500 ml-2 dark:text-gray-400">表示しない</label>
+                                            <label for="target_flg_2" class="ml-2">表示しない</label>
                                         </div>
                                     </div>
                                 </td>

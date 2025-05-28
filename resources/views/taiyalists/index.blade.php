@@ -1,14 +1,13 @@
 <x-app-layout>
-
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/dialog.css">
 
     @include('dialog')
 
-    <main class="mt-1 py-2 px-2 sm:px-4">
+    <main class="py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
-        <div class="mb-4 flex flex-col justify-center items-center">
+        <div class="mb-3 flex flex-col justify-center items-center">
             <div class="header-container">
                 <div class="header-title">逮夜表</div>
                 <div class="header-buttons">
@@ -18,7 +17,7 @@
             </div>
         </div>
         <div class="flex flex-col justify-center items-center">
-            <hr class="w-full mb-4 max-w-7xl">
+            <hr class="w-full mb-4">
         </div>
         <div class="flex flex-col justify-center items-center mb-8">
             <div class="w-full md:mb-4 max-w-7xl text-sm sm:text-base">
@@ -32,46 +31,50 @@
                         </div>
                     </div>
 
-                    <!-- 逮夜表表示 -->
-                     @foreach ($taiyalists as $taiyalist)
-                        <table class="tableSample">
-                            <tr>
-                                <th>戒名</th>
-                                <td>{{ $taiyalist->kaimyou }}</td>
-                            </tr>
-                            <tr>
-                                <th>俗名</th>
-                                <td>{{ $taiyalist->zokumyou }}</td>
-                            </tr>
-                            <tr>
-                                <th>命日</th>
-                                <td>{{ AD_to_JA_conv_calender($taiyalist->deathanniversary) }}</td>
-                            </tr>
-                        </table>
-                    @endforeach
-                    <br>
-                    <table class="table-danka radius-table">
-                        <thead>
-                            <tr>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($taiyaTables as $taiyaTable)
-                                @foreach ($taiyaTable as $taiya)
-                                    <tr>
-                                        <td>{{ $taiya['title'] }}</td>
-                                        <td>{{ AD_to_JA_conv_calender($taiya['date']).$taiya['dayOfWeek'] }}</td>
-                                    </tr>
+                    <div class="mb-4">
+                        @foreach ($taiyalists as $taiyalist)
+                            <div class="tableSample-container">
+                                <table class="tableSample">
+                                    <tbody>
+                                        <tr>
+                                            <th data-th="戒名">戒名</th>
+                                            <td>{{ $taiyalist->kaimyou }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th data-th="俗名">俗名</th>
+                                            <td>{{ $taiyalist->zokumyou }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th data-th="命日">命日</th>
+                                            <td>{{ AD_to_JA_conv_calender($taiyalist->deathanniversary) }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <div class="overflow-auto">
+                        <table class="table-danka radius-table">
+
+                            <tbody>
+                                @foreach ($taiyaTables as $taiyaTable)
+                                    @foreach ($taiyaTable as $taiya)
+                                        <tr>
+                                            <td data-th="法要名">{{ $taiya['title'] }}</td>
+                                            <td data-th="日程">{{ AD_to_JA_conv_calender($taiya['date']).$taiya['dayOfWeek'] }}</td>
+                                        </tr>
+                                    @endforeach
                                 @endforeach
-                            @endforeach
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
     <script src="/js/dialog.js"></script>
-     <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('printButton').addEventListener('click', function(event) {
                 event.preventDefault(); // デフォルトのフォーム送信を防ぐ

@@ -2,12 +2,13 @@
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/app.css">
     <link rel="stylesheet" href="/css/dialog.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     @include('dialog')
 
-    <main class="mt-1 py-2 px-2 sm:px-4">
+    <main class="py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
-        <div class="mb-4 flex flex-col justify-center items-center">
+        <div class="mb-3 flex flex-col justify-center items-center">
             <div class="header-container">
                 <div class="header-title">初盆忌一覧表</div>
                 <div class="header-buttons">
@@ -24,13 +25,12 @@
             </div>
         </div>
         <div class="flex flex-col justify-center items-center mb-8">
-            <hr class="w-full mb-4 max-w-7xl">
-            <div class="w-full md:mb-4 max-w-7xl text-sm sm:text-base">
+            <hr class="w-full mb-3">
+            <div class="w-full md:mb-4 text-sm sm:text-base">
                 <div class="">
-                    <div class="mb-4">
+                    <div class="mb-3">
                         <p class="ml-2">該当：{{ $hatsubonCount }} 件</p>
                     </div>
-                    <!-- 初盆忌一覧表示 -->
                     @if ($hatsubonlists->isNotEmpty())
                         <table class="table-danka radius-table">
                             <thead>
@@ -41,18 +41,34 @@
                                     <th class="hatsubon_zokumyou">俗名</th>
                                     <th class="hatsubon_deathdate">命日</th>
                                     <th class="hatsubon_postcard">はがき区分</th>
+                                    <th class="border text-xl px-4 py-2 visible md:hidden">
+                                        氏名<br>
+                                        住所<br>
+                                        戒名<br>
+                                        俗名<br>
+                                        命日<br>
+                                        はがき区分
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php($i = 1)
                                 @foreach ($hatsubonlists as $hatsubonlist)
                                     <tr>
-                                        <td>{{ $hatsubonlist->chief_name }}</td>
-                                        <td>{{ $hatsubonlist->address1. $hatsubonlist->address2 }}</td>
-                                        <td>{{ $hatsubonlist->kaimyou }}</td>
-                                        <td>{{ $hatsubonlist->zokumyou }}</td>
-                                        <td>{{ $hatsubonlist->death_era_name . $hatsubonlist->death_year. '年'. $hatsubonlist->death_month. '月'. $hatsubonlist->death_day. '日' }}</td>
-                                        <td>{{ $hatsubonlist->postcard }}</td>
+                                        <td class="hatsubon_name" data-th="氏名">{{ $hatsubonlist->chief_name }}</td>
+                                        <td class="hatsubon_address" data-th="住所">{{ $hatsubonlist->address1. $hatsubonlist->address2 }}</td>
+                                        <td class="hatsubon_kaimyou" data-th="戒名">{{ $hatsubonlist->kaimyou }}</td>
+                                        <td class="hatsubon_zokumyou" data-th="俗名">{{ $hatsubonlist->zokumyou }}</td>
+                                        <td class="hatsubon_deathdate" data-th="命日">{{ $hatsubonlist->death_era_name . $hatsubonlist->death_year. '年'. $hatsubonlist->death_month. '月'. $hatsubonlist->death_day. '日' }}</td>
+                                        <td class="hatsubon_postcard" data-th="はがき区分">{{ $hatsubonlist->postcard }}</td>
+                                        <td class="border text-xl px-4 py-2 visible md:hidden">
+                                            {{ $hatsubonlist->chief_name }}<br>
+                                            {{ $hatsubonlist->address1. $hatsubonlist->address2 }}<br>
+                                            {{ $hatsubonlist->kaimyou }}<br>
+                                            {{ $hatsubonlist->zokumyou }}<br>
+                                            {{ $hatsubonlist->death_era_name . $hatsubonlist->death_year. '年'. $hatsubonlist->death_month. '月'. $hatsubonlist->death_day. '日' }}<br>
+                                            {{ $hatsubonlist->postcard }}
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

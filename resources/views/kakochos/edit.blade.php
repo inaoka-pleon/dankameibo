@@ -4,15 +4,15 @@
     <link rel="stylesheet" href="/css/app.css" >
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <main class="mt-1 py-2 px-2 sm:px-4">
+    <main class="mt-2 py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
-        <div class="mb-4 flex flex-col justify-center items-center">
+        <div class="mb-3 flex flex-col justify-center items-center">
             <div class="header-container">
                 <div class="header-title">過去帳 / 編集</div>
             </div>
         </div>
         <div class="flex flex-col justify-center items-center mb-4">
-            <hr class="w-full mb-4 max-w-7xl">
+            <hr class="w-full mb-4">
         </div>
         <div class="registration">
             <form action="{{ route('kakocho.update', $kakocho->id) }}" method="post">
@@ -20,7 +20,7 @@
                 @method('patch')
 
                 @if ($errors->any())
-                    <div class="bg-red-50 border border-red-200 text-sm text-red-600 rounred-md p-4 my-4">
+                    <div class="bg-red-50 border border-red-200 text-sm text-red-600 rounded-md p-4 mb-4">
                         <ul>
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -37,14 +37,14 @@
                                 <span class="registration-item-required">必須</span>
                             </th>
                             <td class="registration-body">
-                                <input type="text" name="zokumyou" class="registration-input" placeholder="例：姓　名" value="{{ $kakocho->zokumyou ?? $kakocho->name }}" />
+                                <input type="text" name="zokumyou" class="registration-input" placeholder="例：山田　太郎" value="{{ $kakocho->zokumyou ?? $kakocho->name }}" />
                         </tr>
                         <tr>
                             <th class="registration-item">俗名かな
                                 <span class="registration-item-required">必須</span>
                             </th>
                             <td class="registration-body">
-                                <input type="text" name="zokumyoukana" class="registration-input" placeholder="例：せい　めい" value="{{ $kakocho->zokumyoukana ?? $kakocho->namekana }}" />
+                                <input type="text" name="zokumyoukana" class="registration-input" placeholder="例：やまだ　たろう" value="{{ $kakocho->zokumyoukana ?? $kakocho->namekana }}" />
                         </tr>
                         <tr>
                             <th class="registration-item">戒名</th>

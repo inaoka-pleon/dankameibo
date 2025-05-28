@@ -6,13 +6,13 @@
     <!-- エラーの表示を追加 -->
     @include('errors.form_errors')
 
-    <main class="mt-1 py-2 px-2 sm:px-4">
+    <main class="py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
         <form action="{{ route('templemaster.store') }}" method="POST">
             @csrf
 
             @if ($errors->any())
-                <div class="bg-red-50 border border-red-200 text-sm text-red-600 rounred-md p-4 my-4">
+                <div class="bg-red-50 border border-red-200 text-sm text-red-600 rounded-md p-4 mb-4">
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
@@ -20,18 +20,20 @@
                     </ul>
                 </div>
             @endif
-            <div class="flex flex-col justify-center items-center">
+            <div class="mb-3 flex flex-col justify-center items-center">
                 <div class="header-container">
                     <div class="header-title">自寺院マスタ</div>
-                    <div class="flex flex-row-reverse">
+                    <div class="header-buttons">
                         <button type="submit" class="header-btn"
                         onclick="return confirm('登録します。よろしいですか？')">登録</button>
                     </div>
                 </div>
-                <hr class="w-full mt-4 max-w-7xl">
             </div>
-                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div class="p-6 text-gray-900">
+            <div class="flex flex-col justify-center items-center">
+                <hr class="mb-4 w-full">
+            </div>
+                <div class="max-w-7xl mx-auto sm:px-6">
+                    <div class="pt-4 text-gray-900">
                         <div>
                             <table class="table-jiin">
                                 <tr>

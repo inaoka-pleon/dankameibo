@@ -44,8 +44,8 @@
                                         </div>
                                     </div>
                                     <div class="my-4">
-                                        <button type="submit" class="btn-primary proc-btn text-xs" name="searchType" value="title_search">指定条件で検索する</button>
-                                        <button type="button" class="btn-default text-xs reset">指定条件をリセットする</button>
+                                        <button type="submit" class="btn-primary proc-btn text-xs" name="searchType" value="title_search">指定条件で検索</button>
+                                        <button type="button" class="btn-default text-xs reset">指定条件をリセット</button>
                                     </div>
                                 </form>
                             </div>

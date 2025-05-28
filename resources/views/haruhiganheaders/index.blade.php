@@ -6,9 +6,9 @@
     <!-- エラーの表示を追加 -->
     @include('errors.form_errors')
 
-    <main class="mt-1 py-2 px-2 sm:px-4">
+    <main class="py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
-        <div class="mb-4 flex flex-col justify-center items-center">
+        <div class="mb-3 flex flex-col justify-center items-center">
             <div class="header-container">
                 <div class="header-title">春彼岸一覧</div>
                 <div class="header-buttons">
@@ -22,8 +22,8 @@
             </div>
         </div>
         <div class="flex flex-col justify-center items-center mb-8">
-            <hr class="w-full mb-4 max-w-7xl">
-            <div class="w-full md:mb-4 max-w-7xl text-sm sm:text-base">
+            <hr class="w-full mb-4">
+            <div class="w-full md:mb-4 max-w-3xl mt-2 text-sm sm:text-base">
                 <div class="table-scroll">
                     <!-- 春彼岸一覧表示 -->
                     @if ($haruhigan_headers->isNotEmpty())
@@ -46,9 +46,9 @@
                                             </div>
                                         </td>
                                         <input type="hidden" value="{{ $haruhigan_orderby->ad_year }}" />
-                                        <td>{{ $haruhigan_orderby->era . $haruhigan_orderby->year . '年' . '　春彼岸' }}</td>
+                                        <td data-th="題名">{{ $haruhigan_orderby->era . $haruhigan_orderby->year . '年' . '　春彼岸' }}</td>
                                         
-                                        <td>{{ $haruhigan_orderby->CreatedEraName. $haruhigan_orderby->CreatedEraYear. '年'. $haruhigan_orderby->CreatedMonth. '月'. $haruhigan_orderby->CreatedDay. '日' }}</td>
+                                        <td data-th="作成日">{{ $haruhigan_orderby->CreatedEraName. $haruhigan_orderby->CreatedEraYear. '年'. $haruhigan_orderby->CreatedMonth. '月'. $haruhigan_orderby->CreatedDay. '日' }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>

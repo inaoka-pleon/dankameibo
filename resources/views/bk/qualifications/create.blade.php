@@ -12,7 +12,7 @@
             @csrf
 
             @if ($errors->any())
-                <div class="bg-red-50 border border-red-200 text-sm text-red-600 rounred-md p-4 my-4">
+                <div class="bg-red-50 border border-red-200 text-sm text-red-600 rounded-md p-4 mb-4">
                     <ul>
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>

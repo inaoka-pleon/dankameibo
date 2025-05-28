@@ -3,22 +3,22 @@
     <link rel="stylesheet" href="/css/app.css" >
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    <main class="mt-1 py-2 px-2 sm:px-4">
+    <main class="py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
-        <div class="mb-4 flex flex-col justify-center items-center">
+        <div class="mb-3 flex flex-col justify-center items-center">
             <div class="header-container">
                 <div class="header-title">檀家 / 新規登録</div>
             </div>
         </div>
-        <div class="flex flex-col justify-center items-center mb-1">
-            <hr class="w-full mb-4 max-w-7xl">
+        <div class="flex flex-col justify-center items-center">
+            <hr class="w-full mb-4">
         </div>
         <div class="registration">
             <form action="{{ route('danka.store') }}" method="post">
                 @csrf
 
                 @if ($errors->any())
-                    <div class="bg-red-50 border border-red-200 text-sm text-red-600 rounred-md p-4 my-4">
+                    <div class="bg-red-50 border border-red-200 text-sm text-red-600 rounded-md p-4 mb-4">
                         <ul>
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -45,7 +45,7 @@
                                 <span class="registration-item-required">必須</span>
                             </th>
                             <td class="registration-body">
-                                <input type="text" name="name" class="registration-input" placeholder="例：姓　名" value="{{ old('name') }}" />
+                                <input type="text" name="name" class="registration-input" placeholder="例：山田　太郎" value="{{ old('name') }}" />
                             </td>
                         </tr>
                         <tr>
@@ -53,7 +53,7 @@
                                 <span class="registration-item-required">必須</span>
                             </th>
                             <td class="registration-body">
-                                <input type="text" name="namekana" class="registration-input" placeholder="例：せい　めい" value="{{ old('namekana') }}" />
+                                <input type="text" name="namekana" class="registration-input" placeholder="例：やまだ　たろう" value="{{ old('namekana') }}" />
                             </td>
                         </tr>
                         <tr>
@@ -162,6 +162,7 @@
                                 <input type="checkbox" name="membershipfee" class="registration-input" value="1" {{ old('membershipfee') ? 'checked' : '' }}> 会費
                                 <input type="hidden" name="report" value="0">
                                 <input type="checkbox" name="report" class="" value="1" {{ old('report') ? 'checked' : '' }}> 届出
+                                <br>
                                 <input type="hidden" name="tanagyou" value="0">
                                 <input type="checkbox" name="tanagyou" class="" value="1" {{ old('tanagyou') ? 'checked' : '' }}> 棚経
                                 <input type="hidden" name="haruhigan" value="0">

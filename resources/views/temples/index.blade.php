@@ -64,10 +64,10 @@
                         </div>
                         <div class="mt-3 flex items-center sm:justify-end">
                             <button type="submit" class="btn-primary proc-btn text-xs shadow-sm py-3 px-4 mr-3" name="searchType" value="temple_search">
-                                <i class="fa-solid fa-magnifying-glass"></i><span class="mx-2">指定条件で検索する</span>
+                                <i class="fa-solid fa-magnifying-glass"></i><span class="mx-2">指定条件で検索</span>
                             </button>
                             <button type="button" class="btn-default text-xs reset shadow-sm py-3 px-4">
-                                <i class="fa-regular fa-circle-xmark"></i><span class="mx-2">指定条件をリセットする</span>
+                                <i class="fa-regular fa-circle-xmark"></i><span class="mx-2">指定条件をリセット</span>
                             </button>
                         </div>
                     </form>

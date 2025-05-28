@@ -56,10 +56,10 @@
 
                                         <div class="my-4">
                                             <button type="submit" class="btn-primary proc-btn text-xs" name="searchType" value="templelist_search">
-                                                <i class="fa-solid fa-magnifying-glass"></i><span class="mx-2">指定条件で検索する</span>
+                                                <i class="fa-solid fa-magnifying-glass"></i><span class="mx-2">指定条件で検索</span>
                                             </button>
                                             <button type="button" class="btn-default text-xs reset">
-                                                <i class="fa-regular fa-circle-xmark"></i><span class="mx-2">指定条件をリセットする</span>
+                                                <i class="fa-regular fa-circle-xmark"></i><span class="mx-2">指定条件をリセット</span>
                                             </button>
                                         </div>
                                     </p>

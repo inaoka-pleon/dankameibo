@@ -9,9 +9,9 @@
     <!-- エラーの表示を追加 -->
     @include('errors.form_errors')
 
-    <main class="mt-1 py-2 px-2 sm:px-4">
+    <main class="py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
-        <div class="mb-4 flex flex-col justify-center items-center">
+        <div class="mb-3 flex flex-col justify-center items-center">
             <div class="header-container">
                 <div class="header-title">はがき汎用一覧</div>
                 <div class="header-buttons">
@@ -25,12 +25,12 @@
             </div>
         </div>
         <div class="flex flex-col justify-center items-center mb-8">
-            <hr class="w-full mb-4 max-w-7xl">
-            <div class="w-full md:mb-4 max-w-7xl text-sm sm:text-base">
+            <hr class="w-full mb-4">
+            <div class="w-full md:mb-4 max-w-3xl text-sm sm:text-base">
                 <div class="table-scroll">
                     <!-- はがき汎用一覧表示 -->
                     @if ($general_postcards->isNotEmpty())
-                        <table class="table-title radius-table">
+                        <table class="table-title radius-table shadow">
                             <thead>
                                 <tr>
                                     <th scope="col" class="uramen_col sticky-head">
