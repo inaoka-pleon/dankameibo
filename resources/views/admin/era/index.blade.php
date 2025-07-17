@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-admin-layout>
 
     <link rel="stylesheet" href="/css/style.css" >
     <link rel="stylesheet" href="/css/app.css" >
@@ -6,21 +6,21 @@
 
     @include('errors.form_errors')
 
-    <main class="py-2 px-2 sm:px-4">
+    <main class="mt-1 py-2 px-2 sm:px-4">
         <div class="flex flex-col justify-center items-center z-10"></div>
-        <div class="mb-3 flex flex-col justify-center items-center">
-            <div class="header-container">
-                <div class="header-title">元号設定</div>
-                <div class="header-buttons">
-                    <a class="btn-entry" href="{{ route('era.create') }}">
+        <div class="mb-4 flex flex-col justify-center items-center">
+            <div class="flex justify-between bg-white border-l-8 border-b-2 border-slate-500 shadow-sm py-3 sm:py-4 px-4 sm:px-4 rounded-bl w-full max-w-7xl">
+                <div class="text-gray-800 text-xl font-semibold">元号設定</div>
+                <div class="inline-flex -mt-1">
+                    <a class="btn-entry" href="{{ route('admin.era.create') }}">
                         <i class="fa-solid fa-plus"></i><span class="mx-2">新規登録</span>
                     </a>
                 </div>
             </div>
         </div>
-        <div class="flex flex-col justify-center items-center mb-4">
-            <hr class="w-full mb-3">
-            <div class="w-full md:mb-4 text-sm sm:text-base">
+        <div class="flex flex-col justify-center items-center mb-8">
+            <hr class="mb-4 w-full max-w-7xl">
+            <div class="w-full md:mb-4 max-w-7xl text-sm sm:text-base">
                 <div class="">
                     @if($eras->count())
                         <table class="table-danka radius-table">
@@ -51,12 +51,12 @@
                                         <td class="era_end_ymd" data-th="終了年月日">{{ $era->end_ymd }}</td>
                                         <td class="era_col">
                                             <div class="btn-center">
-                                                <a href="{{ route('era.edit', $era->id )}}" class="btn-edit">
+                                                <a href="{{ route('admin.era.edit', $era->id )}}" class="btn-edit">
                                                     <i class="fa-solid fa-edit"></i><span class="mx-2">編集</span>
                                                 </a>
                                                 <form onsubmit="return deleteEra();"
                                                     class="btn-delete"
-                                                    action="{{ route('era.destroy', $era->id) }}" method="post"
+                                                    action="{{ route('admin.era.destroy', $era->id) }}" method="post"
                                                     role="menuitem" tabindex="-1">
                                                     @csrf
                                                     @method('DELETE')

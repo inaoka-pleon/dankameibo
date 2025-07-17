@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\EraRequest;
 use App\Models\Era;
 use App\Services\EraData;
@@ -12,6 +13,10 @@ use Illuminate\Support\Facades\Log;
 
 class EraController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -26,7 +31,7 @@ class EraController extends Controller
             Log::error($e);
             session()->flash('toastr', Config::get('toastr.search.era.error'));
         }
-        return view('era.index', compact('eras'));
+        return view('admin.era.index', compact('eras'));
         //
     }
 
@@ -37,7 +42,7 @@ class EraController extends Controller
      */
     public function create()
     {
-        return view('era.create');
+        return view('admin.era.create');
         //
     }
 
@@ -59,7 +64,7 @@ class EraController extends Controller
             DB::rollBack();
             session()->flash('error', '元号情報を登録できませんでした。');
         };
-        return redirect()->route('era.index');
+        return redirect()->route('admin.era.index');
         //
     }
 
@@ -84,7 +89,7 @@ class EraController extends Controller
     {
         $era = Era::query()->find($id);
 
-        return view('era.edit', compact('era'));
+        return view('admin.era.edit', compact('era'));
         //
     }
 
@@ -108,7 +113,7 @@ class EraController extends Controller
             DB::rollBack();
             session()->flash('error', '元号情報を変更できませんでした。');
         }
-        return redirect()->route('era.index');
+        return redirect()->route('admin.era.index');
         //
     }
 
@@ -129,7 +134,7 @@ class EraController extends Controller
             DB::rollBack();
             session()->flash('error', '元号情報を削除できませんでした。');
         };
-        return redirect()->route('era.index');
+        return redirect()->route('admin.era.index');
         //
     }
 }
