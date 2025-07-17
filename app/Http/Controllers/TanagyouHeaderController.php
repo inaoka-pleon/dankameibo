@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TanagyouDetailRequest;
 use App\Http\Requests\TanagyouHeaderRequest;
 use App\Models\Code;
 use App\Models\Danka;
@@ -17,6 +18,7 @@ use App\Services\PostcardPrint;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use TCPDF_FONTS;
@@ -91,12 +93,17 @@ class TanagyouHeaderController extends Controller
     {
         $era = $request->input('era');
         $year = $request->input('year');
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
 
         // erasテーブルから元号の最大年数を取得
         $maxYear = DB::table('eras')
                 ->where('name', $era)
                 ->value('years');
 
+
+        if ($maxYear === null) {
+            return redirect()->back()->withErrors(['era' => '指定された元号が見つかりません。']);
+        }
         if ($year > $maxYear) {
             return redirect()->back()->withErrors(['year' => '指定された元号の年数が無効です。']);
         }
@@ -110,13 +117,15 @@ class TanagyouHeaderController extends Controller
                                         ->first();
 
             if ($year_check) {
+                DB::rollBack();
                 session()->flash('info', '既に登録されています。');
                 return redirect()->route('tanagyouheader.index');
             }
-            $query  = DB::table('dankas')
-                    ->join('followers as chief', function($join) {
+            $dankas  = Danka::query()
+                    ->join('followers as chief', function($join) use ($userJiinId) {
                         $join->on('dankas.id', '=', 'chief.danka_id')
-                             ->where('chief.chiefmourner_flg', '=', 1);
+                             ->where('chief.chiefmourner_flg', '=', 1)
+                             ->where('chief.jiin_id', '=', $userJiinId);
                     })
                     ->select('dankas.id',
                              'chief.name',
@@ -126,13 +135,19 @@ class TanagyouHeaderController extends Controller
                              'chief.address2',
                              'chief.tel')
                     ->where('dankas.tanagyou', '=', 1)
-                    ->where('dankas.postcard', '=', '出す');
-
-            $dankas = $query->get();
+                    ->where('dankas.postcard', '=', '出す')
+                    ->get();
 
             $tanagyou_header = new TanagyouHeader;
             $tanagyou_header->era = $request->input('era');
             $tanagyou_header->year =  $request->input('year');
+            $tanagyou_header->jiin_id = $userJiinId;
+
+            if (Auth::guard('web')->check()) {
+                $tanagyou_header->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             $tanagyou_header->save();
 
             // 回忌のデータを取得
@@ -175,6 +190,10 @@ class TanagyouHeaderController extends Controller
                 $tanagyou_detail->address2 = $danka->address2;
                 $tanagyou_detail->tel = $danka->tel;
                 $tanagyou_detail->tanagyou_header_id = $tanagyou_header->id;
+                $tanagyou_detail->jiin_id = $tanagyou_header->jiin_id;
+                if (Auth::guard('web')->check()) {
+                    $tanagyou_detail->jiin_id = Auth::guard('web')->user()->jiin_id;
+                }
 
                 // 過去帳のデータを取得して初盆チェック
                 $deceased_records = DB::table('followers')
@@ -193,6 +212,8 @@ class TanagyouHeaderController extends Controller
 
                 if ($hatsubon_flg) {
                     $tanagyou_detail->hatsubon = 1;
+                } else {
+                    $tanagyou_detail->hatsubon = 0;
                 }
 
                 $tanagyou_detail->save();
@@ -297,13 +318,16 @@ class TanagyouHeaderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(TanagyouHeaderRequest $request, $id)
+    public function update(TanagyouDetailRequest $request, $id)
     {
         DB::beginTransaction();
-        $tanagyou_cnt = DB::table('tanagyou_details')->where('tanagyou_header_id', '=', $id)->count();
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        $tanagyou_cnt = DB::table('tanagyou_details')->where('tanagyou_header_id', '=', $id)
+                        ->where('jiin_id', $userJiinId)
+                        ->count();
         try{
             // 棚経の年度を取得
-            $tanagyou_header = TanagyouHeader::find($id);
+            $tanagyou_header = TanagyouHeader::findOrFail($id);
             $tanagyou_year = CommonUtility::JAtoADCalendarEraNameConv($tanagyou_header->era, $tanagyou_header->year);
 
             // 回忌のデータを取得
@@ -365,6 +389,7 @@ class TanagyouHeaderController extends Controller
                 } else {
                     $tanagyou_detail->hatsubon = $request->input('hatsubon_'.$i);
                 }
+                
                 $tanagyou_detail->save();
                 }
 

@@ -58,13 +58,9 @@
                                 </tr>
                             </table>
                             <div class="form-btn">
-                                <div class="inline-flex -mt-1">
-                                    <a  href="{{ route('dankalist.index') }}">
-                                        <button type="button" class="form-btn2 form-inline-block">
-                                            <i class="fa-regular fa-circle-left"></i><span class="mx-2">戻る</span>
-                                        </button>
-                                    </a>
-                                </div>
+                                <a class="form-btn2 form-inline-block" href="{{ route('dankalist.index') }}">
+                                    <i class="fa-regular fa-circle-left"></i><span class="mx-2">戻る</span>
+                                </a>
                                 <button type="submit" class="form-btn1 form-inline-block" onclick="return confirm('登録します。よろしいですか？')">
                                     <i class="fa-solid fa-file-arrow-down"></i><span class="mx-2">登録</span>
                                 </button>

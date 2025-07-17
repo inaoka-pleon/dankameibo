@@ -60,6 +60,7 @@ class KaikiController extends Controller
         // }
 
         $user_name  = Auth::user()->name;
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
         try {
             DB::beginTransaction();
             KaikiData::Regist($request, $user_name);

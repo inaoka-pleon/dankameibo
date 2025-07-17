@@ -8,6 +8,7 @@ use App\Services\CodeData;
 use App\Services\CommonUtility;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Queue\Middleware\ThrottlesExceptionsWithRedis;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -74,6 +75,12 @@ class GeneralMastersController extends Controller
             $code->key3 = CodeData::GetNextIndexNo($code->key1, $code->key2);
             $code->value1 = $request->input('value1');
             $code->value2 = $request->input('value2');
+
+            if (Auth::guard('web')->check()) {
+                $code->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             $code->save();
 
             //正常に登録出来たらコミット

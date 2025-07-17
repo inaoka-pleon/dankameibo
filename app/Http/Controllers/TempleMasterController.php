@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TempleMasterRequest;
 use App\Models\TempleMaster;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class TempleMasterController extends Controller
@@ -54,6 +55,12 @@ class TempleMasterController extends Controller
             $templemaster->tel = $request->input('tel');
             $templemaster->fax = $request->input('fax');
 
+            if (Auth::guard('web')->check()) {
+                $templemaster->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
+            
             //データベースに保存
             $templemaster->save();
 

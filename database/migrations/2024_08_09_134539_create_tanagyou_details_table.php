@@ -28,10 +28,11 @@ return new class extends Migration
             $table->integer('hour')->nullable()->comment('時');
             $table->string('minute')->nullable()->comment('分');
             $table->integer('hatsubon')->nullable()->default(0)->comment('初盆');
-            $table->integer('time')->nullable()->comment('時間');
+            $table->string('time', 50)->nullable()->comment('時間');
             $table->string('manager')->nullable()->comment('担当者');
             $table->integer('danka_id')->comment('檀家ID');
             $table->integer('tanagyouheader_id')->comment('棚経一覧ID');
+            $table->integer('jiin_id')->unsigned()->comment('寺院ID');
         });
     }
 

@@ -122,7 +122,7 @@ class NenkilistController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(NenkilistRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $followers = Follower::find($id);
         $kakochos = Nenkilist::where('kakocho_id', $followers->id)->get();

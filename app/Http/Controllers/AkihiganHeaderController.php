@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AkihiganDetailRequest;
 use App\Http\Requests\AkihiganHeaderRequest;
 use App\Models\AkihiganDetail;
 use App\Models\AkihiganHeader;
@@ -14,6 +15,7 @@ use App\Services\PostcardPrint;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use TCPDF_FONTS;
@@ -88,12 +90,16 @@ class AkihiganHeaderController extends Controller
     {
         $era = $request->input('era');
         $year = $request->input('year');
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
 
         // erasテーブルから元号の最大年数を取得
         $maxYear = DB::table('eras')
                 ->where('name', $era)
                 ->value('years');
 
+        if ($maxYear === null) {
+            return redirect()->back()->withErrors(['era' => '指定された元号が見つかりません。']);
+        }
         if ($year> $maxYear) {
             return redirect()->back()->withErrors(['year' => '指定された元号の年数が無効です。']);
         }
@@ -107,29 +113,36 @@ class AkihiganHeaderController extends Controller
                                         ->first();
 
             if ($year_check) {
+                DB::rollBack();
                 session()->flash('info', '既に登録されています。');
                 return redirect()->route('akihiganheader.index');
             }
-            $query = DB::table('dankas')
-                    ->join('followers', 'dankas.id', '=', 'followers.danka_id')
+            $dankas = Danka::query()
+                    ->join('followers as chief', function($join) use ($userJiinId) {
+                        $join->on('dankas.id', '=', 'chief.danka_id')
+                             ->where('chief.chiefmourner_flg', '=', 1)
+                             ->where('chief.jiin_id', '=', $userJiinId);
+                    })
                     ->select('dankas.id',
-                            'followers.name',
-                            'followers.namekana',
-                            'followers.postcode',
-                            'followers.address1',
-                            'followers.address2',
-                            'followers.tel')
+                            'chief.name',
+                            'chief.namekana',
+                            'chief.postcode',
+                            'chief.address1',
+                            'chief.address2',
+                            'chief.tel')
                     ->where('dankas.akihigan', '=', 1)
-                    ->where('followers.chiefmourner_flg', '=', 1)
-                    ->where('dankas.postcard', '=', '出す');
-            
-            $dankas = $query->get();
+                    ->where('dankas.postcard', '=', '出す')
+                    ->get();
 
             $akihigan_header = new AkihiganHeader();
-
             $akihigan_header->era = $request->input('era');
             $akihigan_header->year = $request->input('year');
 
+            if (Auth::guard('web')->check()) {
+                $akihigan_header->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             $akihigan_header->save();
 
             foreach ($dankas as $danka){
@@ -143,6 +156,10 @@ class AkihiganHeaderController extends Controller
                 $akihigan_detail->address2 = $danka->address2;
                 $akihigan_detail->tel = $danka->tel;
                 $akihigan_detail->akihigan_header_id = $akihigan_header->id;
+                $akihigan_detail->jiin_id = $akihigan_header->jiin_id;
+                if (Auth::guard('web')->check()) {
+                    $akihigan_detail->jiin_id = Auth::guard('web')->user()->jiin_id;
+                }
                 $akihigan_detail->save();
             }
             DB::commit();
@@ -243,7 +260,7 @@ class AkihiganHeaderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(AkihiganHeaderRequest $request, $id)
+    public function update(AkihiganDetailRequest $request, $id)
     {
         DB::beginTransaction();
         $akihigan_cnt = DB::table('akihigan_details')->where('akihigan_header_id', '=', $id)->count();

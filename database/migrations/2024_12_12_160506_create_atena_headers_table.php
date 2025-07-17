@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('title')->nullable()->comment('題名');
+            $table->integer('jiin_id')->unsigned()->comment('寺院ID');
         });
     }
 

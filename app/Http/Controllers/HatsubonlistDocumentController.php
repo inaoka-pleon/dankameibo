@@ -8,6 +8,7 @@ use App\Services\CommonUtility;
 use App\Services\PostcardPrint;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HatsubonlistDocumentController extends Controller
@@ -65,6 +66,12 @@ class HatsubonlistDocumentController extends Controller
             $hatsubonlist_document->address = $request->input('address');
             $hatsubonlist_document->tel = $request->input('tel');
 
+            if (Auth::guard('web')->check()) {
+                $hatsubonlist_document->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
+ 
             // データベースに保存
             $hatsubonlist_document->save();
             DB::commit();

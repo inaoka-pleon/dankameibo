@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('document4', 36)->nullable()->comment('文書４');
             $table->string('document5', 36)->nullable()->comment('文書５');
             $table->string('document6', 36)->nullable()->comment('文書６');
+            $table->integer('jiin_id')->unsigned()->comment('寺院ID');
         });
     }
 

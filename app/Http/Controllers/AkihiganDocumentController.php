@@ -8,6 +8,7 @@ use App\Services\CommonUtility;
 use App\Services\PostcardPrint;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AkihiganDocumentController extends Controller
@@ -66,6 +67,11 @@ class AkihiganDocumentController extends Controller
             $akihigan_document->address = $request->input('address');
             $akihigan_document->tel = $request->input('tel');
 
+            if (Auth::guard('web')->check()) {
+                $akihigan_document->jiin_id = Auth::guard()->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             // データベースに保存
             $akihigan_document->save();
             DB::commit();

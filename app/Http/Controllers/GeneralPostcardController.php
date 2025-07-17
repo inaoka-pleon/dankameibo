@@ -9,6 +9,7 @@ use App\Services\PostcardPrint;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use TCPDF_FONTS;
@@ -88,6 +89,11 @@ class GeneralPostcardController extends Controller
             $general_postcard->address = $request->input('address');
             $general_postcard->tel = $request->input('tel');
 
+            if (Auth::guard('web')->check()) {
+                $general_postcard->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             // データベースに保存
             $general_postcard->save();
             DB::commit();

@@ -7,6 +7,7 @@ use App\Models\Code;
 use App\Models\Danka;
 use App\Models\Follower;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class FollowerController extends Controller
@@ -79,6 +80,11 @@ class FollowerController extends Controller
             $follower->chiefmourner_flg = 0;
             $follower->deceased_flg = 0;
 
+            if (Auth::guard('web')->check()) {
+                $follower->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             $follower->save();
 
             DB::commit();

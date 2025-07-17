@@ -11,6 +11,7 @@ use App\Models\Danka;
 use App\Models\Follower;
 use Illuminate\Support\Facades\DB;
 use App\Services\CommonUtility;
+use Illuminate\Support\Facades\Auth;
 
 class DankaController extends Controller
 {
@@ -128,6 +129,7 @@ class DankaController extends Controller
      */
     public function store(DankaRequest $dankaRequest, FollowerRequest $followerRequest)
     {
+
         DB::beginTransaction();
 
         try{
@@ -148,6 +150,12 @@ class DankaController extends Controller
             $danka->postcard = $dankaRequest->input('postcard');
             $danka->memo = $dankaRequest->input('memo');
 
+            if (Auth::guard('web')->check()) {
+                $danka->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
+
             //データベースに保存
             $danka->save();
 
@@ -166,6 +174,10 @@ class DankaController extends Controller
             $follower->occupation = $followerRequest->input('occupation');
             //檀家テーブルの採番されたIDをとる
             $follower->danka_id = $danka->id;
+            $follower->jiin_id = $danka->jiin_id;
+            if (Auth::guard('web')->check()) {
+                $follower->jiin_id = Auth::guard('web')->user()->jiin_id;
+            }
             $follower->chiefmourner_flg = 1;
 
             //データベースに保存
@@ -413,11 +425,18 @@ class DankaController extends Controller
      */
     public function destroy($id)
     {
+        DB::beginTransaction();
+
         try {
-            $followers  = Follower::query()->where('danka_id', '=', $id)->delete();
+            $danka = Danka::findOrFail($id);
+
+            $followers  = Follower::query()
+                            ->where('danka_id', '=', $id)
+                            ->where('jiin_id', Auth::guard('web')->user()->jiin_id)
+                            ->delete();
 
             //データ削除
-            Danka::find($id)->delete();
+            $danka->delete();
 
             //正常に登録出来たらコミット
             DB::commit();

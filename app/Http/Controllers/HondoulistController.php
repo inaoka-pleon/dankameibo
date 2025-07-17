@@ -36,6 +36,7 @@ class HondoulistController extends Controller
     $kaikis = Kaiki::query()
                     ->select('kaikis.id', 'kaikis.kaiki')
                     ->where('kaikis.kaiki_kbn', '=', 0)
+                    ->where('kaikis.target_flg', '=', 1)
                     ->get();
 
     // 現在の日付を取得し、和暦に変換

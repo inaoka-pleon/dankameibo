@@ -7,6 +7,7 @@ use App\Models\NenkiDocument;
 use Egulias\EmailValidator\Result\Reason\CharNotAllowed;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class NenkiDocumentController extends Controller
@@ -45,18 +46,23 @@ class NenkiDocumentController extends Controller
 
         try {
             //モデルのインスタンス化
-            $nenkaidocument = new NenkiDocument();
+            $nenkidocument = new NenkiDocument();
 
             //モデル->カラム名 = 値で、データを割り当てる
-            $nenkaidocument->document1 = $request->input('document1');
-            $nenkaidocument->document2 = $request->input('document2');
-            $nenkaidocument->document3 = $request->input('document3');
-            $nenkaidocument->document4 = $request->input('document4');
-            $nenkaidocument->document5 = $request->input('document5');
-            $nenkaidocument->document6 = $request->input('document6');
+            $nenkidocument->document1 = $request->input('document1');
+            $nenkidocument->document2 = $request->input('document2');
+            $nenkidocument->document3 = $request->input('document3');
+            $nenkidocument->document4 = $request->input('document4');
+            $nenkidocument->document5 = $request->input('document5');
+            $nenkidocument->document6 = $request->input('document6');
 
+            if (Auth::guard('web')->check()) {
+                $nenkidocument->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院Idが取得できませんでした。');
+            }
             //データベースに保存
-            $nenkaidocument->save();
+            $nenkidocument->save();
 
             DB::commit();
             session()->flash('success', '年忌表文書を登録しました。');
@@ -67,7 +73,7 @@ class NenkiDocumentController extends Controller
         };
         
         //リダイレクト
-        return redirect()->route('nenkidocument.edit', ['id' => $nenkaidocument->id]);
+        return redirect()->route('nenkidocument.edit', ['id' => $nenkidocument->id]);
         //
     }
 

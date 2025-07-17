@@ -12,6 +12,7 @@ use App\Models\Nenkilist;
 use App\Services\CommonUtility;
 use Carbon\Carbon;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class KakochoController extends Controller
@@ -82,6 +83,13 @@ class KakochoController extends Controller
             if(!empty($request->input('ageatdeath'))) {
                 $kakocho->ageatdeath = $request->input('ageatdeath');
             }
+
+            if (Auth::guard('web')->check()) {
+                $kakocho->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
+
             $kakocho->save();
  
             $kaikis = Kaiki::query()
@@ -109,6 +117,10 @@ class KakochoController extends Controller
                 $nenkilist = new Nenkilist;
                 $nenkilist->kakocho_id = $kakocho->id;
                 $nenkilist->kaiki_id = $kaiki->id;
+                $nenkilist->jiin_id = $kakocho->jiin_id;
+                if (Auth::guard('web')->check()) {
+                    $nenkilist->jiin_id = Auth::guard('web')->user()->jiin_id;
+                }
                 $nenkilist->save();
             }
          

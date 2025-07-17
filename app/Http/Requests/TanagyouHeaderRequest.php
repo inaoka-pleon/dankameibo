@@ -26,20 +26,6 @@ class TanagyouHeaderRequest extends FormRequest
         return [
             'era'               => 'required',
             'year'              => 'required',
-            'name'              => 'nullable|string|max:40',
-            'namekana'          => 'nullable',
-            'postcode'          => 'nullable|string|max:10',
-            'address1'          => 'nullable|string',
-            'address2'          => 'nullable|string',
-            'tel'               => 'nullable|string|max:15',
-            'month'             => 'nullable',
-            'day'               => 'nullable',
-            'ampm'              => 'nullable',
-            'hour'              => 'nullable',
-            'minute'            => 'nullable',
-            'hatsubon'          => 'nullable',
-            'time'              => 'nullable',
-            'manager'           => 'nullable',
         ];
     }
 
@@ -48,20 +34,6 @@ class TanagyouHeaderRequest extends FormRequest
         return [
             'era'               => '元号',
             'year'              => '年数',
-            'name'              => '氏名',
-            'namekana'          => '氏名かな',
-            'postcode'          => '郵便番号',
-            'address1'          => '住所１',
-            'address2'          => '住所２',
-            'tel'               => '電話番号',
-            'month'             => '月',
-            'day'               => '日',
-            'ampm'              => '午前午後',
-            'hour'              => '時',
-            'minute'            => '分',
-            'hatsubon'          => '初盆',
-            'time'              => '時間',
-            'manager'           => '担当者',
             //
         ];
     }

@@ -7,6 +7,7 @@ use App\Models\PaymentSlip;
 use App\Services\CommonUtility;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use TCPDF_FONTS;
@@ -56,6 +57,12 @@ class PaymentSlipController extends Controller
             $paymentslip->accountno3 = $request->input('accountno3');
             $paymentslip->name = $request->input('name');
             $paymentslip->price = $request->input('price');
+
+            if (Auth::guard('web')->check()) {
+                $paymentslip->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
 
             //データベースに保存
             $paymentslip->save();

@@ -30,6 +30,7 @@ return new class extends Migration
             $table->string('manager')->nullable()->comment('担当者');
             $table->integer('danka_id')->comment('檀家ID');
             $table->integer('akihigan_header_id')->comment('秋彼岸一覧ID');
+            $table->integer('jiin_id')->unsigned()->comment('寺院ID');
         });
     }
 

@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('key3');
             $table->string('value1');
             $table->string('value2')->nullable();
+            $table->integer('jiin_id')->unsigned()->nullable()->comment('寺院ID');
         });
     }
 

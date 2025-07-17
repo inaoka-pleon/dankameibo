@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('address2')->nullable()->comment('住所２');
             $table->string('tel', 15)->nullable()->comment('電話番号');
             $table->string('fax', 15)->nullable()->comment('FAX');
+            $table->integer('jiin_id')->unsigned()->comment('寺院ID');
         });
     }
 

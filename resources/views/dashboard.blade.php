@@ -27,9 +27,6 @@
                     <a href="{{ route('templemaster.createOrEdit') }}" class="text-center items-center border rounded-md text-base font-semibold uppercase tracking-widest text-gray-800 bg-white border-slate-500 hover:bg-gray-300 active:bg-gray-300 focus:outline-none focus:ring ring-gray-200 transition ease-in-out duration-150 shadow-sm py-4 w-full block">自寺院マスタ</a>
                 </div>
                 <div class="col-span-12 sm:col-span-2">
-                    <a href="{{ route('era.index') }}" class="text-center items-center border rounded-md text-base font-semibold uppercase tracking-widest text-gray-800 bg-white border-slate-500 hover:bg-gray-300 active:bg-gray-300 focus:outline-none focus:ring ring-gray-200 transition ease-in-out duration-150 shadow-sm py-4 w-full block">元号設定</a>
-                </div>
-                <div class="col-span-12 sm:col-span-2">
                     <a href="{{ route('kaiki.index') }}" class="text-center items-center border rounded-md text-base font-semibold uppercase tracking-widest text-gray-800 bg-white border-slate-500 hover:bg-gray-300 active:bg-gray-300 focus:outline-none focus:ring ring-gray-200 transition ease-in-out duration-150 shadow-sm py-4 w-full block">回忌設定</a>
                 </div>
                 <div class="col-span-12 mt-8">

@@ -27,6 +27,7 @@ use App\Http\Controllers\HaruhiganHeaderController;
 use App\Http\Controllers\HatsubonDocumentController;
 use App\Http\Controllers\HatsubonlistController;
 use App\Http\Controllers\HatsubonlistDocumentController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HondoulistController;
 use App\Http\Controllers\JikakuController;
 use App\Http\Controllers\KaihiListController;
@@ -56,9 +57,9 @@ use App\Http\Controllers\TemplelistprintController;
 use App\Http\Controllers\TempleMasterController;
 use App\Http\Controllers\TempleofficeController;
 use App\Http\Controllers\TitleController;
-use App\Models\AtenaHeader;
-use App\Models\HaruhiganHeader;
-use App\Models\HatsubonlistDocument;
+use App\Http\Controllers\ProfileController as ProfileOfAdminController;
+use Illuminate\Support\Facades\Redirect;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -204,17 +205,6 @@ Route::resource('/kaikis', KaikiController::class)
        'update'    => 'kaiki.update',
        'destroy'   => 'kaiki.destroy',
        'store'     => 'kaiki.store'
-   ]);
-
-Route::resource('/eras', EraController::class)
-   ->names([
-       'index'     => 'era.index',
-       'show'      => 'era.show',
-       'create'    => 'era.create',
-       'edit'      => 'era.edit',
-       'update'    => 'era.update',
-       'destroy'   => 'era.destroy',
-       'store'     => 'era.store'
    ]);
 
 Route::get('dankas',                                  [DankaController::class, 'index'                      ])->name('danka.index');
@@ -492,8 +482,12 @@ Route::get('memberlist/print',                        [MemberlistController::cla
 Route::get('templelistprints',                        [TemplelistprintController::class, 'index'            ])->name('templelistprint.index');
 
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
 Route::get('/', function () {
-    return view('welcome');
+   return Redirect::route('login');
 });
 
 Route::get('/dashboard', function () {
@@ -501,9 +495,19 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+   Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+   Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+   Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
+
+Route::prefix('admin')->name('admin')->group(function() {
+   Route::middleware('auth:admin')->group(function() {
+      Route::get('/profile', [ProfileOfAdminController::class, 'edit'])->name('profile.edit');
+      Route::patch('/profile', [ProfileOfAdminController::class, 'update'])->name('profile.update');
+      Route::delete('/profile', [ProfileOfAdminController::class, 'destroy'])->name('profile.destroy');
+   });
+
+   require __DIR__.'/admin.php';
+});
