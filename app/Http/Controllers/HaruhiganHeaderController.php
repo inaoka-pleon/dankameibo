@@ -30,6 +30,10 @@ class HaruhiganHeaderController extends Controller
      */
     public function index()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $query = HaruhiganHeader::query()
                             ->select('haruhigan_headers.id',
                                      'haruhigan_headers.era',
@@ -67,6 +71,10 @@ class HaruhiganHeaderController extends Controller
      */
     public function create()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $eras = Era::query()
                     ->orderBy('eras.ad_start', 'desc')
                     ->get();
@@ -160,7 +168,9 @@ class HaruhiganHeaderController extends Controller
                 $haruhigan_detail->haruhigan_header_id = $haruhigan_header->id;
                 $haruhigan_detail->jiin_id = $haruhigan_header->jiin_id;
                 if (Auth::guard('web')->check()) {
-                    $haruhigan_detail->jiin_id = Auth::guard('web')->user()->jiin_id;
+                    $haruhigan_header->jiin_id = Auth::guard('web')->user()->jiin_id;
+                } else {
+                    throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
                 }
                 $haruhigan_detail->save();
             }
@@ -197,6 +207,10 @@ class HaruhiganHeaderController extends Controller
      */
     public function edit(Request $request, $id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $put_flg = false;
         if(strcmp($request->searchType, 'haruhigan_header_search') === 0) {
             $put_flg = true;
@@ -278,6 +292,11 @@ class HaruhiganHeaderController extends Controller
                 $haruhigan_detail->minute = $request->input('minute_'.$i);
                 $haruhigan_detail->manager = $request->input('manager_'.$i);
 
+                if (Auth::guard('web')->check()) {
+                    $haruhigan_detail->jiin_id = Auth::guard('web')->user()->jiin_id;
+                } else {
+                    throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+                }
                 $haruhigan_detail->save();
                 }
 
@@ -389,6 +408,10 @@ class HaruhiganHeaderController extends Controller
     public function print(Request $request, $id)
     {
         $action = $request->query('action');
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         // FPDIインスタンス生成
         $pdf = new Fpdi($orientation='P', $unit='mm', $format='A4', $unicode=true, $encoding='UTF-8');
         // ページ設定（最初に設定しないとヘッダーに罫線が入ってしまう）
@@ -429,7 +452,7 @@ class HaruhiganHeaderController extends Controller
             }
     
             // データを取得
-            $keys = ListData::GetHaruhiganHeaderKey($cond_haruhigan_header);
+            $keys = ListData::GetHaruhiganHeaderKey($cond_haruhigan_header, $userJiinId);
             foreach ($keys as $key) {
                 $haruhigan_headers = $this->getHaruhiganHeaders($id, $key->value1, $cond_haruhigan_header);
     
@@ -567,6 +590,10 @@ class HaruhiganHeaderController extends Controller
     // 春彼岸データ取得
     public function getHaruhiganData(Request $request, $id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $put_flg = false;
         if (strcmp($request->searchType, 'haruhigan_header_search') === 0) {
             $put_flg = true;
@@ -581,7 +608,7 @@ class HaruhiganHeaderController extends Controller
             ];
         }
 
-        $keys = ListData::GetHaruhiganHeaderKey($cond_haruhigan_header);
+        $keys = ListData::GetHaruhiganHeaderKey($cond_haruhigan_header, $userJiinId);
 
         $haruhigan_header = collect();
 
@@ -1006,14 +1033,16 @@ class HaruhiganHeaderController extends Controller
     }
     public function back_print(Request $request, $id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
         $action = $request->query('action');
         $pdf = PostcardPrint::createPostcardInstance();
         $f = PostcardPrint::loadFont();
         
         // データを取得
         $haruhigans = $this->getHaruhiganBackData($request, $id);
-        $documents = DB::table('haruhigan_documents')->get();
-
+        $documents = DB::table('haruhigan_documents')
+                    ->where('haruhigan_documents.jiin_id', '=', $userJiinId)
+                    ->get();
         $hasResults = true;
         
         // テンプレートとなるPDFファイルを指定（ファイルまでのパスを引数に渡す）
@@ -1081,6 +1110,10 @@ class HaruhiganHeaderController extends Controller
     // 春彼岸裏面データ取得
     public function getHaruhiganBackData(Request $request, $id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $put_flg = false;
         if (strcmp($request->searchType, 'haruhigan_header_search') === 0) {
             $put_flg = true;
@@ -1095,7 +1128,7 @@ class HaruhiganHeaderController extends Controller
             ];
         }
 
-        $keys = ListData::GetHaruhiganHeaderKey($cond_haruhigan_header);
+        $keys = ListData::GetHaruhiganHeaderKey($cond_haruhigan_header, $userJiinId);
 
         $haruhigan_header = collect();
 

@@ -23,6 +23,10 @@ class GeneralPostcardController extends Controller
      */
     public function index()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $query = GeneralPostcard::query()
                 ->select('general_postcards.id',
                          'general_postcards.title',
@@ -53,6 +57,10 @@ class GeneralPostcardController extends Controller
      */
     public function create()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         return view('generalpostcards.create');
         //
     }
@@ -129,6 +137,10 @@ class GeneralPostcardController extends Controller
      */
     public function edit($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $general_postcard = GeneralPostcard::findOrFail($id);
         // dd($general_postcard);
         return view('generalpostcards.edit', compact('general_postcard'))->with('id', $id);
@@ -168,6 +180,11 @@ class GeneralPostcardController extends Controller
             $general_postcard->address = $request->input('address');
             $general_postcard->tel = $request->input('tel');
 
+            if (Auth::guard('web')->check()) {
+                $general_postcard->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             // データベースに保存
             $general_postcard->save();
             DB::commit();
@@ -197,6 +214,10 @@ class GeneralPostcardController extends Controller
     public function print(Request $request, $id)
     {
         $action = $request->query('action');
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         list($pdf, $font, $templateId) = PostcardPrint::createDocumentInstance();
         $generalpostcard = GeneralPostcard::findOrFail($id);
 

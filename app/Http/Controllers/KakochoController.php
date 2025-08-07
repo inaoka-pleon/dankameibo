@@ -34,6 +34,10 @@ class KakochoController extends Controller
      */
     public function create($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $eras = Era::query()->orderBy('start_ymd', 'desc')->get();
 
         $relationships = Code::query()
@@ -147,6 +151,10 @@ class KakochoController extends Controller
      */
     public function show($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $kakocho = Follower::find($id);
 
         $death_era = Follower::query()
@@ -173,6 +181,10 @@ class KakochoController extends Controller
      */
     public function edit($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $kakocho = Follower::query()->find($id);
         $eras = Era::query()->orderBy('start_ymd', 'desc')->get();
 
@@ -226,6 +238,12 @@ class KakochoController extends Controller
                 $kakocho->ageatdeath = $request->input('ageatdeath');
         }
 
+        if (Auth::guard('web')->check()) {
+            $kakocho->jiin_id = Auth::guard('web')->user()->jiin_id;
+        } else {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
+        
         $kakocho->save();
 
         $kaikis = Kaiki::query()
@@ -294,6 +312,10 @@ class KakochoController extends Controller
     {
         DB::beginTransaction();
 
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         try{
             //該当のレコードを探してdeleteメソッドを呼び出す
             Follower::find($id)->delete();

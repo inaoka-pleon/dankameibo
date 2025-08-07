@@ -13,6 +13,7 @@ use App\Services\CommonUtility;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use TCPDF_FONTS;
@@ -26,11 +27,16 @@ class NenkilistController extends Controller
      */
     public function index($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $kakocho = Follower::find($id);
 
         $nenkilists = Follower::find($id)
                     ->join('nenkilists', 'followers.id', 'nenkilists.kakocho_id')
                     ->where('kakocho_id', $id)
+                    ->where('followers.jiin_id', '=', $userJiinId)
                     ->get();
                     
         $kaikis = Kaiki::query()
@@ -166,6 +172,10 @@ class NenkilistController extends Controller
     public function print(Request $request, $id)
     {
         $action = $request->query('action');
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         // FPDIインスタンス生成
         $pdf = new Fpdi($orientation='P', $unit='mm', $format='A4', $unicode=true, $encoding='UTF-8');
         // ページ設定（最初に設定しないとヘッダーに罫線が入ってしまう）
@@ -191,6 +201,7 @@ class NenkilistController extends Controller
                          'followers.death_month',
                          'followers.death_day')
                 ->where('followers.id', $kakocho->id)
+                ->where('followers.jiin_id', '=', $userJiinId)
                 ->where('followers.deceased_flg', '=', 1);       
 
         $nenkilists = $query->get();
@@ -443,6 +454,10 @@ class NenkilistController extends Controller
     }
     private function GetHouyouData($target_date, $kaiki) {
         try {
+            $userJiinId = Auth::guard('web')->user()->jiin_id;
+            if (empty($userJiinId)) {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             $result = null;
             $death_anniversary = Carbon::parse($target_date);
             switch ($kaiki->kaiki_kbn) {

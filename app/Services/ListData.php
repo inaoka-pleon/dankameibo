@@ -6,10 +6,11 @@ use Illuminate\Support\Facades\DB;
 
 class ListData
 {
-    public static function GetAreaListKey($cond_arealist)
+    public static function GetAreaListKey($cond_arealist, $userJiinId)
     {
         $query  = DB::table('codes')
                     ->where('key1', '=', 'AREA')
+                    ->where('jiin_id', '=', $userJiinId)
                     ->orderBy('key3')
                     ->select('value1');
         if(!empty($cond_arealist['area'])) {
@@ -18,10 +19,11 @@ class ListData
         return $query->get();
     }
 
-    public static function GetTanagyouHeaderKey($cond_tanagyou_header)
+    public static function GetTanagyouHeaderKey($cond_tanagyou_header, $userJiinId)
     {
         $query  = DB::table('codes')
                     ->where('key1', '=', 'MANAGER')
+                    ->where('jiin_id', '=', $userJiinId)
                     ->orderBy('key3')
                     ->select('value1');
         if(!empty($cond_tanagyou_header['manager'])) {
@@ -30,10 +32,11 @@ class ListData
         return $query->get();
     }
 
-    public static function GetHaruhiganHeaderKey($cond_haruhigan_header)
+    public static function GetHaruhiganHeaderKey($cond_haruhigan_header, $userJiinId)
     {
         $query  = DB::table('codes')
                     ->where('key1', '=', 'MANAGER')
+                    ->where('jiin_id', '=', $userJiinId)
                     ->orderBy('key3')
                     ->select('value1');
         if(!empty($cond_haruhigan_header['manager'])) {
@@ -42,10 +45,11 @@ class ListData
         return $query->get();
     }
 
-    public static function GetAkihiganHeaderKey($cond_akihigan_header)
+    public static function GetAkihiganHeaderKey($cond_akihigan_header, $userJiinId)
     {
         $query  = DB::table('codes')
                     ->where('key1', '=', 'MANAGER')
+                    ->where('jiin_id', '=', $userJiinId)
                     ->orderBy('key3')
                     ->select('value1');
         if(!empty($cond_akihigan_header['manager'])) {
@@ -54,10 +58,11 @@ class ListData
         return $query->get();
     }
 
-    public static function GetGozikaiListKey($cond_gozikailist)
+    public static function GetGozikaiListKey($cond_gozikailist, $userJiinId)
     {
         $query  = DB::table('codes')
                     ->where('key1', '=', 'AREA')
+                    ->where('jiin_id', '=', $userJiinId)
                     ->orderBy('key3')
                     ->select('value1');
         if(!empty($cond_gozikailist['area'])) {

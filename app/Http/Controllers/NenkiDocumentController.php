@@ -29,6 +29,10 @@ class NenkiDocumentController extends Controller
      */
     public function create()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $kakocho_id = session('kakocho_id');
         return view('nenkidocuments.create', compact('kakocho_id'));
         //
@@ -96,6 +100,10 @@ class NenkiDocumentController extends Controller
      */
     public function edit($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $nenkidocument = NenkiDocument::findOrFail($id);
         // セッションからkakocho_idを取得
         $kakocho_id = session('kakocho_id');
@@ -126,6 +134,11 @@ class NenkiDocumentController extends Controller
             $nenkidocument->document5 = $request->input('document5');
             $nenkidocument->document6 = $request->input('document6');
 
+            if (Auth::guard('web')->check()) {
+                $nenkidocument->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院Idが取得できませんでした。');
+            }
             //データベースに保存
             $nenkidocument->save();
 
@@ -156,6 +169,10 @@ class NenkiDocumentController extends Controller
     
     public function createOrEdit()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $nenkidocument = NenkiDocument::first();
 
         if ($nenkidocument) {

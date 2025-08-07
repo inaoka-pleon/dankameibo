@@ -11,6 +11,7 @@ use App\Models\Follower;
 use App\Services\CommonUtility;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AtenaDetailController extends Controller
@@ -33,6 +34,11 @@ class AtenaDetailController extends Controller
      */
     public function create($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
+        
         return view('atenadetails.create')->with('atena_header_id', $id);
         //
     }
@@ -63,6 +69,11 @@ class AtenaDetailController extends Controller
             $atena_detail->postcard = $request->input('postcard');
             $atena_detail->atena_header_id = $atena_header_id;
 
+            if (Auth::guard('web')->check()) {
+                $atena_detail->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             $atena_detail->save();
 
             // データベースに保存
@@ -99,6 +110,11 @@ class AtenaDetailController extends Controller
      */
     public function edit($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
+        
         $atena_detail = AtenaDetail::query()->find($id);
 
         return view('atenadetails.edit', compact('atena_detail'));
@@ -129,6 +145,11 @@ class AtenaDetailController extends Controller
             $atena_detail->postcard = $request->input('postcard');
             $atena_detail->atena_header_id = $atena_header_id;
 
+            if (Auth::guard('web')->check()) {
+                $atena_detail->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             $atena_detail->save();
 
             // 正常に登録できたらコミット
@@ -155,6 +176,10 @@ class AtenaDetailController extends Controller
     {
         DB::beginTransaction();
 
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         try{
             $atena_detail = AtenaDetail::findOrFail($id);
             $atena_detail->delete();

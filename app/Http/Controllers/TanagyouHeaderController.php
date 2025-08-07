@@ -33,6 +33,10 @@ class TanagyouHeaderController extends Controller
      */
     public function index()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $query = TanagyouHeader::query()
                             ->select('tanagyou_headers.id',
                                      'tanagyou_headers.era',
@@ -69,6 +73,10 @@ class TanagyouHeaderController extends Controller
      */
     public function create()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $eras = Era::query()
                     ->orderBy('eras.ad_start', 'desc')
                     ->get();
@@ -250,6 +258,10 @@ class TanagyouHeaderController extends Controller
      */
     public function edit(Request $request, $id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $put_flg = false;
         if(strcmp($request->searchType, 'tanagyou_header_search') === 0) {
             $put_flg = true;
@@ -390,6 +402,11 @@ class TanagyouHeaderController extends Controller
                     $tanagyou_detail->hatsubon = $request->input('hatsubon_'.$i);
                 }
                 
+                if (Auth::guard('web')->check()) {
+                    $tanagyou_header->jiin_id = Auth::guard('web')->user()->jiin_id;
+                } else {
+                    throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+                }
                 $tanagyou_detail->save();
                 }
 
@@ -503,6 +520,12 @@ class TanagyouHeaderController extends Controller
     public function print(Request $request, $id)
     {
         $action = $request->query('action');
+        
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
+
         // FPDIインスタンス生成
         $pdf = new Fpdi($orientation='P', $unit='mm', $format='A4', $unicode=true, $encoding='UTF-8');
         // ページ設定（最初に設定しないとヘッダーに罫線が入ってしまう）
@@ -543,7 +566,7 @@ class TanagyouHeaderController extends Controller
             }
 
             // データを取得
-            $keys = ListData::GetTanagyouHeaderKey($cond_tanagyou_header);
+            $keys = ListData::GetTanagyouHeaderKey($cond_tanagyou_header, $userJiinId);
             foreach ($keys as $key) {
                 $tanagyou_headers = $this->getTanagyouHeaders($id, $key->value1, $cond_tanagyou_header);
 
@@ -566,6 +589,10 @@ class TanagyouHeaderController extends Controller
 
     private function getTanagyouHeaders($id, $manager, $cond_tanagyou_header)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $query = DB::table('tanagyou_headers')
                 ->join('tanagyou_details', 'tanagyou_headers.id', '=', 'tanagyou_details.tanagyou_header_id')
                 ->join('followers', 'tanagyou_details.danka_id', '=', 'followers.danka_id')
@@ -686,6 +713,10 @@ class TanagyouHeaderController extends Controller
     // はがき印刷で表示するデータ取得
     public function getTanagyouData(Request $request, $id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $put_flg = false;
         if (strcmp($request->searchType, 'tanagyou_header_search') === 0) {
             $put_flg = true;
@@ -700,7 +731,7 @@ class TanagyouHeaderController extends Controller
             ];
         }
 
-        $keys = ListData::GetTanagyouHeaderKey($cond_tanagyou_header);
+        $keys = ListData::GetTanagyouHeaderKey($cond_tanagyou_header, $userJiinId);
 
         $tanagyou_header = collect();
 
@@ -1121,14 +1152,20 @@ class TanagyouHeaderController extends Controller
     }
     public function back_print(Request $request, $id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+
         $action = $request->query('action');
         $pdf = PostcardPrint::createPostcardInstance();
         $f = PostcardPrint::loadFont();
 
         // データを取得
         $tanagyous = $this->getTanagyouBackData($request, $id);
-        $tanagyou_documents = DB::table('tanagyou_documents')->get();
-        $hatsubon_documents = DB::table('hatsubon_documents')->get();
+        $tanagyou_documents = DB::table('tanagyou_documents')
+                            ->where('tanagyou_documents.jiin_id', '=', $userJiinId)
+                            ->get();
+        $hatsubon_documents = DB::table('hatsubon_documents')
+                            ->where('hatsubon_documents.jiin_id', '=', $userJiinId)
+                            ->get();
         $kaikis = DB::table('kaikis')
                 ->select('kaiki_kbn',
                          'houyou_month',
@@ -1240,6 +1277,10 @@ class TanagyouHeaderController extends Controller
     // 裏面印刷で表示するデータ取得
     public function getTanagyouBackData(Request $request, $id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $put_flg = false;
         if (strcmp($request->searchType, 'tanagyou_header_search') === 0) {
             $put_flg = true;
@@ -1254,7 +1295,7 @@ class TanagyouHeaderController extends Controller
             ];
         }
 
-        $keys = ListData::GetTanagyouHeaderKey($cond_tanagyou_header);
+        $keys = ListData::GetTanagyouHeaderKey($cond_tanagyou_header, $userJiinId);
 
         $tanagyou_header = collect();
 

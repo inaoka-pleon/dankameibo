@@ -30,6 +30,10 @@ class TanagyouDocumentController extends Controller
      */
     public function create()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $tanagyou_id = session(('tanagyou_id'));
         return view('tanagyoudocuments.create', compact('tanagyou_id'));
         //
@@ -107,6 +111,11 @@ class TanagyouDocumentController extends Controller
      */
     public function edit($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
+
         $tanagyou_document = TanagyouDocument::findOrFail($id);
         // セッションからtanagyou_idを取得
         $tanagyou_id = session(('tanagyou_id'));
@@ -148,6 +157,11 @@ class TanagyouDocumentController extends Controller
             $tanagyou_document->address = $request->input('address');
             $tanagyou_document->tel = $request->input('tel');
 
+            if (Auth::guard('web')->check()) {
+                $tanagyou_document->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             //データベースに保存
             $tanagyou_document->save();
 
@@ -175,6 +189,10 @@ class TanagyouDocumentController extends Controller
     }
     public function createOrEdit()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $tanagyou_document = TanagyouDocument::first();
 
         if ($tanagyou_document) {
@@ -186,6 +204,10 @@ class TanagyouDocumentController extends Controller
     public function print(Request $request, $id)
     {
         $action = $request->query('action');
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         list($pdf, $font, $templateId) = PostcardPrint::createDocumentInstance();
         $tanagyoudocument = TanagyouDocument::findOrFail($id);
 

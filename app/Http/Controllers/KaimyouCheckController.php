@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Danka;
 use App\Services\CommonUtility;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class KaimyouCheckController extends Controller
 {
@@ -15,6 +17,10 @@ class KaimyouCheckController extends Controller
      */
     public function index(Request $request)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $put_flg = false;
         if (strcmp($request->searchType, 'kaimyou_search') === 0) {
             $put_flg = true;
@@ -41,6 +47,7 @@ class KaimyouCheckController extends Controller
                             'deceased.relationship')
                     ->where('chief.deceased_flg', '=', 0)
                     ->where('deceased.chiefmourner_flg', '=', 0)
+                    ->where('dankas.jiin_id', '=', $userJiinId)
                     ->orderby('chief.namekana', 'asc');
 
         if(!empty($cond_kaimyoucheck['kaimyou'])) {

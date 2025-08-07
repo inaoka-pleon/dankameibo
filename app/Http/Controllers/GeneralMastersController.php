@@ -8,7 +8,6 @@ use App\Services\CodeData;
 use App\Services\CommonUtility;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Queue\Middleware\ThrottlesExceptionsWithRedis;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -24,6 +23,10 @@ class GeneralMastersController extends Controller
      */
     public function index(Request $request)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         // $customer_id = Auth::user()->customer_id;
         $id = Auth::user()->id;
 
@@ -49,6 +52,10 @@ class GeneralMastersController extends Controller
      */
     public function create(Request $request)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $no = $request->query('no');
         $title = self::getTitle($no);
         return view('generalmasters.create')
@@ -116,6 +123,10 @@ class GeneralMastersController extends Controller
      */
     public function edit(Request $request, $id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $general_master = Code::findOrFail($id);
         $title = $general_master->key1;
         
@@ -138,6 +149,11 @@ class GeneralMastersController extends Controller
 
             $code->value1 = $request->input('value1');
             $code->value2 = $request->input('value2');
+            if (Auth::guard('web')->check()) {
+                $code->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             $code->save();
 
             //正常に登録出来たらコミット

@@ -28,6 +28,10 @@ class NenkaiDocumentController extends Controller
      */
     public function create()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         return view('nenkaidocuments.create');
         //
     }
@@ -95,6 +99,10 @@ class NenkaiDocumentController extends Controller
      */
     public function edit($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $nenkaidocument = NenkaiDocument::findOrFail($id);
         return view('nenkaidocuments.edit', compact('nenkaidocument'));
         //
@@ -126,6 +134,11 @@ class NenkaiDocumentController extends Controller
             $nenkaidocument->document8 = $request->input('document8');
             $nenkaidocument->document9 = $request->input('document9');
 
+            if (Auth::guard('web')->check()) {
+                $nenkaidocument->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             //データベースに保存
             $nenkaidocument->save();
 

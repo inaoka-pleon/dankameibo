@@ -7,8 +7,10 @@ use App\Models\Era;
 use App\Models\Kaiki;
 use App\Services\CommonUtility;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use TCPDF_FONTS;
@@ -22,6 +24,10 @@ class HondoulistController extends Controller
      */
     public function index(Request $request)
 {
+    $userJiinId = Auth::guard('web')->user()->jiin_id;
+    if (empty($userJiinId)) {
+        throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+    }
     $put_flg = false;
     if(strcmp($request->searchType, 'hondoulist_search') === 0) {
         $put_flg = true;
@@ -80,6 +86,7 @@ class HondoulistController extends Controller
                     ->leftJoin('eras', 'deceased.death_era', '=', 'eras.id')
                     ->select('dankas.id', 'chief.name as chief_name', 'deceased.kaimyou', 'deceased.zokumyou', 'deceased.deathanniversary', 'eras.name as death_era_name', 'deceased.death_year', 'deceased.death_month', 'deceased.death_day', 'deceased.ageatdeath')
                     ->where('chief.deceased_flg', '=', 0)
+                    ->where('dankas.jiin_id', '=', $userJiinId)
                     ->orderbyraw('YEAR(deceased.deathanniversary) desc')
                     ->orderby('deceased.death_month', 'asc')
                     ->orderby('deceased.death_day', 'asc')
@@ -208,6 +215,10 @@ class HondoulistController extends Controller
     public function print(Request $request)
     {
         $action = $request->query('action');
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         // FPDIインスタンス生成
         $pdf = new Fpdi($orientation='L', $unit='mm', $format='A4', $unicode=true, $encoding='UTF-8');
         // ページ設定（最初に設定しないとヘッダーに罫線が入ってしまう）
@@ -256,6 +267,7 @@ class HondoulistController extends Controller
                             'deceased.death_day',
                             'deceased.ageatdeath')
                     ->where('chief.deceased_flg', '=', 0)
+                    ->where('dankas.jiin_id', '=', $userJiinId)
                     ->orderbyraw('YEAR(deceased.deathanniversary) desc')
                     ->orderby('deceased.death_month', 'asc')
                     ->orderby('deceased.death_day', 'asc');

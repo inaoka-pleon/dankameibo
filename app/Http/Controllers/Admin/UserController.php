@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Consts\UserRoleConsts;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserRequest;
 use App\Mail\AdminRegist;
 use App\Mail\UserRegist;
 use App\Models\Jiin;
@@ -83,7 +84,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
         $this->authorize('create', User::class);
 

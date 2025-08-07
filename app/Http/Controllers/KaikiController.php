@@ -22,6 +22,10 @@ class KaikiController extends Controller
      */
     public function index(): View
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $kaikis = null;
         try {
             $kaikis = Kaiki::query()->orderBy('kaiki_kbn')->orderBy('kaiki')->get();
@@ -37,6 +41,10 @@ class KaikiController extends Controller
      */
     public function create(): View
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $kaiki_kbns = GenericData::GetGeneric('KAIKI', 'KBN', null);
         $from_kbns  = GenericData::GetGeneric('KAIKI', 'KIKAN_KBN', null);
         $to_kbns    = GenericData::GetGeneric('KAIKI', 'KIKAN_KBN', null);
@@ -80,6 +88,10 @@ class KaikiController extends Controller
      */
     public function edit($id): View
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $kaiki_kbns = GenericData::GetGeneric('KAIKI', 'KBN', null);
         $from_kbns  = GenericData::GetGeneric('KAIKI', 'KIKAN_KBN', null);
         $to_kbns    = GenericData::GetGeneric('KAIKI', 'KIKAN_KBN', null);
@@ -136,6 +148,10 @@ class KaikiController extends Controller
      */
     public function destroy($id): RedirectResponse
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         try {
             Kaiki::find($id)->delete();
             session()->flash('success', '回忌設定情報を削除しました。');

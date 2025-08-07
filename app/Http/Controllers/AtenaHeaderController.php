@@ -26,6 +26,10 @@ class AtenaHeaderController extends Controller
      */
     public function index()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $query = AtenaHeader::query()
                         ->select('atena_headers.id',
                                  'atena_headers.title',
@@ -57,6 +61,10 @@ class AtenaHeaderController extends Controller
      */
     public function create()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         return view('atenaheaders.create');
         //
     }
@@ -111,6 +119,10 @@ class AtenaHeaderController extends Controller
      */
     public function show(Request $request, $id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $atena_headers = AtenaHeader::query()
                 ->select('atena_headers.id',
                         'atena_headers.title')
@@ -177,6 +189,10 @@ class AtenaHeaderController extends Controller
     // はがき印刷で表示するデータの取得
     public function getAtenaData($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $atena = collect();
 
         $query  = DB::table('atena_headers')
