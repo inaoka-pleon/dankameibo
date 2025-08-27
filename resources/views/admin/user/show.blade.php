@@ -34,6 +34,10 @@
                                     <th>メールアドレス</th>
                                     <td>{{ $user->email }}</td>
                                 </tr>
+                                <tr>
+                                    <th>備考</th>
+                                    <td>{{ $user->memo }}</td>
+                                </tr>
                             </table>
                             <div class="form-btn">
                                 <a class="form-btn2 form-inline-block" href="{{ route('admin.user.index') }}">

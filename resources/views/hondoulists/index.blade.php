@@ -43,7 +43,7 @@
                                         <option value="{{ $era->id }}" @if((old('hondou_target_year.era', $hondou_target_year['era'] ?? '') == $era->id) || (empty($hondou_target_year['era']) && $currentEraId == $era->name)) selected @endif>{{ $era->name }}</option>
                                     @endforeach
                                 </select>
-                                <input type="text" id="yearInput" name="hondou_target_year[year]" min="1" max="100" value="{{ old('hondou_target_year.year', $hondou_target_year['year'] ?? $currentEraYear + 1) }}" class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus-ring-opacity-50 sm:w-auto">年度
+                                <input type="number" id="yearInput" name="hondou_target_year[year]" min="1" max="100" value="{{ old('hondou_target_year.year', $hondou_target_year['year'] ?? $currentEraYear + 1) }}" class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus-ring-opacity-50 w-48 sm:w-auto">年度
                             </div>
                             <label for="kaikiSelect" class="block col-span-12 sm:col-span-2 sm:py-4 pr-4 pl-2 sm:pl-0 font-semibold text-gray-700 sm:text-right text-sm sm:text-base">回忌</label>
                             <div class="col-span-12 sm:col-span-4 py-1 sm:py-2 sm:pl-2">

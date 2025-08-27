@@ -45,29 +45,61 @@ class HatsubonlistController extends Controller
                                 'kaikis.to_day')
                         ->where('kaikis.kaiki_kbn', '=', 3)
                        ->get();
+
+        if ($kaikis->isEmpty()) {
+            return view('hatsubonlists.index', [
+                'hatsubonlists' => collect(), // 空のコレクションを渡す
+                'kaikis' => collect(), // 空のコレクションを渡す
+                'hatsubonCount' => 0,
+                // 初盆期間関連の変数をすべてnullで渡す
+                'FromEraName' => null, 'FromEraYear' => null, 'FromMonth' => null, 'FromDay' => null,
+                'ToEraName' => null, 'ToEraYear' => null, 'ToMonth' => null, 'ToDay' => null,
+            ]);
+        }
  
-        // 初盆の期間を取得
-        foreach ($kaikis as $kaiki) {
-            $kaiki->from_date = KaikiData::GetYmd($kaiki->from_year_kbn,
-                                                  $kaiki->from_month,
-                                                  $kaiki->from_day);
-            $kaiki->to_date = KaikiData::GetYmd($kaiki->to_year_kbn,
-                                                $kaiki->to_month,
-                                                $kaiki->to_day);
+        $from_date = null;
+        $to_date = null;
+
+        if ($kaikis->isNotEmpty()) {
+            // 初盆の期間を取得
+            foreach ($kaikis as $kaiki) {
+                $kaiki->from_date = KaikiData::GetYmd($kaiki->from_year_kbn,
+                                                    $kaiki->from_month,
+                                                    $kaiki->from_day);
+                $kaiki->to_date = KaikiData::GetYmd($kaiki->to_year_kbn,
+                                                    $kaiki->to_month,
+                                                    $kaiki->to_day);
+                if ($kaiki->from_date && $kaiki->to_date) {
+                    $from_date = $kaiki->from_date;
+                    $to_date = $kaiki->to_date;
+                    break;
+                }
+            }
         }
 
-        // 初盆の期間を西暦から和暦に変換
-        $FromEra = CommonUtility::ADtoJACalendarConv($kaiki->from_date);
-        $FromEraName = $FromEra['era_name'] ?? '';
-        $FromEraYear = $FromEra['era_year'] ?? '';
-        $FromMonth = $FromEra['month'] ?? '';
-        $FromDay = $FromEra['day'] ?? '';
+        $FromEraName = null;
+        $FromEraYear = null;
+        $FromMonth = null;
+        $FromDay = null;
+        $ToEraName = null;
+        $ToEraYear = null;
+        $ToMonth = null;
+        $ToDay = null;
 
-        $ToEra = CommonUtility::ADtoJACalendarConv($kaiki->to_date);
-        $ToEraName = $ToEra['era_name'] ?? '';
-        $ToEraYear = $ToEra['era_year'] ?? '';
-        $ToMonth = $ToEra['month'] ?? '';
-        $ToDay = $ToEra['day'] ?? '';
+        if ($from_date && $to_date) {
+            // 初盆の期間を西暦から和暦に変換
+            $FromEra = CommonUtility::ADtoJACalendarConv($kaiki->from_date);
+            $FromEraName = $FromEra['era_name'] ?? '';
+            $FromEraYear = $FromEra['era_year'] ?? '';
+            $FromMonth = $FromEra['month'] ?? '';
+            $FromDay = $FromEra['day'] ?? '';
+
+            $ToEra = CommonUtility::ADtoJACalendarConv($kaiki->to_date);
+            $ToEraName = $ToEra['era_name'] ?? '';
+            $ToEraYear = $ToEra['era_year'] ?? '';
+            $ToMonth = $ToEra['month'] ?? '';
+            $ToDay = $ToEra['day'] ?? '';
+        }
 
         $query = Danka::query()
                         ->join('followers as chief', function($join) {
