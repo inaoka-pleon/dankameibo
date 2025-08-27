@@ -12,6 +12,7 @@ use App\Services\PostcardPrint;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -25,6 +26,10 @@ class AtenaHeaderController extends Controller
      */
     public function index()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $query = AtenaHeader::query()
                         ->select('atena_headers.id',
                                  'atena_headers.title',
@@ -56,6 +61,10 @@ class AtenaHeaderController extends Controller
      */
     public function create()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         return view('atenaheaders.create');
         //
     }
@@ -73,14 +82,21 @@ class AtenaHeaderController extends Controller
 
         try{
             $atena_header = new AtenaHeader;
-
             $atena_header->title = $request->input('title');
-
+            
+            if (Auth::guard('web')->check()) { 
+                $atena_header->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             $atena_header->save();
 
             $atena_detail = new AtenaDetail();
 
             $atena_detail->atena_header_id = $atena_header->id;
+            if (Auth::guard('web')->check()) {
+                $atena_detail->jiin_id = Auth::guard('web')->user()->jiin_id;
+            }
             $atena_detail->save();
 
             DB::commit();
@@ -103,6 +119,10 @@ class AtenaHeaderController extends Controller
      */
     public function show(Request $request, $id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $atena_headers = AtenaHeader::query()
                 ->select('atena_headers.id',
                         'atena_headers.title')
@@ -169,6 +189,10 @@ class AtenaHeaderController extends Controller
     // はがき印刷で表示するデータの取得
     public function getAtenaData($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $atena = collect();
 
         $query  = DB::table('atena_headers')

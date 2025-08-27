@@ -8,6 +8,7 @@ use App\Services\CommonUtility;
 use App\Services\PostcardPrint;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class HatsubonDocumentController extends Controller
@@ -29,6 +30,10 @@ class HatsubonDocumentController extends Controller
      */
     public function create()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $tanagyou_id = session('tanagyou_id');
         return view('hatsubondocuments.create', compact('tanagyou_id'));
         //
@@ -66,6 +71,11 @@ class HatsubonDocumentController extends Controller
             $hatsubon_document->address = $request->input('address');
             $hatsubon_document->tel = $request->input('tel');
 
+            if (Auth::guard('web')->check()) {
+                $hatsubon_document->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             // データベースに保存
             $hatsubon_document->save();
             DB::commit();
@@ -100,6 +110,10 @@ class HatsubonDocumentController extends Controller
      */
     public function edit($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $hatsubon_document = HatsubonDocument::findOrFail($id);
         // セッションからtanagyou_idを取得
         $tanagyou_id = session('tanagyou_id');
@@ -140,6 +154,11 @@ class HatsubonDocumentController extends Controller
             $hatsubon_document->address = $request->input('address');
             $hatsubon_document->tel = $request->input('tel');
 
+            if (Auth::guard('web')->check()) {
+                $hatsubon_document->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             // データベースに保存
             $hatsubon_document->save();
             DB::commit();
@@ -166,6 +185,10 @@ class HatsubonDocumentController extends Controller
     }
     public function createOrEdit()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $hatsubon_document = HatsubonDocument::first();
 
         if ($hatsubon_document) {
@@ -177,6 +200,10 @@ class HatsubonDocumentController extends Controller
     public function print(Request $request, $id)
     {
         $action = $request->query('action');
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         list($pdf, $font, $templateId) = PostcardPrint::createDocumentInstance();
         $hatsubondocument = HatsubonDocument::findOrFail($id);
 

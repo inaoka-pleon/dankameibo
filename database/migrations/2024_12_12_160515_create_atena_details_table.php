@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('address2')->nullable()->comment('住所２');
             $table->string('postcard')->nullable()->comment('はがき');
             $table->integer('atena_header_id')->comment('宛名一覧ID');
+            $table->integer('jiin_id')->unsigned()->comment('寺院ID');
         });
     }
 

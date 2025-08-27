@@ -41,10 +41,6 @@
                                 {{ __('自寺院マスタ') }}
                             </x-dropdown-link>
 
-                            <x-dropdown-link :href="route('era.index')">
-                                {{ __('元号設定') }}
-                            </x-dropdown-link>
-
                             <x-dropdown-link :href="route('kaiki.index')">
                                 {{ __('回忌設定') }}
                             </x-dropdown-link>

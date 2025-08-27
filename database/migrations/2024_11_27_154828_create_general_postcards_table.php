@@ -33,6 +33,7 @@ return new class extends Migration
             $table->string('templename')->nullable()->comment('寺院名');
             $table->string('address')->nullable()->comment('住所');
             $table->string('tel')->nullable()->comment('電話番号');
+            $table->integer('jiin_id')->unsigned()->comment('寺院ID');
         });
     }
 

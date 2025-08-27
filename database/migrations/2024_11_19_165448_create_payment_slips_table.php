@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('accountno3', 7)->nullable()->comment('口座番号３');
             $table->string('name', 40)->nullable()->comment('加入者名');
             $table->integer('price')->nullable()->comment('金額');
+            $table->integer('jiin_id')->unsigned()->comment('寺院ID');
         });
     }
 

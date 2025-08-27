@@ -1,0 +1,136 @@
+<x-admin-layout>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/app.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <!-- エラーの表示を追加 -->
+    @include('errors.form_errors')
+
+    <main class="mt-1 py-2 px-2 sm:px-4">
+        <div class="flex flex-col justify-center items-center z-10"></div>
+        <div class="mb-4 flex flex-col justify-center items-center">
+            <div class="flex justify-between bg-white border-l-8 border-b-2 border-slate-500 shadow-sm py-3 sm:py-4 px-4 sm:px-4 rounded-bl w-full max-w-7xl">
+                <div class="text-gray-800 text-xl font-semibold">管理者マスタ</div>
+                <div class="inline-flex -mt-1">
+                    <a class="btn-entry" href="{{ route('admin.admin.create') }}">
+                        <i class="fa-solid fa-plus"></i><span class="mx-2">新規登録</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col justify-center items-center mb-8">
+            <div class="mb-4 w-full max-w-7xl">
+                <div id="search_head" class="w-full px-4 md:px-6 py-2 text-left text-lg bg-gray-100 font-normal bg-custom-5 border border-b-2 border-gray-200 hover:underline hover:cursor-pointer active:underline rounded-t open">
+                    <svg class="w-6 h-6 -mt-1 inline-flex mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/200/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    条件指定
+                </div>
+                <div id="search_body" class="px-6 sm:px-4 md:px-6 py-4 bg-white shadow-md border border-gray-200 rounded-b-xl" style="display: block;">
+                    <form action="{{ route('admin.admin.index') }}" method="GET">
+                        <div class="grid grid-cols-12">
+                            <label for="k_name" class="block col-span-12 sm:col-span-2 sm:py-4 pr-4 pl-2 sm:pl-0 font-semibold text-gray-700 sm:text-right text-sm sm:text-base">ユーザ名</label>
+                            <div class="col-span-12 sm:col-span-4 py-1 sm:py-2 sm:pl-2">
+                                <input type="text" name="cond_admin[name]" value="{{ $cond_admin['name'] ?? null }}" class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus-ring-opacity-50 w-full" id="k_name">
+                            </div>
+                            <label for="k_email" class="block col-span-12 sm:col-span-2 sm:py-4 pr-4 pl-2 sm:pl-0 font-semibold text-gray-700 sm:text-right text-sm sm:text-base">メール</label>
+                            <div class="col-span-12 sm:col-span-4 py-1 sm:py-2 sm:pl-2">
+                                <input type="text" name="cond_admin[email]" value="{{ $cond_admin['email'] ?? null }}" class="rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus-ring-opacity-50 w-full" id="k_email">
+                            </div>
+                        </div>
+                        <div class="mt-3 flex items-center sm:justify-end">
+                            <button type="submit" class="btn-primary proc-btn text-xs shadow-sm py-3 px-4 mr-3" name="searchType" value="admin_search">
+                                <i class="fa-solid fa-magnifying-glass"></i><span class="mx-2">指定条件で検索</span>
+                            </button>
+                            <button type="button" class="btn-default text-xs reset shadow-sm py-3 px-4">
+                                <i class="fa-regular fa-circle-xmark"></i><span class="mx-2">指定条件をリセット</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <hr class="w-full mb-4 max-w-7xl">
+            <div class="w-full md:mb-4 max-w-7xl text-sm sm:text-base">
+                <div class="">
+                    @if ($admins->isNotEmpty())
+                        <div class="mb-2">
+                           <p class="ml-2">該当：{{ $adminCount }} 件</p> 
+                        </div>
+                        <table class="table-admin radius-table shadow">
+                            <thead>
+                                <tr class="">
+                                    <th class="admin_name">ユーザー</th>
+                                    <th class="admin_email">メールアドレス</th>
+                                    <th scope="col" class="admin_col">
+                                        <span></span>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($admins as $admin)
+                                    <tr>
+                                        <td class="admin_name" data-th="ユーザー">{{ $admin->name }}</td>
+                                        <td class="admin_email" data-th="メールアドレス">{{ $admin->email }}</td>
+                                        <td class="admin_col">
+                                            <div class="btn-center">
+                                                <a href="{{ route('admin.admin.edit', $admin->id) }}" class="btn-edit">
+                                                    <i class="fa-solid fa-edit"></i><span class="mx-2">編集</span>
+                                                </a>
+                                                <form onsubmit="return deleteAdmin();"
+                                                    class="btn-delete"
+                                                    action="{{ route('admin.admin.destroy', $admin->id) }}" method="post"
+                                                    role="menuitem" tabindex="-1">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit">
+                                                        <i class="fa-solid fa-trash"></i><span class="mx-2">削除</span>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <br>
+                        <div class="pagination justify-content-center">
+                            {{ $admins->appends([
+                                'cond_admin' => @(Request::get('cond_admin')),
+                                ])->links() }}
+                        </div>
+                    @else
+                        <div class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
+                            <p class="font-bold">管理者情報がありません</p>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchHead = document.getElementById('search_head');
+            const searchBody = document.getElementById('search_body');
+
+            searchHead.addEventListener('click', function() {
+                if (searchBody.style.display === 'none' || searchBody.style.display === '') {
+                    searchBody.style.display = 'block';
+                } else {
+                    searchBody.style.display = 'none';
+                }
+            });
+
+            document.querySelector('.reset').addEventListener('click', function() {
+                document.querySelectorAll('#search_body input[type="text"]').forEach(input => input.value = '');
+                document.querySelectorAll('#search_body select').forEach(select => select.selectedIndex = 0);
+            });
+        });
+
+        function deleteAdmin(){
+            return confirm('削除します。よろしいですか？');
+        }
+    </script>
+</x-admin-layout>
+

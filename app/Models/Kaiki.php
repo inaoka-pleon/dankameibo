@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * @property string $new_user
@@ -45,8 +47,38 @@ class Kaiki extends Model
         'disp_order',
     ];
 
+    public function jiin()
+    {
+        return $this->belongsTo(Jiin::class, 'jiin_id');
+    }
+
     public function nenkis(): HasMany
     {
         return $this->hasMany(Nenki::class);
+    }
+
+    protected static function booted()
+    {
+        static::addGlobalScope('by_jiin', function (Builder $builder) {
+            if (Auth::guard('web')->check()) {
+                $userJiinId = Auth::guard('web')->user()->jiin_id;
+
+                if ($userJiinId) {
+                    $builder->where($builder->getModel()->getTable(). '.jiin_id', $userJiinId);
+                }
+            }
+        });
+
+        static::creating(function ($kaiki) {
+            if (Auth::guard('web')->check()) {
+                $kaiki->jiin_id = Auth::guard('web')->user()->jiin_id;
+            }
+        });
+
+        static::updating(function ($kaiki) {
+            if($kaiki->isDirty('jiin_id')) {
+
+            }
+        });
     }
 }

@@ -7,6 +7,7 @@ use App\Models\Code;
 use App\Models\Danka;
 use App\Models\Follower;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class FollowerController extends Controller
@@ -28,6 +29,10 @@ class FollowerController extends Controller
      */
     public function create($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         //家族続柄のデータ取得
         $relationships = Code::query()
                             ->where('key1', '=', 'RELATIONSHIP')
@@ -79,6 +84,11 @@ class FollowerController extends Controller
             $follower->chiefmourner_flg = 0;
             $follower->deceased_flg = 0;
 
+            if (Auth::guard('web')->check()) {
+                $follower->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             $follower->save();
 
             DB::commit();
@@ -102,6 +112,10 @@ class FollowerController extends Controller
      */
     public function show($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         //寺役職のデータ取得
         $positions = Code::query()
                         ->where('key1', '=', 'POSITION')
@@ -132,6 +146,7 @@ class FollowerController extends Controller
                                  'followers.occupation',
                                  'followers.memo')
                         ->where('followers.id', '=', $id)
+                        ->where('followers.jiin_id', '=', $userJiinId)
                         ->first();
 
         // $follower = Follower::find($id);
@@ -148,6 +163,10 @@ class FollowerController extends Controller
      */
     public function edit($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         //家族続柄のデータ取得
         $relationships = Code::query()
                             ->where('key1', '=', 'RELATIONSHIP')
@@ -203,6 +222,11 @@ class FollowerController extends Controller
             $follower->chiefmourner_flg = 0;
             $follower->deceased_flg = 0;
 
+            if (Auth::guard('web')->check()) {
+                $follower->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             $follower->save();
 
             //正常に登録出来たらコミット
@@ -231,6 +255,10 @@ class FollowerController extends Controller
     {
         DB::beginTransaction();
 
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         try{
             Follower::find($id)->delete();
 

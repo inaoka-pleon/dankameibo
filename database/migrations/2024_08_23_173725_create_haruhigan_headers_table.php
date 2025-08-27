@@ -18,6 +18,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('era')->comment('元号');
             $table->string('year')->comment('年数');
+            $table->integer('jiin_id')->unsigned()->comment('寺院ID');
         });
     }
 

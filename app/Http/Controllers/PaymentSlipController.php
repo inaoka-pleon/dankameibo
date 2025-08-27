@@ -7,6 +7,7 @@ use App\Models\PaymentSlip;
 use App\Services\CommonUtility;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use TCPDF_FONTS;
@@ -30,6 +31,10 @@ class PaymentSlipController extends Controller
      */
     public function create(Request $request)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $copies = $request->input('copies') ?: session('copies', 1);
         session()->put('copies', $copies);
         return view('paymentslips.create')->with('copies', $copies);
@@ -56,6 +61,12 @@ class PaymentSlipController extends Controller
             $paymentslip->accountno3 = $request->input('accountno3');
             $paymentslip->name = $request->input('name');
             $paymentslip->price = $request->input('price');
+
+            if (Auth::guard('web')->check()) {
+                $paymentslip->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
 
             //データベースに保存
             $paymentslip->save();
@@ -94,6 +105,10 @@ class PaymentSlipController extends Controller
      */
     public function edit(Request $request, $id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $paymentslip = PaymentSlip::findOrFail($id);
         $copies = $request->input('copies') ?: session('copies', 1);
         session()->put('copies', $copies);
@@ -123,6 +138,11 @@ class PaymentSlipController extends Controller
             $paymentslip->name = $request->input('name');
             $paymentslip->price = $request->input('price');
 
+            if (Auth::guard('web')->check()) {
+                $paymentslip->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             //データベースに保存
             $paymentslip->save();
 
@@ -153,6 +173,10 @@ class PaymentSlipController extends Controller
     }
     public function createOrEdit()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $paymentslip = PaymentSlip::first(); // ここでデータの存在を確認
 
         if ($paymentslip) {

@@ -8,7 +8,9 @@ use App\Models\NenkaiDocument;
 use App\Models\TempleMaster;
 use App\Services\CommonUtility;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use Symfony\Component\HttpKernel\Debug\VirtualRequestStack;
@@ -23,6 +25,10 @@ class NenkailistController extends Controller
      */
     public function index(Request $request)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $put_flg = false;
         if(strcmp($request->searchType, 'nenkailist_search') === 0) {
             $put_flg = true;
@@ -75,6 +81,7 @@ class NenkailistController extends Controller
                              'kaikis.kaiki',
                              'kaikis.kaiki_name')
                     ->where('kaikis.kaiki_kbn', '=', 0)
+                    ->where('kaikis.jiin_id', '=', $userJiinId)
                     ->where('kaikis.target_flg', '=', 1);
 
         $nenkailists = $query->get();
@@ -168,6 +175,10 @@ class NenkailistController extends Controller
     public function print(Request $request)
     {
         $action = $request->query('action');
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         // FPDIインスタンス生成
         $pdf = new Fpdi($orientation='L', $unit='mm', $format='A4', $unicode=true, $encoding='UTF-8');
         // ページ設定（最初に設定しないとヘッダーに罫線が入ってしまう）

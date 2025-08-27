@@ -42,6 +42,7 @@ return new class extends Migration
             $table->integer('chiefmourner_flg')->default(0)->comment('施主フラグ');
             $table->integer('deceased_flg')->default(0)->comment('故人フラグ');
             $table->string('memo')->nullable()->comment('備考');
+            $table->integer('jiin_id')->unsigned()->comment('寺院ID');
             $table->timestamps();
         });
     }

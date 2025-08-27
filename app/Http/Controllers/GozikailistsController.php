@@ -7,7 +7,9 @@ use App\Models\Danka;
 use App\Services\CommonUtility;
 use App\Services\ListData;
 use App\Services\PostcardPrint;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use TCPDF_FONTS;
@@ -22,6 +24,10 @@ class GozikailistsController extends Controller
      */
     public function index(Request $request)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $put_flg = false;
         if(strcmp($request->searchType, 'gozikailist_search') === 0) {
             $put_flg = true;
@@ -49,6 +55,7 @@ class GozikailistsController extends Controller
                     ->where('dankas.area', '!=', null)
                     ->where('dankas.gozikai', '=', 1)
                     ->where('chiefmourner_flg', '=', 1)
+                    ->where('dankas.jiin_id', '=', $userJiinId)
                     ->orderBy('dankas.area', 'asc')
                     ->orderBy('followers.namekana', 'asc');
 
@@ -135,6 +142,10 @@ class GozikailistsController extends Controller
     public function print(Request $request)
     {
         $action = $request->query('action');
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
          // FPDIインスタンス生成
          $pdf = new Fpdi($orientation='P', $unit='mm', $format='A4', $unicode=true, $encoding='UTF-8');
          // ページ設定（最初に設定しないとヘッダーに罫線が入ってしまう）
@@ -155,7 +166,7 @@ class GozikailistsController extends Controller
  
          $cond_gozikailist = CommonUtility::GetQueryParameter($request, 'cond_gozikailist', $put_flg);
      
-         $keys = ListData::GetGozikaiListKey($cond_gozikailist);
+         $keys = ListData::GetGozikaiListKey($cond_gozikailist, $userJiinId);
 
          $print_flg = false;
          $hasResults = false;
@@ -166,6 +177,7 @@ class GozikailistsController extends Controller
                          ->where('dankas.area', '=', $key->value1)
                          ->where('dankas.gozikai', '=', 1)
                          ->where('followers.chiefmourner_flg', '=', 1)
+                         ->where('dankas.jiin_id', '=', $userJiinId)
                          ->orderBy('dankas.area')
                          ->orderBy('followers.namekana', 'asc');
      
@@ -268,13 +280,17 @@ class GozikailistsController extends Controller
     // はがき印刷で表示するデータの取得
     public function getGozikaiData(Request $request)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $put_flg = false;
         if (strcmp($request->searchType, 'gozikailist_search') === 0) {
             $put_flg = true;
         }
 
         $cond_gozikailist = CommonUtility::GetQueryParameter($request, 'cond_gozikailist', $put_flg);
-        $keys = ListData::GetGozikaiListKey($cond_gozikailist);
+        $keys = ListData::GetGozikaiListKey($cond_gozikailist, $userJiinId);
 
         $gozikailist = collect();
 
@@ -284,6 +300,7 @@ class GozikailistsController extends Controller
                     ->where('dankas.gozikai', '=', 1)
                     ->where('followers.chiefmourner_flg', '=', 1)
                     ->where('dankas.postcard', '=', '出す')
+                    ->where('dankas.jiin_id', '=', $userJiinId)
                     ->orderBy('dankas.area')
                     ->orderBy('followers.namekana', 'asc');
 

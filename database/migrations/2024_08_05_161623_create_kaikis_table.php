@@ -31,6 +31,7 @@ return new class extends Migration
             $table->integer('houyou_month')->nullable()->comment('法要月');
             $table->integer('houyou_day')->nullable()->comment('法要日');
             $table->integer('disp_order')->comment('表示順');
+            $table->integer('jiin_id')->unsigned()->comment('寺院ID');
         });
         //
     }

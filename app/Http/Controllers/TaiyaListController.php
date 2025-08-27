@@ -8,6 +8,8 @@ use App\Services\CommonUtility;
 use Illuminate\Http\Request;
 use App\Services\TaiyaData;
 use DateTime;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use TCPDF_FONTS;
 
@@ -20,6 +22,10 @@ class TaiyaListController extends Controller
      */
     public function index($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $kakocho = Follower::find($id);
 
         $query = Follower::query()
@@ -32,6 +38,7 @@ class TaiyaListController extends Controller
                 'followers.death_month',
                 'followers.death_day')
         ->where('followers.id', $kakocho->id)
+        ->where('followers.jiin_id', '=', $userJiinId)
         ->where('followers.deceased_flg', '=', 1);  
 
         $taiyalists = $query->get();
@@ -129,6 +136,10 @@ class TaiyaListController extends Controller
     public function print(Request $request, $id)
     {
         $action = $request->query('action');
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         // FPDIインスタンス生成
         $pdf = new Fpdi($orientation='L', $unit='mm', $format='B5', $unicode=true, $encoding='UTF-8');
         // ページ設定（最初に設定しないとヘッダーに罫線が入ってしまう）
@@ -151,6 +162,7 @@ class TaiyaListController extends Controller
                         'followers.death_month',
                         'followers.death_day')
                ->where('followers.id', $kakocho->id)
+               ->where('followers.jiin_id', '=', $userJiinId)
                ->where('followers.deceased_flg', '=', 1);
 
         $taiyalists = $query->get();

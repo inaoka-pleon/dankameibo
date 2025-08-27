@@ -11,6 +11,7 @@ use App\Models\Danka;
 use App\Models\Follower;
 use Illuminate\Support\Facades\DB;
 use App\Services\CommonUtility;
+use Illuminate\Support\Facades\Auth;
 
 class DankaController extends Controller
 {
@@ -22,6 +23,10 @@ class DankaController extends Controller
      */
     public function index(Request $request)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $put_flg = false;
         if (strcmp($request->searchType, 'danka_search') === 0) {
             $put_flg = true;
@@ -52,6 +57,7 @@ class DankaController extends Controller
                             'followers.tel',
                             'followers.position')
                     ->where('chiefmourner_flg', '=', 1)
+                    ->where('dankas.jiin_id', '=', $userJiinId)
                     ->orderBy('dankas.area', 'asc')
                     ->orderBy('followers.namekana', 'asc');
 
@@ -90,6 +96,10 @@ class DankaController extends Controller
      */
     public function create()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         //地区名のデータ取得
         $areas = Code::query()
                     ->where('key1', '=', 'AREA')
@@ -128,6 +138,7 @@ class DankaController extends Controller
      */
     public function store(DankaRequest $dankaRequest, FollowerRequest $followerRequest)
     {
+
         DB::beginTransaction();
 
         try{
@@ -148,6 +159,12 @@ class DankaController extends Controller
             $danka->postcard = $dankaRequest->input('postcard');
             $danka->memo = $dankaRequest->input('memo');
 
+            if (Auth::guard('web')->check()) {
+                $danka->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
+
             //データベースに保存
             $danka->save();
 
@@ -166,6 +183,12 @@ class DankaController extends Controller
             $follower->occupation = $followerRequest->input('occupation');
             //檀家テーブルの採番されたIDをとる
             $follower->danka_id = $danka->id;
+            $follower->jiin_id = $danka->jiin_id;
+            if (Auth::guard('web')->check()) {
+                $follower->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             $follower->chiefmourner_flg = 1;
 
             //データベースに保存
@@ -195,6 +218,10 @@ class DankaController extends Controller
      */
     public function show($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         //地区名のデータ取得
         $areas = Code::query()
                     ->where('key1', '=', 'AREA')
@@ -251,6 +278,7 @@ class DankaController extends Controller
                              'dankas.postcard',
                              'dankas.memo')
                     ->where('dankas.id', '=', $id)
+                    ->where('dankas.jiin_id', '=', $userJiinId)
                     ->where('followers.chiefmourner_flg', '=', 1)
                     ->first();
 
@@ -269,6 +297,7 @@ class DankaController extends Controller
         //get()はヒットした全件をとってこれて、first()はヒットした一件をとってこれる
         $families = Follower::query()
                              ->where('danka_id', '=', $id)
+                             ->where('followers.jiin_id', '=', $userJiinId)
                              ->where('chiefmourner_flg', '=', 0)
                              ->where('deceased_flg', '=', 0)
                              ->orderBy('namekana', 'asc')
@@ -291,6 +320,7 @@ class DankaController extends Controller
                                       'followers.chiefmourner_flg',
                                       'followers.deceased_flg')
                              ->where('danka_id', '=', $id)
+                             ->where('followers.jiin_id', '=', $userJiinId)
                              ->where('chiefmourner_flg', '=', 0)
                              ->where('deceased_flg', '=', 1)
                              ->orderby('deathanniversary', 'desc')
@@ -310,6 +340,10 @@ class DankaController extends Controller
      */
     public function edit($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         //地区名のデータ取得
         $areas = Code::query()
                     ->where('key1', '=', 'AREA')
@@ -387,6 +421,11 @@ class DankaController extends Controller
             $danka->memo = $dankaRequest->input('memo');
             $follower->danka_id = $danka->id;
 
+            if (Auth::guard('web')->check()) {
+                $follower->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             $danka->save();
             $follower->save();
 
@@ -413,11 +452,22 @@ class DankaController extends Controller
      */
     public function destroy($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
+        DB::beginTransaction();
+
         try {
-            $followers  = Follower::query()->where('danka_id', '=', $id)->delete();
+            $danka = Danka::findOrFail($id);
+
+            $followers  = Follower::query()
+                            ->where('danka_id', '=', $id)
+                            ->where('jiin_id', '=', $userJiinId)
+                            ->delete();
 
             //データ削除
-            Danka::find($id)->delete();
+            $danka->delete();
 
             //正常に登録出来たらコミット
             DB::commit();
@@ -440,6 +490,10 @@ class DankaController extends Controller
      */
     public function chiefmourner_change(Request $request, $id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         DB::beginTransaction();
 
         try {

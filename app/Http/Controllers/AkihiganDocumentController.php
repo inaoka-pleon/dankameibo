@@ -8,6 +8,7 @@ use App\Services\CommonUtility;
 use App\Services\PostcardPrint;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class AkihiganDocumentController extends Controller
@@ -29,6 +30,10 @@ class AkihiganDocumentController extends Controller
      */
     public function create()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $akihigan_id = session('akihigan_id');
         return view('akihigandocuments.create', compact('akihigan_id'));
         //
@@ -66,6 +71,11 @@ class AkihiganDocumentController extends Controller
             $akihigan_document->address = $request->input('address');
             $akihigan_document->tel = $request->input('tel');
 
+            if (Auth::guard('web')->check()) {
+                $akihigan_document->jiin_id = Auth::guard()->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             // データベースに保存
             $akihigan_document->save();
             DB::commit();
@@ -100,6 +110,10 @@ class AkihiganDocumentController extends Controller
      */
     public function edit($id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $akihigan_document = AkihiganDocument::findOrFail($id);
         // セッションからakihigan_idを取得
         $akihigan_id = session('akihigan_id');
@@ -140,6 +154,12 @@ class AkihiganDocumentController extends Controller
             $akihigan_document->address = $request->input('address');
             $akihigan_document->tel = $request->input('tel');
 
+            if (Auth::guard('web')->check()) {
+                $akihigan_document->jiin_id = Auth::guard()->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
+            
             // データベースに保存
             $akihigan_document->save();
             DB::commit();
@@ -167,6 +187,10 @@ class AkihiganDocumentController extends Controller
     }
     public function createOrEdit()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $akihigan_document = AkihiganDocument::first();
 
         if ($akihigan_document) {
@@ -177,6 +201,10 @@ class AkihiganDocumentController extends Controller
     }
     public function print(Request $request, $id)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $action = $request->query('action');
         list($pdf, $font, $templateId) = PostcardPrint::createDocumentInstance();
         $akihigandocument = AkihiganDocument::findOrFail($id);

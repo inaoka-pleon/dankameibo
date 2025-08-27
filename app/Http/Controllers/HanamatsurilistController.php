@@ -6,7 +6,10 @@ use App\Models\Danka;
 use App\Services\CommonUtility;
 use App\Services\ListData;
 use App\Services\PostcardPrint;
+use Exception;
+use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use TCPDF_FONTS;
@@ -21,6 +24,10 @@ class HanamatsurilistController extends Controller
      */
     public function index(Request $request)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $query = Danka::query()
                     ->join('followers', 'dankas.id', '=', 'followers.danka_id')
                     ->select('dankas.id',
@@ -33,6 +40,7 @@ class HanamatsurilistController extends Controller
                              'dankas.gozikai',
                              'dankas.postcard')
                     ->where('dankas.hanamatsuri', '=', 1)
+                    ->where('dankas.jiin_id', '=', $userJiinId)
                     ->where('chiefmourner_flg', '=', 1)
                     ->orderBy('dankas.area', 'asc')
                     ->orderBy('followers.namekana', 'asc');
@@ -115,6 +123,10 @@ class HanamatsurilistController extends Controller
     public function print(Request $request)
     {
         $action = $request->query('action');
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         // FPDIインスタンス生成
         $pdf = new Fpdi($orientation='P', $unit='mm', $format='A4', $unicode=true, $encoding='UTF-8');
         // ページ設定（最初に設定しないとヘッダーに罫線が入ってしまう）
@@ -130,6 +142,7 @@ class HanamatsurilistController extends Controller
         $query  = DB::table('dankas')
                     ->join('followers', 'dankas.id', '=', 'followers.danka_id')
                     ->where('dankas.hanamatsuri', '=', 1)
+                    ->where('dankas.jiin_id', '=', $userJiinId)
                     ->where('followers.chiefmourner_flg', '=', 1)
                     ->orderBy('followers.namekana', 'asc');
 
@@ -214,10 +227,15 @@ class HanamatsurilistController extends Controller
     // はがき印刷で表示するデータの取得
     public function getHanamatsuriData()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $hanamatsurilist = collect();
 
         $query  = DB::table('dankas')
                     ->join('followers', 'dankas.id', '=', 'followers.danka_id')
+                    ->where('dankas.jiin_id', '=', $userJiinId)
                     ->where('dankas.hanamatsuri', '=', 1)
                     ->where('followers.chiefmourner_flg', '=', 1)
                     ->where('dankas.postcard', '=', '出す')

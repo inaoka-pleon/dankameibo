@@ -4,6 +4,7 @@ use App\Facades\NenkiData;
 use App\Services\CommonUtility;
 use App\Services\GenericData;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 /**
  * 回忌区分名を取得する
@@ -142,3 +143,18 @@ function AD_to_JA_conv($target_date)
     }
     return $kanji;
  }
+
+ if (! function_exists('str_random')) {
+    /**
+     * Generate a more truly "random" alpha-numeric string.
+     *
+     * @param  int  $length
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    function str_random($length = 16)
+    {
+        return Str::random($length);
+    }
+}

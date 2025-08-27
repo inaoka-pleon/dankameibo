@@ -25,14 +25,9 @@ return new class extends Migration
             $table->integer('haruhigan')->nullable()->default(0)->comment('春彼岸');
             $table->integer('akihigan')->nullable()->default(0)->comment('秋彼岸');
             $table->integer('hanamatsuri')->nullable()->default(0)->comment('花まつり');
-            $table->integer('division1')->nullable()->comment('区分1');
-            $table->integer('division2')->nullable()->comment('区分2');
-            $table->integer('division3')->nullable()->comment('区分3');
-            $table->integer('division4')->nullable()->comment('区分4');
-            $table->integer('division5')->nullable()->comment('区分5');
-            $table->integer('division6')->nullable()->comment('区分6');
             $table->integer('postcard')->nullable()->comment('はがき区分');
             $table->string('memo')->nullable()->comment('備考');
+            $table->integer('jiin_id')->unsigned()->comment('寺院ID');
             $table->timestamps();
         });
     }

@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\DB;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use TCPDF_FONTS;
 use App\Services\PostcardPrint;
+use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class ArealistController extends Controller
 {
@@ -22,6 +24,11 @@ class ArealistController extends Controller
      */
     public function index(Request $request)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
+
         $put_flg = false;
         if(strcmp($request->searchType, 'arealist_search') === 0) {
             $put_flg = true;
@@ -135,6 +142,11 @@ class ArealistController extends Controller
     public function print(Request $request)
     {      
         $action = $request->query('action');
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
+
         // FPDIインスタンス生成
         $pdf = new Fpdi($orientation='P', $unit='mm', $format='A4', $unicode=true, $encoding='UTF-8');
         // ページ設定（最初に設定しないとヘッダーに罫線が入ってしまう）
@@ -147,6 +159,9 @@ class ArealistController extends Controller
         $font = new TCPDF_FONTS();
         $f = $font->addTTFfont('./fonts/ipaexm.ttf');
 
+        $templatePath = resource_path('template/Arealist.pdf');
+        $pdf->setSourceFile($templatePath);
+
         // 検索データを取得
         $put_flg = false;
         if(strcmp($request->searchType, 'arealist_search') === 0) {
@@ -155,7 +170,7 @@ class ArealistController extends Controller
 
         $cond_arealist = CommonUtility::GetQueryParameter($request, 'cond_arealist', $put_flg);
     
-        $keys = ListData::GetAreaListKey($cond_arealist);
+        $keys = ListData::GetAreaListKey($cond_arealist, $userJiinId);
 
         $print_flg = false;
         $hasResults = false;
@@ -163,6 +178,7 @@ class ArealistController extends Controller
         foreach ($keys as $key) {
             $query  = DB::table('dankas')
                         ->join('followers', 'dankas.id', '=', 'followers.danka_id')
+                        ->where('dankas.jiin_id', '=', $userJiinId)
                         ->where('dankas.area', '=', $key->value1)
                         ->where('followers.chiefmourner_flg', '=', 1)
                         ->orderBy('dankas.area')
@@ -179,11 +195,6 @@ class ArealistController extends Controller
             }
 
             $hasResults = true;
-            
-            // テンプレートとなるPDFファイルを指定（ファイルまでのパスを引数に渡す）
-            $tpl_name = 'Arealist.pdf';
-            $templatePath = resource_path('template/Arealist.pdf');
-            $pdf->setSourceFile($templatePath);
 
             // テンプレートPDFの1ページ目を読み込み
             $templateId = $pdf->importPage(1);
@@ -267,13 +278,18 @@ class ArealistController extends Controller
     // はがき印刷で表示するデータの取得
     public function getDankaData(Request $request)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
+        
         $put_flg = false;
         if (strcmp($request->searchType, 'arealist_search') === 0) {
             $put_flg = true;
         }
 
         $cond_arealist = CommonUtility::GetQueryParameter($request, 'cond_arealist', $put_flg);
-        $keys = ListData::GetAreaListKey($cond_arealist);
+        $keys = ListData::GetAreaListKey($cond_arealist, $userJiinId);
 
         $danka = collect();
 
@@ -282,6 +298,7 @@ class ArealistController extends Controller
                 ->join('followers', 'dankas.id', '=', 'followers.danka_id')
                 ->where('followers.chiefmourner_flg', '=', 1)
                 ->where('dankas.postcard', '=', '出す')
+                ->where('dankas.jiin_id', '=', $userJiinId)
                 ->orderBy('dankas.area')
                 ->orderBy('followers.namekana', 'asc');
 

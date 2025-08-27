@@ -8,7 +8,9 @@ use App\Services\CommonUtility;
 use App\Services\KaikiData;
 use App\Services\PostcardPrint;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use setasign\Fpdi\Tcpdf\Fpdi;
 use TCPDF_FONTS;
@@ -22,6 +24,10 @@ class HatsubonlistController extends Controller
      */
     public function index(Request $request)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $put_flg = false;
         if(strcmp($request->searchType, 'hatsubonlist_search') === 0) {
             $put_flg = true;
@@ -39,29 +45,61 @@ class HatsubonlistController extends Controller
                                 'kaikis.to_day')
                         ->where('kaikis.kaiki_kbn', '=', 3)
                        ->get();
+
+        if ($kaikis->isEmpty()) {
+            return view('hatsubonlists.index', [
+                'hatsubonlists' => collect(), // 空のコレクションを渡す
+                'kaikis' => collect(), // 空のコレクションを渡す
+                'hatsubonCount' => 0,
+                // 初盆期間関連の変数をすべてnullで渡す
+                'FromEraName' => null, 'FromEraYear' => null, 'FromMonth' => null, 'FromDay' => null,
+                'ToEraName' => null, 'ToEraYear' => null, 'ToMonth' => null, 'ToDay' => null,
+            ]);
+        }
  
-        // 初盆の期間を取得
-        foreach ($kaikis as $kaiki) {
-            $kaiki->from_date = KaikiData::GetYmd($kaiki->from_year_kbn,
-                                                  $kaiki->from_month,
-                                                  $kaiki->from_day);
-            $kaiki->to_date = KaikiData::GetYmd($kaiki->to_year_kbn,
-                                                $kaiki->to_month,
-                                                $kaiki->to_day);
+        $from_date = null;
+        $to_date = null;
+
+        if ($kaikis->isNotEmpty()) {
+            // 初盆の期間を取得
+            foreach ($kaikis as $kaiki) {
+                $kaiki->from_date = KaikiData::GetYmd($kaiki->from_year_kbn,
+                                                    $kaiki->from_month,
+                                                    $kaiki->from_day);
+                $kaiki->to_date = KaikiData::GetYmd($kaiki->to_year_kbn,
+                                                    $kaiki->to_month,
+                                                    $kaiki->to_day);
+                if ($kaiki->from_date && $kaiki->to_date) {
+                    $from_date = $kaiki->from_date;
+                    $to_date = $kaiki->to_date;
+                    break;
+                }
+            }
         }
 
-        // 初盆の期間を西暦から和暦に変換
-        $FromEra = CommonUtility::ADtoJACalendarConv($kaiki->from_date);
-        $FromEraName = $FromEra['era_name'] ?? '';
-        $FromEraYear = $FromEra['era_year'] ?? '';
-        $FromMonth = $FromEra['month'] ?? '';
-        $FromDay = $FromEra['day'] ?? '';
+        $FromEraName = null;
+        $FromEraYear = null;
+        $FromMonth = null;
+        $FromDay = null;
+        $ToEraName = null;
+        $ToEraYear = null;
+        $ToMonth = null;
+        $ToDay = null;
 
-        $ToEra = CommonUtility::ADtoJACalendarConv($kaiki->to_date);
-        $ToEraName = $ToEra['era_name'] ?? '';
-        $ToEraYear = $ToEra['era_year'] ?? '';
-        $ToMonth = $ToEra['month'] ?? '';
-        $ToDay = $ToEra['day'] ?? '';
+        if ($from_date && $to_date) {
+            // 初盆の期間を西暦から和暦に変換
+            $FromEra = CommonUtility::ADtoJACalendarConv($kaiki->from_date);
+            $FromEraName = $FromEra['era_name'] ?? '';
+            $FromEraYear = $FromEra['era_year'] ?? '';
+            $FromMonth = $FromEra['month'] ?? '';
+            $FromDay = $FromEra['day'] ?? '';
+
+            $ToEra = CommonUtility::ADtoJACalendarConv($kaiki->to_date);
+            $ToEraName = $ToEra['era_name'] ?? '';
+            $ToEraYear = $ToEra['era_year'] ?? '';
+            $ToMonth = $ToEra['month'] ?? '';
+            $ToDay = $ToEra['day'] ?? '';
+        }
 
         $query = Danka::query()
                         ->join('followers as chief', function($join) {
@@ -180,6 +218,10 @@ class HatsubonlistController extends Controller
     public function print(Request $request)
     {
         $action = $request->query('action');
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         // FPDIインスタンス生成
         $pdf = new Fpdi($orientation='L', $unit='mm', $format='A4', $unicode=true, $encoding='UTF-8');
         // ページ設定（最初に設定しないとヘッダーに罫線が入ってしまう）
@@ -457,6 +499,10 @@ class HatsubonlistController extends Controller
     // はがき印刷で表示するデータの取得
     public function getHatsubonData()
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
+        if (empty($userJiinId)) {
+            throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+        }
         $hatsubonlist = collect();
 
         // 回忌のデータを取得
@@ -493,22 +539,23 @@ class HatsubonlistController extends Controller
                 })
                 ->leftJoin('eras', 'deceased.death_era', '=', 'eras.id')
                 ->select('dankas.id',
-                            'chief.address1',
-                            'chief.address2',
-                            'chief.name as chief_name',
-                            'chief.tel',
-                            'chief.postcode',
-                            'dankas.postcard',
-                            'deceased.kaimyou',
-                            'deceased.zokumyou',
-                            'deceased.deathanniversary',
-                            'eras.name as death_era_name',
-                            'deceased.death_year',
-                            'deceased.death_month',
-                            'deceased.death_day',
-                            'deceased.ageatdeath')
+                         'chief.address1',
+                         'chief.address2',
+                         'chief.name as chief_name',
+                         'chief.tel',
+                         'chief.postcode',
+                         'dankas.postcard',
+                         'deceased.kaimyou',
+                         'deceased.zokumyou',
+                         'deceased.deathanniversary',
+                         'eras.name as death_era_name',
+                         'deceased.death_year',
+                         'deceased.death_month',
+                         'deceased.death_day',
+                         'deceased.ageatdeath')
                 ->where('chief.deceased_flg', '=', 0)
                 ->where('dankas.postcard', '=', '出す')
+                ->where('dankas.jiin_id', '=', $userJiinId)
                 ->orderbyraw('YEAR(deceased.deathanniversary) desc')
                 ->orderby('deceased.death_month', 'asc')
                 ->orderby('deceased.death_day', 'asc');
@@ -914,14 +961,16 @@ class HatsubonlistController extends Controller
     }
     public function back_print(Request $request)
     {
+        $userJiinId = Auth::guard('web')->user()->jiin_id;
         $action = $request->query('action');
         $pdf = PostcardPrint::createPostcardInstance();
         $f = PostcardPrint::loadFont();
         
         // データを取得
         $hatsubons = $this->getHatsubonData();
-        $documents = DB::table('hatsubonlist_documents')->get();
-
+        $documents = DB::table('hatsubonlist_documents')
+                    ->where('hatsubonlist_documents.jiin_id', '=', $userJiinId)
+                    ->get();
         $hasResults = true;
         
         // テンプレートとなるPDFファイルを指定（ファイルまでのパスを引数に渡す）

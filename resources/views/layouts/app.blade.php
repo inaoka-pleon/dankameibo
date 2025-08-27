@@ -415,11 +415,11 @@
             }
              .main-content {
                   height: 100vh; /* Flexアイテムとして画面高さいっぱい */
-                  padding-top: 0.75rem; /* トップパディング */
+                  padding-top: 0.25rem; /* トップパディング */
                   overflow-y: auto; /* メインコンテンツ部分だけスクロール */
              }
              .main-content > *:not(.flex-col):not(.justify-center):not(.items-center) {
-                 padding-top: 0; /* content-areaのpadding-topで調整するためここは0 */
+                 padding-top: 8px; /* content-areaのpadding-topで調整するためここは0 */
              }
               /* メインコンテンツ内のコンテンツの左パディングは、content-areaのflexboxとサイドバーの幅によって自動的にできる */
         }
@@ -529,11 +529,6 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{{ route('era.index') }}" class="flex items-center p-2 pl-11 w-full text-sm rounded-lg hover:bg-gray-100 group">
-                                元号設定
-                            </a>
-                        </li>
-                        <li>
                             <a href="{{ route('kaiki.index') }}" class="flex items-center p-2 pl-11 w-full text-sm rounded-lg hover:bg-gray-100 group">
                                 回忌設定
                             </a>
@@ -610,7 +605,6 @@
         {{-- メインコンテンツ --}}
         {{-- この中の {{ $slot }} に、各ページのコンテンツが入ります --}}
         <main class="main-content">
-            @include('errors.form_errors') {{-- エラー表示をメインコンテンツ内に含めるかレイアウトの別の場所にするかはお好みで --}}
 
             {{ $slot }}
 

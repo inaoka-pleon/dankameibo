@@ -51,9 +51,9 @@
                     <a class="form-btn2 form-inline-block" href="{{ route('generalmaster.index') }}">
                         <i class="fa-regular fa-circle-left"></i><span class="mx-2">戻る</span>
                     </a>
-                    <div type="submit" class="form-btn1 form-inline-block">
+                    <button type="submit" class="form-btn1 form-inline-block">
                         <i class="fa-solid fa-file-arrow-down"></i><span class="mx-2">登録</span>
-                    </div>
+                    </button>
                 </div>
             </form>
         </div>

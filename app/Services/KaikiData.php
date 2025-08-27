@@ -5,6 +5,7 @@ use App\Models\Kaiki;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
 class KaikiData
@@ -55,7 +56,11 @@ class KaikiData
             if (!empty($request->input("houyou_day"))) {
                 $kaiki->houyou_day      = $request->input("houyou_day");
             }
-
+            if (Auth::guard('web')->check()) {
+                $kaiki->jiin_id = Auth::guard('web')->user()->jiin_id;
+            } else {
+                throw new Exception('ログインユーザーの寺院IDが取得できませんでした。');
+            }
             $kaiki->save();
         } catch (Exception $e) {
             throw new Exception($e);
