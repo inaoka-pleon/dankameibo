@@ -70,42 +70,4 @@ class ListData
         }
         return $query->get();
     }
-
-    public static function GetGozikaikaihiListKey($cond_gozikaikaihi_list)
-    {
-        $query = DB::table('eras')
-                    ->select('id', 
-                             'name as era');
-        if(!empty($cond_gozikaikaihi_list['era'])) {
-            $query->where('name', '=', $cond_gozikaikaihi_list['era']);
-        }
-        return $query->get();
-    }
-
-    public static function GetTempleListKey($cond_templelist)
-    {
-        $query  = DB::table('codes')
-                    ->where('key1', '=', 'TEMPLEOFFICE')
-                    ->orderBy('key3')
-                    ->select('value1');
-        if(!empty($cond_templelist['templeoffice'])) {
-            $query->where('value1', '=', $cond_templelist['templeoffice']);
-        }
-        if(!empty($cond_temple['templename'])) {
-            $query->where('templename', 'like', '%'.$cond_templelist['templename'].'%');
-        }
-        return $query->get();
-    }
-
-    public static function GetKaikireiboListKey($cond_kaikireibo)
-    {
-        $query  = DB::table('codes')
-                    ->where('key1', '=', 'AREA')
-                    ->orderBy('key3')
-                    ->select('value1');
-        if(!empty($cond_kaikireibo['area'])) {
-            $query->where('value1', '=', $cond_kaikireibo['area']);
-        }
-        return $query->get();
-    }
 }
